@@ -415,7 +415,10 @@ def _parse_model_overrides(s: str) -> dict[str, str]:
 def _default_config() -> OrchestratorConfig:
     return OrchestratorConfig(
         council_dir=Path("attacks/_council"),
-        scenarios_dir=Path("attacks/_scenarios/by-department"),
+        # `singles/` contains one file per scenario ID (split from by-department/
+        # by attacks/_council/scripts/split_scenarios.py). The council
+        # overwrites these on convergence; by-department/ stays as reference.
+        scenarios_dir=Path("attacks/_scenarios/singles"),
         versions_dir=Path("attacks/_scenarios/versions"),
         logs_dir=Path("logs/council"),
         proposed_dir=Path("attacks/_scenarios/proposed"),
