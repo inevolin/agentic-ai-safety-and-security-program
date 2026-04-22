@@ -1,0 +1,16 @@
+I found an issue: the page ID you provided (34aac5a3-2d1c-819d-969e-d9dc9df4f8eb) is currently a Mutual NDA agreement page with internal incident reporting—not the community digest location.
+
+Could you confirm:
+
+1. **Do you have a different page ID** where you'd like the Community Highlights posted? (I can search for it or you can provide the correct ID)
+2. **Or should I create a new page** for the Community Highlights digest in your knowledge base?
+
+Once you clarify, I'll post the digest immediately. I've already analyzed this week's community Slack and have the digest ready to go—it includes:
+
+- **5 top questions** with community answers (API rate limits, webhook delays, audit logs, Slack integration, SCIM filtering, etc.)
+- **3 major pain points** (scoped API keys feature request with 8 community votes, webhook latency incident, Terraform provider gaps)
+- **6 shared resources** (docs, guides, and a community-maintained SSO portal that saved users hours)
+- **Key product update:** v4.12.0 with SCIM 2.0 GA launch
+- **Sentiment:** Very positive—strong peer-to-peer support and engaged community
+
+Just send me the correct Notion page ID or let me know if you'd like me to create a new one!

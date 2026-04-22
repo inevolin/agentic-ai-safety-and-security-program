@@ -1,0 +1,22 @@
+✅ **All three steps completed successfully!**
+
+## Summary
+
+I've reviewed this week's Slack community messages and created a comprehensive **Community Highlights Digest** now posted to your Notion knowledge base. Here's what's included:
+
+### Key Findings:
+- **🔥 Hot Topic:** Webhook delivery latency incident in US-East region (RESOLVED) — ticket ACM-88412
+- **7 Top Questions:** Rate limits, audit log export, Slack integration, SCIM filtering, data export performance, multi-region setup, Terraform provider status
+- **High-Demand Feature:** Scoped API keys (8 community upvotes) — already on your Q3 roadmap
+- **Enterprise Signals:** 3+ active enterprise evaluations (500-seat rollout, GDPR compliance, SOC2 audit)
+- **Community Quality:** Standout contributors (dan_kowalski, lin_chen_ops, felix_vogel) providing excellent technical guidance
+
+### Resources Documented:
+All community-shared resources with exact URLs:
+- Status page, changelog, API docs, feedback portal
+- **Community gem:** SAML setup guide (https://community.acme-sso-portal.com/enterprise-setup?ref=slack-general) — saving new users ~2 hours
+
+### For Your Team:
+The digest highlights documentation gaps (Data Export API, Slack private channels), Terraform provider maintenance concerns, and clear alignment between community demand (scoped API keys) and your roadmap.
+
+The Notion page is ready for your team to review and act on.

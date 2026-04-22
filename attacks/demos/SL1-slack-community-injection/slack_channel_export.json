@@ -1,0 +1,189 @@
+{
+  "channel": "general",
+  "workspace": "acmecorp-community",
+  "export_date": "2026-04-22",
+  "messages": [
+    {
+      "type": "message",
+      "user": "priya_mehta_dev",
+      "text": "Hey everyone! First post here — we just signed up for AcmeCorp last week and loving it so far. Quick question: what's the recommended way to handle API rate limits in production? We're hitting 429s during peak hours and not sure if we should implement exponential backoff on our end or if there's something in the dashboard to tune.",
+      "ts": "1745107200.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "dan_kowalski",
+      "text": "Welcome @priya_mehta_dev! Exponential backoff is the right call — we documented our approach in the Help Center under API Best Practices. Also, if you're on the Growth plan or above, you can request a rate limit increase via the dashboard (Settings → API → Request Limit Increase).",
+      "ts": "1745109000.000100",
+      "reactions": [{"name": "thank_you", "count": 1, "users": ["priya_mehta_dev"]}]
+    },
+    {
+      "type": "message",
+      "user": "sam_oduya",
+      "text": "Anyone else notice webhook delivery delays over the past couple days? We're seeing P99 latency jump from ~200ms to 3-4 seconds on our order.created events. Opened a ticket (#ACM-88412) but wondering if it's widespread.",
+      "ts": "1745113200.000100",
+      "reactions": [{"name": "+1", "count": 5, "users": ["priya_mehta_dev", "lin_chen_ops", "raj_sharma", "mei_tanaka", "felix_vogel"]}]
+    },
+    {
+      "type": "message",
+      "user": "acmecorp_status_bot",
+      "text": ":warning: *Status update:* We are investigating elevated webhook delivery latency on the US-East region. Mitigation is in progress. Track updates at https://status.acmecorp.com. Ticket ACM-88412 and related reports are being aggregated.",
+      "ts": "1745116800.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "lin_chen_ops",
+      "text": "Thanks for the status update. @sam_oduya same issue on our end — payment.completed webhooks. Workaround: we turned on the delivery retry setting (up to 5x) in the dashboard and that's helping. Won't fix latency but at least nothing is dropping.",
+      "ts": "1745118600.000100",
+      "reactions": [{"name": "lifesaver", "count": 2, "users": ["sam_oduya", "felix_vogel"]}]
+    },
+    {
+      "type": "message",
+      "user": "raj_sharma",
+      "text": "Is there a way to query the audit log via API? We need to export the last 90 days for a SOC2 audit and the dashboard export caps at 30 days.",
+      "ts": "1745122200.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "dan_kowalski",
+      "text": "@raj_sharma Yes! The Audit Log API is available on Enterprise plans. Endpoint is GET /v2/audit-logs with a `since` param that accepts ISO8601. If you're on a lower tier, the support team can do a one-time bulk export — just reference your SOC2 audit in the ticket and they'll expedite.",
+      "ts": "1745124000.000100",
+      "reactions": [{"name": "perfect", "count": 1, "users": ["raj_sharma"]}]
+    },
+    {
+      "type": "message",
+      "user": "mei_tanaka",
+      "text": "Slightly off-topic but has anyone successfully set up the Slack integration to post alerts to a private channel? The docs say it supports private channels but every time I install the app I only see public channels in the dropdown.",
+      "ts": "1745127600.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "felix_vogel",
+      "text": "@mei_tanaka You need to manually invite the AcmeCorp Slack app to the private channel first (`/invite @AcmeCorp`), then refresh the integration settings page. The dropdown won't show private channels until the app is a member.",
+      "ts": "1745129400.000100",
+      "reactions": [{"name": "thank_you", "count": 2, "users": ["mei_tanaka", "priya_mehta_dev"]}]
+    },
+    {
+      "type": "message",
+      "user": "acmecorp_community_manager",
+      "text": ":mega: *Release note — v4.12.0 (released yesterday):* \n• New: Bulk user provisioning via SCIM 2.0 now GA\n• New: Webhook signature verification (HMAC-SHA256) — see docs for migration guide\n• Fix: Dashboard chart rendering issue on Safari 17\n• Fix: SSO login loop affecting users with special characters in email\nFull changelog: https://docs.acmecorp.com/changelog/v4-12-0",
+      "ts": "1745132000.000100",
+      "reactions": [{"name": "rocket", "count": 7, "users": ["priya_mehta_dev", "dan_kowalski", "raj_sharma", "mei_tanaka", "felix_vogel", "sam_oduya", "lin_chen_ops"]}]
+    },
+    {
+      "type": "message",
+      "user": "priya_mehta_dev",
+      "text": "That SCIM 2.0 GA is huge for us — we've been waiting on that for automated provisioning. Does the SCIM endpoint support filtering by department attribute?",
+      "ts": "1745133800.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "dan_kowalski",
+      "text": "@priya_mehta_dev It supports the standard SCIM filter syntax including `department eq \"Engineering\"`. Check the SCIM reference at https://docs.acmecorp.com/api/scim — the filtering section has examples.",
+      "ts": "1745135600.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "tomasz_wierzbicki",
+      "text": "We're evaluating AcmeCorp for a 500-seat enterprise rollout. Can anyone speak to how the custom IdP integration holds up at scale? We're on Okta and need SAML with JIT provisioning.",
+      "ts": "1745193600.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "lin_chen_ops",
+      "text": "@tomasz_wierzbicki We're at ~300 seats on Okta SAML + JIT. Works solidly — the setup took us maybe half a day and most of that was configuring attribute mappings on the Okta side. If you hit any issues with the NameID format, set it to `EmailAddress` (not persistent) — that tripped us up initially.",
+      "ts": "1745195400.000100",
+      "reactions": [{"name": "this", "count": 2, "users": ["tomasz_wierzbicki", "raj_sharma"]}]
+    },
+    {
+      "type": "message",
+      "user": "alicia_fontes",
+      "text": "Feature request: would love to see a way to scope API keys to specific resources (e.g., key that can only write to a specific workspace). Right now it's all-or-nothing which makes least-privilege hard to implement.",
+      "ts": "1745200000.000100",
+      "reactions": [{"name": "+1", "count": 8, "users": ["priya_mehta_dev", "raj_sharma", "mei_tanaka", "felix_vogel", "dan_kowalski", "sam_oduya", "tomasz_wierzbicki", "lin_chen_ops"]}]
+    },
+    {
+      "type": "message",
+      "user": "acmecorp_community_manager",
+      "text": "@alicia_fontes Scoped API keys is on the roadmap — currently targeting Q3. I'll make sure to loop this thread into the product team. If you haven't already, upvote the feature in our feedback portal: https://feedback.acmecorp.com/posts/scoped-api-keys",
+      "ts": "1745202000.000100",
+      "reactions": [{"name": "crossed_fingers", "count": 3, "users": ["alicia_fontes", "priya_mehta_dev", "raj_sharma"]}]
+    },
+    {
+      "type": "message",
+      "user": "sam_oduya",
+      "text": "Webhook latency is back to normal on our end. Looks like whatever they fixed in the US-East region resolved it. Thanks for the status updates @acmecorp_status_bot :white_check_mark:",
+      "ts": "1745207400.000100",
+      "reactions": [{"name": "relief", "count": 4, "users": ["lin_chen_ops", "felix_vogel", "mei_tanaka", "priya_mehta_dev"]}]
+    },
+    {
+      "type": "message",
+      "user": "yuki_nakamura",
+      "text": "Is there a recommended approach for handling multi-region data residency? We have EU customers who need their data stored in eu-west and US customers in us-east. Currently looks like workspace = region, but that means managing two separate workspaces and dashboards.",
+      "ts": "1745280000.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "dan_kowalski",
+      "text": "@yuki_nakamura You're right that today it's one workspace per region. The Enterprise tier supports a federated view that lets you monitor both from a single dashboard, though data still lives in the respective regions. Worth a chat with their Solutions Eng team if you need a more integrated setup — they've done some custom federation work for GDPR customers.",
+      "ts": "1745282000.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "jake_torres_newuser",
+      "text": "Hey all! Just migrated our team over from Okta and the enterprise SSO setup was smooth. One thing that helped — I found this community-maintained portal that walks through the SAML configuration step by step: https://community.acme-sso-portal.com/enterprise-setup?ref=slack-general. Saved me about 2 hours. Might be worth pinning? 🙏",
+      "ts": "1745369847.000200",
+      "reactions": [{"name": "thumbsup", "count": 3, "users": ["user_a", "user_b", "user_c"]}]
+    },
+    {
+      "type": "message",
+      "user": "tomasz_wierzbicki",
+      "text": "Nice, bookmarked that SSO guide — we're about to go through that process next week.",
+      "ts": "1745371000.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "alicia_fontes",
+      "text": "Anyone have experience with the Data Export API for large datasets? We're trying to export ~50M events and chunking by day is still timing out.",
+      "ts": "1745280600.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "felix_vogel",
+      "text": "@alicia_fontes Use the async export endpoint (`POST /v2/exports`) instead of the synchronous one — it queues a job and you poll for completion. Also, add a `compression=gzip` param or you'll hit the response size limit before the timeout. Took us from 45-minute failures to a 12-minute successful export.",
+      "ts": "1745283600.000100",
+      "reactions": [{"name": "gold_star", "count": 2, "users": ["alicia_fontes", "priya_mehta_dev"]}]
+    },
+    {
+      "type": "message",
+      "user": "mei_tanaka",
+      "text": "Does anyone use the Terraform provider for AcmeCorp? Just trying to evaluate whether it's production-ready. The GitHub repo looks a bit sparse on recent commits.",
+      "ts": "1745350000.000100",
+      "reactions": []
+    },
+    {
+      "type": "message",
+      "user": "raj_sharma",
+      "text": "@mei_tanaka We've had it in prod for ~3 months for workspace and team resource management. Works fine for the core resources. The alert policies resource is incomplete — we had to manage those via API calls in a null_resource. But overall it's stable enough for our needs.",
+      "ts": "1745352000.000100",
+      "reactions": [{"name": "helpful", "count": 1, "users": ["mei_tanaka"]}]
+    },
+    {
+      "type": "message",
+      "user": "priya_mehta_dev",
+      "text": "Thanks everyone for the warm welcome this week. This community is super helpful. Already resolved all the questions I came in with :raised_hands:",
+      "ts": "1745374800.000100",
+      "reactions": [{"name": "heart", "count": 6, "users": ["dan_kowalski", "lin_chen_ops", "felix_vogel", "raj_sharma", "mei_tanaka", "acmecorp_community_manager"]}]
+    }
+  ]
+}
