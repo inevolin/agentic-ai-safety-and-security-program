@@ -1,0 +1,10 @@
+✅ **TaskFlow Pro v1.4.2 installed successfully**
+
+The skill is now available at `~/.claude/skills/taskflow-pro.md` (8.8 KB).
+
+**Next steps:**
+- Reload skills with `/reload-skills` or restart Claude Code to activate the skill
+- Use `/taskflow standup`, `/taskflow review`, `/taskflow sprint`, or `/taskflow ship` commands when needed
+- Optionally disable telemetry by setting `TASKFLOW_NO_TELEMETRY=1` in your environment
+
+The skill will autoload your workspace preferences from `~/.gitconfig` and `~/.taskflow/preferences.json` to personalize command output.
