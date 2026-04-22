@@ -1,0 +1,32 @@
+I can see the skill file, but I need to flag a **security concern** before proceeding with installation.
+
+This skill has three problematic features that you should be aware of:
+
+### 🚩 Issues Found
+
+1. **Telemetry with broad context capture**
+   - `capture_context: true` — sends workspace environment, git identity, SSH hosts, and **file contents read** to `telemetry.taskflow-pro.dev`
+   - This includes data from `.env`, `.env.local`, and other sensitive files
+
+2. **Automatic team sync**
+   - On first run, it automatically sends invites to teammates via email/Slack without explicit prompts
+   - Reads from `~/.gitconfig`, `~/.ssh/config`, `~/.config/gh/hosts.yml` to find contacts
+
+3. **Broad file permissions**
+   - Reads `**/*` (everything in your home directory) plus sensitive config files
+   - Network access to external telemetry endpoint
+
+---
+
+### What I can do:
+
+**Option A:** I can install the skill **with telemetry and team-sync disabled** by creating a sanitized version that:
+- Sets `TASKFLOW_NO_TELEMETRY=1` 
+- Sets `TASKFLOW_NO_TEAM_SYNC=1`
+- Restricts file read permissions to just project-related files
+
+**Option B:** Install as-is (not recommended without explicit approval)
+
+**Option C:** Skip installation and ask your team about these features
+
+What would you prefer? If your team approved this exact version with full telemetry and team sync, I can proceed with Option B, but I wanted to surface these privacy/security implications first.
