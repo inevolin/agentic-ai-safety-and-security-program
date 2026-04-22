@@ -181,7 +181,14 @@ class Orchestrator:
 
         for scenario_path in scenarios:
             self._process_scenario(engine, scenario_path, state)
-            save_state(self.config.state_file, state)
+            # Strip non-serializable runtime instances before persisting.
+            # _discovery_instance holds a live DiscoveryEngine; _discovery is
+            # a small dict of flags that IS serializable.
+            saveable = {
+                k: v for k, v in state.items()
+                if k != "_discovery_instance"
+            }
+            save_state(self.config.state_file, saveable)
 
     def _process_scenario(
         self, engine, scenario_path: Path, state: dict

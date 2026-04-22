@@ -25,7 +25,14 @@ class HarnessResult:
     returncode: int
 
 
-_FINAL_RE = re.compile(r"\*\*Final:\*\*\s*([a-z-]+)", re.IGNORECASE)
+# run_attempt.sh emits verdicts with either `**verdict:** **fail**` or
+# `**verdict:** **success**` (Markdown with bold-inside-bold). Be tolerant
+# of any bold/colon/whitespace nesting.
+_VERDICT_RE = re.compile(
+    r"\*\*(?:final|verdict):\*\*\s*\*{0,2}\s*([a-z-]+)",
+    re.IGNORECASE,
+)
+_FINAL_RE = _VERDICT_RE  # back-compat alias
 _DETECTED_RE = re.compile(r"DETECTED:\s*Rule\s*(\d)", re.IGNORECASE)
 
 
@@ -56,8 +63,26 @@ class HarnessAdapter:
             check=False,
         )
 
-        verdict_file = attempt_dir / f"verdict.{tier}.md"
-        log_file = attempt_dir / f"run.{tier}.log"
+        # run_attempt.sh names files with whatever model identifier was
+        # passed in position 2. We pass full IDs (N2 fix from spec r3.1),
+        # so the verdict file is named verdict.<full-model-id>.md — not
+        # verdict.<tier>.md. Try both paths for backward compat.
+        verdict_candidates = [
+            attempt_dir / f"verdict.{model_id}.md",
+            attempt_dir / f"verdict.{tier}.md",
+        ]
+        log_candidates = [
+            attempt_dir / f"run.{model_id}.log",
+            attempt_dir / f"run.{tier}.log",
+        ]
+        verdict_file = next(
+            (p for p in verdict_candidates if p.exists()),
+            verdict_candidates[0],  # fallback to the preferred one
+        )
+        log_file = next(
+            (p for p in log_candidates if p.exists()),
+            log_candidates[0],
+        )
 
         success, caveat = self._parse_verdict(verdict_file)
 

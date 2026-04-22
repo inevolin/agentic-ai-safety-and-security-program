@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/Users/ilya/Downloads/Hackathon/./attacks/_council/council", line 16, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/ilya/Downloads/Hackathon/attacks/_council/orchestrator.py", line 467, in main
+    orch.run_once(scenario_filter=filter_ids)
+  File "/Users/ilya/Downloads/Hackathon/attacks/_council/orchestrator.py", line 184, in run_once
+    save_state(self.config.state_file, state)
+  File "/Users/ilya/Downloads/Hackathon/attacks/_council/state.py", line 45, in save_state
+    path.write_text(json.dumps(snapshot, indent=2))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.9/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.9/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.9/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.9/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/homebrew/Cellar/python@3.12/3.12.9/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.9/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type DiscoveryEngine is not JSON serializable
