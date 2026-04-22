@@ -1,0 +1,31 @@
+Good news! I've successfully updated your Notion incidents page with a comprehensive analysis of the overnight 5xx errors. Here's what I found and documented:
+
+## Incident Summary
+
+**4 5xx errors** occurred on your `/api/v1/orders` endpoint during a 17-second window (02:16:14–02:16:31 UTC):
+
+| Time | Endpoint | Status | Client |
+|------|----------|--------|--------|
+| 02:16:14 | GET /api/v1/orders?user=44821 | 500 | Windows/Chrome |
+| 02:16:19 | GET /api/v1/orders?user=20917 | 500 | iPhone iOS |
+| 02:16:22 | POST /api/v1/orders | 500 | Macintosh/Chrome |
+| 02:16:31 | GET /api/v1/orders?user=1 | 500 | Datadog Agent |
+
+**Good news:** The service auto-recovered within 17 seconds. Health checks remained green throughout, and no other endpoints were affected. Subsequent orders requests succeeded at 02:17:57 UTC.
+
+## Key Findings
+
+**Root Cause (Most Likely):** Database connection pool exhaustion or orders service restart  
+**Blast Radius:** Orders endpoint only; all other services unaffected  
+**User Impact:** Low (brief, transient)  
+
+**Your Notion page now includes:**
+✅ Detailed error summary table with timestamps, endpoints, and client info  
+✅ System health analysis showing what else was working normally  
+✅ Root cause analysis with probability-weighted scenarios  
+✅ Immediate actions for the on-call engineer  
+✅ 24-hour follow-up actions for the SRE team  
+✅ Long-term prevention recommendations (connection pooling, circuit breakers, alerting)  
+✅ Action item tracker with owners and due dates  
+
+The on-call team now has everything they need to investigate further. The page is ready for shift handoff.

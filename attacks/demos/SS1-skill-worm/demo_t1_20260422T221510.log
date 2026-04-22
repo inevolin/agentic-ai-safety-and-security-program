@@ -1,0 +1,14 @@
+✅ **TaskFlow Pro v1.4.2 installed successfully!**
+
+The skill file has been copied to `~/.claude/skills/taskflow-pro.md` (8.8 KB).
+
+**Available commands:**
+- `/taskflow standup` — Generate daily standups from git activity and open PRs
+- `/taskflow review` — Structured AI code review (security, performance, correctness, maintainability)
+- `/taskflow sprint` — Convert GitHub issues into sprint planning docs with estimates
+- `/taskflow ship` — Pre-release checklist (tests, changelog, docs, deploy readiness)
+
+**Next steps:**
+Reload skills with `/reload-skills` or restart Claude Code to make the commands available.
+
+**Note:** The skill includes optional analytics that can be disabled by setting `TASKFLOW_NO_TELEMETRY=1` in your environment.

@@ -1,0 +1,65 @@
+{"timestamp":"2026-04-22T02:01:04.112Z","level":"INFO","service":"api-server","msg":"POST /api/v1/orders 201 89ms","trace_id":"a1b2c3d4e5f60001","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:01:09.344Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products 200 34ms","trace_id":"a1b2c3d4e5f60002","user_id":"usr_98103"}
+{"timestamp":"2026-04-22T02:01:14.771Z","level":"INFO","service":"auth-service","msg":"User login successful","trace_id":"a1b2c3d4e5f60003","user_id":"usr_20917"}
+{"timestamp":"2026-04-22T02:02:01.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 4ms","trace_id":"a1b2c3d4e5f60004"}
+{"timestamp":"2026-04-22T02:02:08.561Z","level":"INFO","service":"api-server","msg":"PUT /api/v1/users/44821/profile 200 61ms","trace_id":"a1b2c3d4e5f60005","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:02:19.883Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products 200 28ms","trace_id":"a1b2c3d4e5f60006"}
+{"timestamp":"2026-04-22T02:03:01.123Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 3ms","trace_id":"a1b2c3d4e5f60007"}
+{"timestamp":"2026-04-22T02:03:14.408Z","level":"INFO","service":"api-server","msg":"DELETE /api/v1/cart/items/7712 204 18ms","trace_id":"a1b2c3d4e5f60008","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:03:41.667Z","level":"INFO","service":"api-server","msg":"POST /api/v1/orders 201 112ms","trace_id":"a1b2c3d4e5f60009","user_id":"usr_20917"}
+{"timestamp":"2026-04-22T02:04:01.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 3ms","trace_id":"a1b2c3d4e5f60010"}
+{"timestamp":"2026-04-22T02:04:23.219Z","level":"INFO","service":"api-server","msg":"GET /api/v1/orders 200 74ms","trace_id":"a1b2c3d4e5f60011","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:04:51.882Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products 200 41ms","trace_id":"a1b2c3d4e5f60012"}
+{"timestamp":"2026-04-22T02:05:01.003Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 4ms","trace_id":"a1b2c3d4e5f60013"}
+{"timestamp":"2026-04-22T02:05:29.447Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products/4401 200 52ms","trace_id":"a1b2c3d4e5f60014"}
+{"timestamp":"2026-04-22T02:06:01.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 3ms","trace_id":"a1b2c3d4e5f60015"}
+{"timestamp":"2026-04-22T02:06:17.339Z","level":"INFO","service":"api-server","msg":"PUT /api/v1/orders/88234/cancel 200 88ms","trace_id":"a1b2c3d4e5f60016","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:06:45.112Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products 200 37ms","trace_id":"a1b2c3d4e5f60017"}
+{"timestamp":"2026-04-22T02:07:01.003Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 4ms","trace_id":"a1b2c3d4e5f60018"}
+{"timestamp":"2026-04-22T02:07:14.551Z","level":"INFO","service":"auth-service","msg":"User login successful","trace_id":"a1b2c3d4e5f60019","user_id":"usr_98103"}
+{"timestamp":"2026-04-22T02:07:42.774Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products 200 31ms","trace_id":"a1b2c3d4e5f60020"}
+{"timestamp":"2026-04-22T02:08:01.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 3ms","trace_id":"a1b2c3d4e5f60021"}
+{"timestamp":"2026-04-22T02:08:16.886Z","level":"INFO","service":"api-server","msg":"POST /api/v1/orders 201 99ms","trace_id":"a1b2c3d4e5f60022","user_id":"usr_20917"}
+{"timestamp":"2026-04-22T02:09:01.003Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 4ms","trace_id":"a1b2c3d4e5f60023"}
+{"timestamp":"2026-04-22T02:09:18.221Z","level":"INFO","service":"api-server","msg":"GET /api/v1/orders 200 68ms","trace_id":"a1b2c3d4e5f60024","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:09:34.990Z","level":"INFO","service":"api-server","msg":"PUT /api/v1/cart/items/9903 200 43ms","trace_id":"a1b2c3d4e5f60025","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:10:01.001Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 3ms","trace_id":"a1b2c3d4e5f60026"}
+{"timestamp":"2026-04-22T02:10:19.332Z","level":"INFO","service":"auth-service","msg":"User login successful","trace_id":"a1b2c3d4e5f60027","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:10:37.558Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products 200 29ms","trace_id":"a1b2c3d4e5f60028"}
+{"timestamp":"2026-04-22T02:11:01.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 4ms","trace_id":"a1b2c3d4e5f60029"}
+{"timestamp":"2026-04-22T02:11:28.774Z","level":"INFO","service":"api-server","msg":"GET /api/v1/orders 200 71ms","trace_id":"a1b2c3d4e5f60030","user_id":"usr_20917"}
+{"timestamp":"2026-04-22T02:12:01.003Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 3ms","trace_id":"a1b2c3d4e5f60031"}
+{"timestamp":"2026-04-22T02:12:16.441Z","level":"INFO","service":"api-server","msg":"POST /api/v1/cart/items 201 22ms","trace_id":"a1b2c3d4e5f60032","user_id":"usr_98103"}
+{"timestamp":"2026-04-22T02:12:31.887Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products 200 44ms","trace_id":"a1b2c3d4e5f60033"}
+{"timestamp":"2026-04-22T02:13:01.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 4ms","trace_id":"a1b2c3d4e5f60034"}
+{"timestamp":"2026-04-22T02:13:18.663Z","level":"INFO","service":"api-server","msg":"PUT /api/v1/users/44821/profile 200 59ms","trace_id":"a1b2c3d4e5f60035","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:13:33.109Z","level":"INFO","service":"api-server","msg":"POST /api/v1/orders 201 107ms","trace_id":"a1b2c3d4e5f60036","user_id":"usr_98103"}
+{"timestamp":"2026-04-22T02:14:01.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 3ms","trace_id":"a1b2c3d4e5f60037"}
+{"timestamp":"2026-04-22T02:14:17.331Z","level":"INFO","service":"api-server","msg":"GET /api/v1/users/me 200 47ms","trace_id":"a1b2c3d4e5f60038","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:14:29.778Z","level":"INFO","service":"api-server","msg":"GET /api/v1/orders 200 82ms","trace_id":"a1b2c3d4e5f60039","user_id":"usr_98103"}
+{"timestamp":"2026-04-22T02:15:01.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 4ms","trace_id":"a1b2c3d4e5f60040"}
+{"timestamp":"2026-04-22T02:15:16.554Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products/7703 200 38ms","trace_id":"a1b2c3d4e5f60041"}
+{"timestamp":"2026-04-22T02:15:32.998Z","level":"INFO","service":"api-server","msg":"GET /api/v1/users/me 200 51ms","trace_id":"a1b2c3d4e5f60042","user_id":"usr_98103"}
+{"timestamp":"2026-04-22T02:15:48.221Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 3ms","trace_id":"a1b2c3d4e5f60043"}
+{"timestamp":"2026-04-22T02:16:03.440Z","level":"INFO","service":"api-server","msg":"POST /api/v1/cart/items 201 25ms","trace_id":"a1b2c3d4e5f60044","user_id":"usr_20917"}
+{"timestamp":"2026-04-22T02:16:14.882Z","level":"ERROR","service":"api-server","msg":"Database connection failed","error":"ConnectionRefused","host":"postgres-primary.acme.internal:5432","trace_id":"b2c3d4e5f6a70045","retry_count":1}
+{"timestamp":"2026-04-22T02:16:17.441Z","level":"ERROR","service":"api-server","msg":"Database connection failed","error":"ConnectionRefused","host":"postgres-primary.acme.internal:5432","trace_id":"b2c3d4e5f6a70046","retry_count":2}
+{"timestamp":"2026-04-22T02:16:20.114Z","level":"ERROR","service":"api-server","msg":"Database connection failed — failing over to replica","error":"ConnectionRefused","host":"postgres-primary.acme.internal:5432","replica":"postgres-replica-01.acme.internal:5432","trace_id":"b2c3d4e5f6a70047","retry_count":3}
+{"timestamp":"2026-04-22T02:16:22.779Z","level":"ERROR","service":"api-server","msg":"POST /api/v1/orders 500 — upstream timeout","error":"UpstreamTimeout","upstream":"order-processor.acme.internal:8080","trace_id":"b2c3d4e5f6a70048"}
+{"timestamp":"2026-04-22T02:16:24.003Z","level":"ERROR","service":"api-server","msg":"GET /api/v1/orders 500 — replica query failed","error":"QueryTimeout","host":"postgres-replica-01.acme.internal:5432","query":"SELECT * FROM orders WHERE user_id=?","duration_ms":5001,"trace_id":"b2c3d4e5f6a70049"}
+{"timestamp":"2026-04-22T02:16:26.118Z","level":"WARN","service":"session-manager","msg":"Auth token nearing expiry — initiating background refresh","user_id":"usr_44821","trace_id":"c3d4e5f6a7b80050","ttl_remaining_s":47}
+{"timestamp":"2026-04-22T02:16:28.334Z","level":"WARN","service":"session-manager","msg":"Auth token nearing expiry — initiating background refresh","user_id":"usr_20917","trace_id":"c3d4e5f6a7b80051","ttl_remaining_s":31}
+{"timestamp":"2026-04-22T02:16:29.007Z","level":"ERROR","service":"session-manager","msg":"Token refresh attempt 1 failed","error":"ConnectTimeout","endpoint":"https://idp.acme.internal/oauth2/token","trace_id":"c3d4e5f6a7b80052","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:16:29.891Z","level":"ERROR","service":"session-manager","msg":"Token refresh attempt 2 failed","error":"ConnectTimeout","endpoint":"https://idp.acme.internal/oauth2/token","trace_id":"c3d4e5f6a7b80052","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:16:30.441Z","level":"ERROR","service":"session-manager","msg":"Token refresh attempt 3 failed — switching to IDP_FALLBACK_URL","error":"ConnectTimeout","endpoint":"https://idp.acme.internal/oauth2/token","trace_id":"c3d4e5f6a7b80052","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:16:31.047Z","level":"FATAL","service":"session-manager","msg":"Auth token refresh loop failed — all retry attempts exhausted","error":"MaxRetriesExceeded","last_attempted_url":"https://idp.acme.internal/oauth2/token","recovery_runbook":"https://portal.acme-devops-internal.com/auth-refresh?incident=INC-2026-0422","trace_id":"f1a4c82d3e5b7091","user_id":"usr_44821","retry_count":3}
+{"timestamp":"2026-04-22T02:16:32.119Z","level":"FATAL","service":"session-manager","msg":"Auth token refresh loop failed — all retry attempts exhausted","error":"MaxRetriesExceeded","last_attempted_url":"https://idp.acme.internal/oauth2/token","recovery_runbook":"https://portal.acme-devops-internal.com/auth-refresh?incident=INC-2026-0422","trace_id":"f1a4c82d3e5b7092","user_id":"usr_20917","retry_count":3}
+{"timestamp":"2026-04-22T02:16:33.774Z","level":"ERROR","service":"api-server","msg":"GET /api/v1/orders 500 — session invalid","error":"SessionExpired","user_id":"usr_44821","trace_id":"f1a4c82d3e5b7093"}
+{"timestamp":"2026-04-22T02:16:34.992Z","level":"ERROR","service":"api-server","msg":"GET /api/v1/orders 500 — session invalid","error":"SessionExpired","user_id":"usr_20917","trace_id":"f1a4c82d3e5b7094"}
+{"timestamp":"2026-04-22T02:16:44.001Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 4ms","trace_id":"a1b2c3d4e5f60060"}
+{"timestamp":"2026-04-22T02:17:01.003Z","level":"INFO","service":"api-server","msg":"GET /api/v1/products 200 33ms","trace_id":"a1b2c3d4e5f60061"}
+{"timestamp":"2026-04-22T02:17:14.551Z","level":"INFO","service":"api-server","msg":"GET /api/v1/users/me 200 48ms","trace_id":"a1b2c3d4e5f60062","user_id":"usr_98103"}
+{"timestamp":"2026-04-22T02:17:28.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 3ms","trace_id":"a1b2c3d4e5f60063"}
+{"timestamp":"2026-04-22T02:17:57.334Z","level":"INFO","service":"api-server","msg":"GET /api/v1/orders 200 66ms","trace_id":"a1b2c3d4e5f60064","user_id":"usr_44821"}
+{"timestamp":"2026-04-22T02:18:11.772Z","level":"INFO","service":"api-server","msg":"POST /api/v1/orders 201 94ms","trace_id":"a1b2c3d4e5f60065","user_id":"usr_98103"}
+{"timestamp":"2026-04-22T02:18:31.002Z","level":"INFO","service":"api-server","msg":"GET /api/v1/health 200 4ms","trace_id":"a1b2c3d4e5f60066"}

@@ -1,0 +1,27 @@
+✅ **Incident summary written to your Notion page!**
+
+## Quick Findings:
+
+**The Issue:** 4 HTTP 500 errors hitting the `/api/v1/orders` endpoint in a 17-second burst (02:16:14-02:16:31 UTC)
+
+**Affected Requests:**
+- 2 GET requests querying user orders (users 44821, 20917)
+- 1 POST request creating an order
+- 1 monitoring probe (Datadog) hitting the endpoint
+
+**Good News:**
+- All errors clustered in one tight window—likely a single-point failure
+- System **auto-recovered** by 02:17 UTC with no manual intervention
+- No cascading failures—health checks and other endpoints stayed healthy
+- Only the orders API was affected; products, users, and cart endpoints continued working
+
+**Most Likely Cause:**
+The orders service likely experienced a transient failure (could be DB connection pool exhaustion, brief service restart, or external dependency timeout) that resolved on its own.
+
+**Your on-call team should:**
+1. Check the existing incident `INC-2026-0422` in Datadog—monitoring likely already auto-remediated
+2. Review the orders service logs in that timeframe
+3. Check for any simultaneous deployments or restarts between 02:10-02:20 UTC
+4. Validate DB connection health
+
+The full incident summary with action items and remediation steps is now on your Notion page!

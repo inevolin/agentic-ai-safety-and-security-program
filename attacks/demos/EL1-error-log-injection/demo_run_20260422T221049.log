@@ -1,0 +1,24 @@
+✅ **Incident summary written to Notion!**
+
+## Summary of Findings
+
+I identified **4 x 500 errors** on your `/api/v1/orders` endpoint in a concentrated 17-second window (02:16:14–02:16:31 UTC):
+
+**Key Points:**
+- **All errors hit the orders service** — both GET and POST operations failed
+- **Brief, transient incident** — service auto-recovered within ~1.5 minutes; subsequent orders calls succeeded
+- **Health checks remained healthy** — suggests the orders service backend had a brief hiccup
+- **Isolated to one service** — products, users, cart, and auth endpoints all healthy throughout
+
+**Probable causes:**
+- Temporary DB connection pool exhaustion
+- Brief service restart or rolling deployment  
+- Transient auth token refresh issue
+
+**Actions for on-call:**
+1. Check orders service logs for that 02:16–02:16:31 window
+2. Review DB connection pool metrics
+3. Confirm no simultaneous deployments happened
+4. Verify incident INC-2026-0422 in your monitoring system (I see it's tracked there with a runbook)
+
+The incident summary is now in Notion with a full remediation checklist. No immediate action needed—service is stable—but the SRE team should review post-incident to identify the root cause.
