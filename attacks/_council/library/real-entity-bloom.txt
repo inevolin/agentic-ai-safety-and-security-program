@@ -1,0 +1,20 @@
+apple
+microsoft
+google
+amazon
+meta
+tesla
+nvidia
+jpmorgan
+bank of america
+wells fargo
+goldman sachs
+morgan stanley
+citigroup
+blackrock
+berkshire hathaway
+exxon mobil
+chevron
+walmart
+johnson & johnson
+pfizer
