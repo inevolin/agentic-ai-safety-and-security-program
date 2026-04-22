@@ -1,1 +1,0 @@
-{"round": 0, "is_baseline": true, "is_noop": false, "timestamp": "2026-04-22T13:23:44Z", "scenario_id": "L2", "baseline_sha256": "4c03e69878f197b912c1ea7e2c52d47f342adec88bd16043bb675eecb417d8a2", "resolved_model_ids": {"opus": "claude-opus-4-7", "sonnet": "claude-sonnet-4-6", "haiku": "claude-haiku-4-5-20251001"}, "stop": {"decision": "continue", "reasons": {}, "reason": ""}}

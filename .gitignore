@@ -6,3 +6,21 @@ __pycache__/
 *.key
 *.pem
 node_modules/
+
+# Council framework runtime artifacts — recomputable, not part of the corpus
+attacks/_council/.council-state.json
+attacks/_council/attacks/
+attacks/_council/library/cost-ledger.jsonl
+attacks/_council/library/safety-redactions.jsonl
+attacks/_council/library/techniques.jsonl
+attacks/_council/library/promptfoo_index.annoy
+attacks/_council/library/promptfoo_metadata.json
+attacks/_council/library/real-entity-index.annoy
+attacks/_council/library/real-entity-metadata.json
+attacks/_council/.pytest_cache/
+.claude/scheduled_tasks.lock
+
+# Council outputs — intermediate round artifacts. Final converged
+# scenarios are in attacks/_scenarios/singles/ which IS committed.
+attacks/_scenarios/versions/
+logs/council/
