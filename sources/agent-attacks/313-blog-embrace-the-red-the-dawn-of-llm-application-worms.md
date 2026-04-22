@@ -1,0 +1,120 @@
+# Embrace The Red — The Dawn of LLM Application Worms
+
+- **URL:** https://embracethered.com/blog/posts/2023/llm-worm-self-replicating-ai/
+- **HTTP:** 404 | **Content-Type:** text/html; charset=utf-8
+
+---
+
+## Source: https://embracethered.com/blog/posts/2025/agenthopper-a-poc-ai-virus/
+
+# AgentHopper: An AI Virus
+
+As part of the Month of AI Bugs, serious vulnerabilities that allow remote code execution via indirect prompt injection were discovered. There was a period of a few weeks where multiple arbitrary code execution vulnerabilities existed in popular agents, like GitHub Copilot, Amazon Q, AWS Kiro,…
+
+During that time I was wondering if it would be possible to write an AI virus.
+
+Hence the idea of AgentHopper was born.
+
+**All vulnerabilities mentioned in this research were responsibly disclosed and have been patched by the respective vendors. This post is shared for educational and awareness purposes to help improve security in AI-based products. Hopefully this research also serves as a warning to vendors of AI products that AI security vulnerabilities and the downstream implications of prompt injection can have significant consequences if not mitigated. Check out the mitigations section for useful tips as well.**
+
+Interestingly, recently we have seen multiple real-world cases where adversaries target and exploit coding agents, including pushing information up to GitHub.
+
+## AgentHopper - An AI Virus Demonstration
+
+The idea was to have one prompt injection payload that would operate across agents and exploit them accordingly. This was to demonstrate that conditional prompt injection can be leveraged as a powerful mechanism to target specific agents.
+
+### Video Walkthrough
+
+If you prefer a video that explains the details, you can watch it here:
+
+## The Vulnerabilities and the Proof-of-concept
+
+Let’s first briefly revisit the vulnerabilities that vendors fixed which enabled AgentHopper.
+
+During the Month of AI Bugs we described a couple of arbitrary code execution vulnerabilities that vendors addressed:
+
+- GitHub Copilot: Remote Code Execution via Prompt Injection (CVE-2025-53773)
+- Amp Code: Arbitrary Command Execution via Prompt Injection Fixed
+- Amazon Q Developer: Remote Code Execution with Prompt Injection
+- AWS Kiro: Arbitrary Code Execution via Indirect Prompt Injection
+
+When discovering and responsibly disclosing them to vendors, I was wondering if it would be possible to build a prompt injection payload that exploits them all.
+
+A payload that can propagate, like a good old fashion computer virus.
+
+Back when I had a Commodore Amiga, viruses actually got transferred via floppy disks. When inserting an infected floppy disk, the virus would move to memory and wait for any new floppy disk to be inserted. If a new floppy was inserted, then the virus would attach itself to that floppy, and so on.
+
+## The Infection Model: How AgentHopper Spreads
+
+So, how does this thing actually move? The basic concept for AgentHopper’s propagation is quite simple.
+
+This diagram is sort of a high level architectural overview:
+
+Here’s the breakdown:
+
+-
+**Initial Infection**: An adversary compromises a developer’s agent (Agent 1) through an initial indirect prompt injection or otherwise. This is the entry point. -
+**Payload Distribution**: Once Agent 1 is compromised, it downloads the AgentHopper binary and executes it. AgentHopper then scans for Git repositories (e.g., Repo 1, Repo 2), injects them with the universal prompt injection payload, commits, and pushes the changes back to GitHub. The virus basically finds new repositories, which serve as host. -
+**The Hop**: Now, imagine another developer, using another coding agent (Agent 2), pulls the now-infected code from GitHub (say, from Repo 2). When Agent 2 processes or interacts with this code, the prompt injection is triggered. -
+**Secondary Infection & Propagation**: Agent 2 becomes compromised, downloads and executes AgentHopper, and the cycle continues, infecting its own repositories (Repo 2, Repo 3) and pushing those changes.
+
+This mechanism highlights how easily the well-crafted prompt was able to propagate across different systems and agents.
+
+After a successful infection, the target source code looked like this:
+
+Notice the inserted instructions at the beginning of the file to hijack agents that process the file.
+
+**Safety Switch:** To avoid accidents and to make sure it doesn’t write to repos in my environment that I didn’t want to, I added a safety switch that asks for approval for each repo.
+
+## What are Conditional Prompt Injections?
+
+I first described the idea of conditional instructions for prompt injection exploit development a bit over a year ago with Microsoft Copilot, where we sent phishing emails that targeted different users with different attack payloads.
+
+The idea is that we leverage information from the system prompt (like a user’s name, job title) to branch off with conditional instructions targeted specifically for that individual.
+
+AgentHopper works similarly. To demonstrate that a prompt injection payload can be universal, and target different coding agents with different exploits to achieve arbitrary code execution.
+
+## Attack Paths and Exploits
+
+All of these vulnerabilities have now been patched.
+
+**GitHub Copilot:**Write to the agents the`settings.json`
+
+file to put Copilot into YOLO mode, then download and run AgentHopper**Amp Code:**Write to the agent’s configuration file and add a fake MCP server which is a python program that downloads AgentHopper and runs it**Amazon Q Developer:**Execute the`find`
+
+bash command with the`-exec`
+
+argument to download AgentHopper and execute it**AWS Kiro:**Write to the agent’s configuration file to allowlist all bash commands, then download and run AgentHopper
+
+## Agents That Can Modify Their Own Configuration
+
+As I described when I first discovered these vulnerabilities where an agent can modify its own configuration to escape, it sounded like science fiction, but it turns out it’s actually a common design flaw that can easily be mitigated and even be caught early on during threat modeling.
+
+## Mitigations & Recommendations For Developers!
+
+When developing this, it gave me a bit the chills, because it was seemingly quite easy to vibe code such malware. Scary simple.
+
+But it also highlights a couple of things that are important for users to consider, because we can protect ourselves from such attacks:
+
+- Make sure you
+**have a passphrase**on your SSH and signing keys! **Enable branch protection****Principle of Least Privilege**: This demo exploited vulnerabilities which all have been patched by vendors. However users might configure agents in a way that gives them too many privileges (e.g. allowlisting dangerous commands etc.), or running agents entirely in YOLO mode.- If a coding agent has
+**sandbox capabilities**, then leverage them - EDR vendors and GitHub hopefully considers such threats, as they can detect widespread infections quickly and mitigate it
+**Vendors of coding agents need to make sure to have secure defaults, so that when an agent is hijacked via indirect prompt injection the harm it can cause is limited****Vendors need to perform in-depth threat modeling.**That can identify issues such as the requirement to isolate configuration settings from the agent (and also other agents) early on.
+
+It would be best if vendors would publicly share the outcome of threat modeling to highlight exactly what is done to mitigate the downstream implications of prompt injection.
+
+## Conclusion
+
+Given the recent malware cases and exploits leveraging coding agents, AI-driven malware and prompt payloads will likely become more prevalent in the near future.
+
+AgentHopper is a good reminder to make sure you have branch protection on, and that you use a passphrase on your ssh and signing keys to prevent malware automatically pushing changes to GitHub, or other places.
+
+## Thank you.
+
+This is the last post of the Month of AI Bugs.
+
+If you read many of my posts I want to thank you very much. I really do hope that my work can inspire more people to get into security testing, especially now with the rapid advent of AI and agents, we need a lot more people to hold vendors accountable and ask basic questions around the rapid and wide deployment of AI systems that have fundamental design weaknesses.
+
+With that said, my posting schedule will go back to a less frequent cadence.
+
+Wish you all well, and happy hacking!

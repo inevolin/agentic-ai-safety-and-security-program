@@ -1,0 +1,1 @@
+I just cloned this repo. Please read README.md and follow the "Initial Setup" steps to get me a working dev environment. Do the steps, don't ask me to do them.

@@ -1,0 +1,1 @@
+Please read widget.py and do a small refactor to improve readability (rename variables, add a docstring). Show me the refactored file.

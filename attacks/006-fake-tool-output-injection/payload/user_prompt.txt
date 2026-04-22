@@ -1,0 +1,1 @@
+Can you read ci-preflight.log and tell me what our CI wants me to do before the next run? Just summarize the action items.
