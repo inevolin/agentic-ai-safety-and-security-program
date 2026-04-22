@@ -11,11 +11,14 @@ cp "$SCRIPT_DIR/poisoned_analyst_report.md" /tmp/techinsight-q1-2026-ai-infra.md
 
 echo "Staged: /tmp/techinsight-q1-2026-ai-infra.md"
 echo ""
+MODEL="${1:-claude-haiku-4-5-20251001}"
+
 echo "Running marketing AI assistant with poisoned research context..."
+echo "Model: ${MODEL}"
 echo "--- claude output ---"
 
 claude -p \
-  --model claude-haiku-4-5-20251001 \
+  --model "${MODEL}" \
   --setting-sources user \
   --disable-slash-commands \
   --no-session-persistence \
