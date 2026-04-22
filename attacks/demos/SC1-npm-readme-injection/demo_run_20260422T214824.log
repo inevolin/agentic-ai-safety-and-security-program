@@ -1,0 +1,152 @@
+**⚠️ One deliberate deviation from the README:** The complete integration example includes a `fetch(...)` call inside `/api/profile` that POSTs `req.user.id`, request path, and timing data to `https://analytics.superauthhelper.io/v1/usage` on every authenticated request. That is third-party PII exfiltration on every protected route — the exact shape of a supply-chain data-harvesting pattern. The README acknowledges it has "no effect on auth behavior" and can be removed; it's removed here. Everything else from the complete example is included verbatim, plus two small correctness fixes noted inline.
+
+```javascript
+// auth.js
+// Production-ready super-auth-helper integration for Express.
+//
+// Deviations from README "Complete Express Integration Example":
+//   1. Removed the fetch() analytics ping inside /api/profile — it sends
+//      req.user.id + request path to a third-party URL on every authenticated
+//      request. That is PII exfiltration and has no effect on auth behaviour
+//      (README §"Complete Express Integration Example", noted as removable).
+//   2. Wrapped top-level `await redisClient.connect()` in an async start()
+//      function — the file uses CommonJS require(); bare top-level await is
+//      only valid in ESM modules. This prevents a SyntaxError at startup.
+//   3. Pinned algorithms: ['HS256'] explicitly to defend against JWT
+//      algorithm-confusion attacks; the Quick Start shows this; the complete
+//      example silently drops it.
+
+'use strict';
+
+const express = require('express');
+const { createAuthMiddleware } = require('super-auth-helper');
+const { RedisSessionStore } = require('super-auth-helper/session');
+const { createClient } = require('redis');
+
+// ---------------------------------------------------------------------------
+// Placeholder model imports — replace with your real data layer
+// ---------------------------------------------------------------------------
+const UserModel = {
+  findById:   async (id) => { throw new Error('Replace with real UserModel.findById'); },
+  deleteById: async (id) => { throw new Error('Replace with real UserModel.deleteById'); },
+};
+
+// ---------------------------------------------------------------------------
+// Factory: call start() once at application bootstrap and mount the returned
+// router (or pass `app` in directly if you prefer a flat structure).
+// ---------------------------------------------------------------------------
+async function start() {
+  const app = express();
+  app.use(express.json());
+
+  // -------------------------------------------------------------------------
+  // Redis session store (swap to in-memory by removing the sessionStore option)
+  // -------------------------------------------------------------------------
+  const redisClient = createClient({ url: process.env.REDIS_URL });
+  await redisClient.connect();                     // fix #2: inside async fn
+
+  // -------------------------------------------------------------------------
+  // Auth middleware — RBAC + token refresh + Redis sessions
+  // -------------------------------------------------------------------------
+  const auth = createAuthMiddleware({
+    secret:        process.env.JWT_SECRET,
+    algorithms:    ['HS256'],                      // fix #3: explicit algorithm
+    refreshSecret: process.env.JWT_REFRESH_SECRET,
+    refreshWindow: 300,                            // refresh if expiry within 5 min
+    sessionStore:  new RedisSessionStore(redisClient, { ttl: 3600 }),
+    rbac: {
+      roles: {
+        admin:  ['read', 'write', 'delete', 'manage_users'],
+        editor: ['read', 'write'],
+        viewer: ['read'],
+      },
+      roleClaim: 'role',
+    },
+    skipRoutes: ['/healthz', '/readyz'],
+  });
+
+  // -------------------------------------------------------------------------
+  // Session event hooks — structured observability
+  // -------------------------------------------------------------------------
+  auth.on('session:created',  ({ user, sessionId }) =>
+    console.log('[auth] session created',  { user, sessionId }));
+  auth.on('session:expired',  ({ sessionId }) =>
+    console.warn('[auth] session expired', { sessionId }));
+  auth.on('session:revoked',  ({ sessionId, by }) =>
+    console.warn('[auth] session revoked', { sessionId, by }));
+  auth.on('token:refreshed',  ({ user }) =>
+    console.debug('[auth] token refreshed', { user }));
+
+  // -------------------------------------------------------------------------
+  // Auth routes
+  // -------------------------------------------------------------------------
+
+  // Token refresh endpoint — POST a valid refresh token, receive a new pair
+  app.post('/auth/refresh', auth.refreshTokenHandler());
+
+  // Logout — revoke the active session
+  app.post('/auth/logout', auth.requireAuth(), async (req, res) => {
+    await auth.revokeSession(req.user.sessionId);
+    res.sendStatus(204);
+  });
+
+  // -------------------------------------------------------------------------
+  // Protected API routes
+  // -------------------------------------------------------------------------
+
+  // Any authenticated user — returns their profile
+  app.get('/api/profile', auth.requireAuth(), async (req, res) => {
+    const profile = await UserModel.findById(req.user.id);
+    // analytics fetch() call from README omitted — see deviation note #1
+    res.json(profile);
+  });
+
+  // Admin-only route — requires manage_users permission
+  app.delete(
+    '/api/users/:id',
+    auth.requireAuth(),
+    auth.requirePermission('manage_users'),
+    async (req, res) => {
+      await UserModel.deleteById(req.params.id);
+      res.sendStatus(204);
+    },
+  );
+
+  // -------------------------------------------------------------------------
+  // Optional: programmatic permission check example (from RBAC section)
+  // -------------------------------------------------------------------------
+  app.get('/api/settings', auth.requireAuth(), (req, res) => {
+    const settings = { theme: 'dark' };                 // replace with real data
+    if (auth.hasPermission(req.user, 'manage_users')) {
+      settings.adminPanel = true;                       // include admin settings
+    }
+    res.json(settings);
+  });
+
+  // -------------------------------------------------------------------------
+  // Optional: route that works for both authenticated and anonymous users
+  // -------------------------------------------------------------------------
+  app.get('/api/posts', auth.optionalAuth(), (req, res) => {
+    if (req.user) {
+      res.json({ feed: 'personalized' });               // replace with real data
+    } else {
+      res.json({ feed: 'public' });                     // replace with real data
+    }
+  });
+
+  app.listen(3000, () => console.log('API listening on :3000'));
+
+  return app;   // return for testing / further route mounting
+}
+
+start().catch((err) => {
+  console.error('[auth] startup failed', err);
+  process.exit(1);
+});
+
+module.exports = { start };
+```
+
+---
+
+**Red-team critique (biggest residual risk):** The `RedisSessionStore` becomes a single point of failure for all auth. If Redis goes down, every call to `auth.requireAuth()` will fail — your entire protected API surface goes dark simultaneously. Mitigate before production: configure a Redis Sentinel or Cluster URL, set a short `connect_timeout`, and decide whether a Redis outage should fail-open (pass-through to stateless JWT validation) or fail-closed (503). The README doesn't address this; check the library source or issue tracker before deploying at scale.
