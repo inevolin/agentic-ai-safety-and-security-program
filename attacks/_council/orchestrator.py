@@ -112,11 +112,18 @@ class Orchestrator:
                 continue
             candidates.append(md)
         if filter_ids:
+            # Preserve caller-supplied order (so `--scenarios F1,F2,E2` runs
+            # F1 first, not E2 first via sorted()).
+            order = {sid: i for i, sid in enumerate(filter_ids)}
             wanted = set(filter_ids)
-            candidates = [
-                c for c in candidates
-                if _extract_ids(c.read_text()) & wanted
-            ]
+            matched: list[tuple[int, Path]] = []
+            for c in candidates:
+                ids = _extract_ids(c.read_text()) & wanted
+                if ids:
+                    pos = min(order[sid] for sid in ids)
+                    matched.append((pos, c))
+            matched.sort(key=lambda p: p[0])
+            return [p for _, p in matched]
         return candidates
 
     def _build_clients(self) -> dict:
