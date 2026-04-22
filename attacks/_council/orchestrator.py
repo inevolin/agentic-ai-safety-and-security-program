@@ -73,7 +73,21 @@ class Orchestrator:
 
     def load_or_reconstruct_state(self) -> dict:
         if self.config.state_file.exists():
-            return load_state(self.config.state_file)
+            state = load_state(self.config.state_file)
+            # Fallback: if state.json has empty scenarios dict BUT versions/
+            # has non-empty JSONLs, the state.json was saved at startup and
+            # never updated (process crashed mid-scenario). Prefer the
+            # reconstruction from JSONL tails in that case.
+            has_scenarios_in_state = bool(state.get("scenarios"))
+            jsonls = list(self.config.versions_dir.glob("*.jsonl"))
+            has_jsonl_data = any(f.stat().st_size > 0 for f in jsonls)
+            if not has_scenarios_in_state and has_jsonl_data:
+                recon = reconstruct_state_from_jsonl(self.config.versions_dir)
+                recon["resolved_model_ids"] = state.get(
+                    "resolved_model_ids", dict(self.config.model_ids)
+                )
+                return recon
+            return state
         recon = reconstruct_state_from_jsonl(self.config.versions_dir)
         recon["resolved_model_ids"] = dict(self.config.model_ids)
         return recon
