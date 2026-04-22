@@ -449,6 +449,22 @@ class RoundEngine:
     ) -> dict[str, Any]:
         tmpl = load_prompt(self.prompts_dir, "cold_reproducer", "v1")
         prior_art = "(promptfoo index not loaded — novelty scoring skipped)"
+        # I1: if a promptfoo index is configured, compute nearest-neighbor
+        # context so the reproducer has grounded prior art to reason over.
+        if self.promptfoo is not None:
+            try:
+                embed_fn = getattr(self.promptfoo, "embed_fn", None)
+                if embed_fn is not None:
+                    vec = embed_fn(chairman_draft[:4000])
+                    matches = self.promptfoo.nearest_k(
+                        query_embedding=vec, k=5
+                    )
+                    prior_art = "\n".join(
+                        f"- {m.hash_prefix} ({m.category}) distance={m.distance:.3f}"
+                        for m in matches
+                    ) or prior_art
+            except Exception:  # noqa: BLE001
+                pass
         prompt = tmpl.render(
             scenario_markdown=chairman_draft,
             prior_art_neighbors=prior_art,
