@@ -57,6 +57,29 @@ At the end of every meaningful work unit (a user request satisfied, a batch comp
 
 Keep logs terse and factual. They are a handover document for future Claude sessions, not a narrative — a reader should be able to skim the newest log and know exactly what to do next.
 
+## Git commits — **REQUIRED after every log write**
+
+After writing or updating a log file (end of a work unit, end of a session, or any meaningful batch completion), **commit all changed/new files** to the local git repo. The remote is `https://github.com/inevolin/ai-agent-security-research` (private).
+
+**Commit workflow:**
+```bash
+git add -A
+git commit -m "<short slug matching the log filename> — <one-line summary>"
+git push
+```
+
+Commit message format: `YYYY-MM-DD: <slug> — <what changed>`. Example:
+```
+2026-04-22: batch-summarization — add 20 prompt-injection summaries (IDs 210-229)
+```
+
+**When to commit:**
+- After writing/updating a `logs/` entry.
+- After adding or modifying files in `sources/`, `attacks/`, or `CLAUDE.md`.
+- Before ending a session (even if mid-batch — commit what exists so progress is not lost).
+
+**Never** force-push or rebase published history. Always create new commits.
+
 ## Working conventions
 
 - **Subagents for batch work.** Long-running summarization, scraping, or conversion jobs run as background `Agent` calls. Split large batches into chunks of ~20 files so a single policy refusal or rate-limit doesn't lose the batch.
@@ -147,6 +170,6 @@ These transcripts are part of the audit trail for the research project and must 
 
 ## Do not
 
-- Do not commit to git without explicit instruction.
+- Do not force-push or amend published commits.
 - Do not delete source `.md` files without confirming with the user.
 - Do not fabricate arxiv IDs or DOIs — verify by fetching the abstract page before adding to the corpus.
