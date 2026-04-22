@@ -44,6 +44,36 @@ def _slug(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+_PAYLOAD_BLOCK_RE = re.compile(
+    r"\*\*Payload \(example\)[^*]*?\*\*\s*\n+"     # heading
+    r"(?:>\s*[^\n]*\n)*"                            # any blockquote lines (banners)
+    r"\n?"
+    r"(?:```[a-zA-Z]*\n|>\s*```[a-zA-Z]*\n)"       # opening fence
+    r"(?P<body>.*?)"                                # capture body
+    r"(?:^```|^>\s*```)",                           # closing fence
+    re.DOTALL | re.MULTILINE,
+)
+
+
+def _extract_payload_section(chairman_draft: str) -> str:
+    """Extract the content of the first `**Payload (example):**` code block.
+
+    The chairman draft is the full scenario markdown. For harness firing,
+    we want just the attack content (the code-fenced block), not the
+    detection signals or mitigation hooks that would tip off the target.
+
+    Handles both plain code fences (```) and blockquoted code fences
+    (> ```) since chairman sometimes wraps payloads in blockquotes.
+    """
+    m = _PAYLOAD_BLOCK_RE.search(chairman_draft)
+    if not m:
+        return ""
+    body = m.group("body")
+    # Strip any leading "> " blockquote markers
+    lines = [ln.lstrip("> ").rstrip() for ln in body.splitlines()]
+    return "\n".join(lines).strip()
+
+
 def _format_harness_history(prior: list[dict]) -> str:
     if not prior:
         return "(no prior harness results)"
@@ -540,7 +570,22 @@ class RoundEngine:
         attempt_dir.mkdir(exist_ok=True)
         payload_dir = attempt_dir / "payload"
         payload_dir.mkdir(exist_ok=True)
-        (payload_dir / "user_prompt.txt").write_text(chairman_draft)
+        # Extract just the Payload section from the chairman draft — firing
+        # the whole scenario doc (which includes detection signals + mitigation
+        # hooks + citations) would give the target Claude so much defender
+        # context it wouldn't fall for the attack. The real attack content
+        # lives under `**Payload (example):**` in a code block.
+        payload_text = _extract_payload_section(chairman_draft)
+        if not payload_text:
+            # Fallback: no payload block found — this scenario isn't truly
+            # harness-extractable. Mark and return without firing.
+            return {
+                "extractable": False,
+                "degraded": "no-payload-block",
+                "runs": [],
+            }
+        (payload_dir / "user_prompt.txt").write_text(payload_text)
+        (payload_dir / "full-chairman-draft.md").write_text(chairman_draft)
 
         runs_by_tier = []
         for tier in HARNESS_TIERS:
