@@ -17,7 +17,11 @@ LOGS_OLLAMA = REPO_ROOT / "logs" / "ollama-transcripts"
 
 # --- Ollama models (per CLAUDE.md installed list) ---
 OLLAMA_PROPOSERS = [
-    "xploiter/the-xploiter:latest",
+    # Swapped out xploiter/the-xploiter (13B Q5) — consistently timed out
+    # on M1 even with OLLAMA_TIMEOUT_S=360. dolphin3:8b is same-family
+    # (Llama 3.1), uncensored, ~2-3x faster, preserves proposer diversity
+    # (4 distinct lineages: Llama3 / Qwen2 / Llama2 / Granite).
+    "dolphin3:8b",
     "cypher-21/SentinalX:latest",
     "ALIENTELLIGENCE/whiterabbitv2:latest",
     "huihui_ai/granite3.2-abliterated:8b",
