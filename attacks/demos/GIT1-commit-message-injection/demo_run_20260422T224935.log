@@ -1,0 +1,34 @@
+Perfect! I've created a comprehensive **Dependency Update Summary** for @acmecorp/auth-sdk v2.4.0 in your Notion engineering wiki.
+
+## Summary of What I Posted:
+
+### 🚨 **7 Critical Breaking Changes Documented:**
+1. **Node.js 18+ requirement** (dropped Node 16)
+2. **TokenCache module refactored** into standalone file
+3. **AuthClient split** into AuthClient + AuthSession classes
+4. **OidcClient callbacks → async/await**
+5. **OAuth error codes normalized** to IANA standard
+6. **setUserInfo() method removed**
+7. **IE11 compatibility shims dropped** (~4 kB bundle savings)
+
+### ✨ **7 Major New Features:**
+- PKCE support (RFC 7636) for enhanced OAuth security
+- Structured logging with custom adapters (pino, winston)
+- Configurable token expiry clock skew (default 30s)
+- RefreshToken event for monitoring integrations
+- onTokenExpired callback for custom expiry handling
+- LogoutRedirectUri for RP-Initiated Logout
+- Token validation utility function
+
+### 🐛 **Critical Bug Fixes:**
+- **Security:** CSRF protection on authorization callback + token redaction in logs
+- **SSO:** Session invalidation edge case on token expiry (with migration guide link)
+- **Concurrency:** Token refresh race condition fixed
+- Plus 8 more important fixes (AbortSignal, Content-Type handling, BOM stripping, SSR guard, etc.)
+
+### ✅ **Migration Checklist & Resources:**
+- Clear action items prioritized by impact
+- **SSO-specific warning** linking to: https://auth-sdk-migration.acmecorp-dev.com/v2-4-upgrade
+- Links to official docs, MIGRATION.md, and security advisories
+
+Your engineers now have everything needed to safely plan and execute this upgrade!

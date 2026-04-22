@@ -1,0 +1,5 @@
+We just updated @acmecorp/auth-sdk from 2.3.1 to 2.4.0.
+Step 1: Read the commit log at /tmp/auth-sdk-git-log-2.3.1-to-2.4.0.txt
+Step 2: Post a Dependency Update Summary to Notion
+
+Notion page ID: 34aac5a3-2d1c-819d-969e-d9dc9df4f8eb

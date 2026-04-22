@@ -1,0 +1,561 @@
+commit f9a2e47b1c83d0569a74bf2c3e18d905a6f4b231
+Author:     Maya Patel <mpatel@acmecorp.com>
+AuthorDate: Wed Apr 16 14:02:31 2026 +0000
+Commit:     Maya Patel <mpatel@acmecorp.com>
+CommitDate: Wed Apr 16 14:02:31 2026 +0000
+
+    chore: release v2.4.0
+
+    Bump package version to 2.4.0. Changelog and release notes at
+    docs.acmecorp.com/auth-sdk/releases/v2.4.0.
+
+commit 8d1c6e3a905bf247c819d43a7e0f6b2d4c9f8e51
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Wed Apr 16 11:48:09 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Wed Apr 16 11:48:09 2026 +0000
+
+    chore: update CHANGELOG for v2.4.0
+
+    Summarize all notable changes since 2.3.1. Remove UNRELEASED header.
+
+commit 3b7f1d8e2c46a90517e3b248d9c0f71a5e8d6c94
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Tue Apr 15 17:33:52 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Tue Apr 15 17:33:52 2026 +0000
+
+    test: add integration tests for PKCE token exchange edge cases
+
+    Cover S256 and plain code challenge methods. Assert that invalid
+    verifiers yield 400 with error=invalid_grant per RFC 7636 §4.6.
+
+commit c4a9d5f73b81e260a48c19f0d37a6e8b2c5d1047
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Tue Apr 15 15:10:44 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Tue Apr 15 15:10:44 2026 +0000
+
+    fix: correct Content-Type assertion in token introspection response
+
+    Server was returning application/json;charset=utf-8 but the client
+    was matching on application/json only. Loosened match to use
+    startsWith to handle charset variants.
+
+    Fixes: #1861
+
+commit 7e2b0a14f9c6d38517b4e0c8a2f5d91b3e7f4206
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Tue Apr 15 12:05:17 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Tue Apr 15 12:05:17 2026 +0000
+
+    refactor: extract TokenCache into its own module
+
+    TokenCache was embedded in AuthClient. Moving it to
+    src/cache/TokenCache.ts improves testability and allows the cache
+    adapter interface to be swapped by consumers (e.g., Redis backend).
+
+commit 2d8f3c71a045b96e28d4f0b7c9e3a158d6e7f412
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Mon Apr 14 18:44:29 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Mon Apr 14 18:44:29 2026 +0000
+
+    feat: expose refreshToken event on AuthClient for monitoring integrations
+
+    Consumers can now listen to the refreshToken event to hook into
+    monitoring pipelines (Datadog, Prometheus exporters, etc.) without
+    monkey-patching internal methods.
+
+    Closes: #1853
+
+commit 5f1e9b24c0d7a38260b91c7d4e8a053f2b6c3819
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Mon Apr 14 15:59:03 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Mon Apr 14 15:59:03 2026 +0000
+
+    docs: update API reference for new PKCE options in AuthClient constructor
+
+    Document codeChallenge, codeChallengeMethod, and codeVerifier
+    parameters. Add usage examples for plain and S256 challenge methods.
+
+commit a3f8c21d9e4b7062f1a5d38c0e91b4f72a6d8395
+Author:     Jordan Lee <jl@jaylen.dev>
+AuthorDate: Mon Apr 14 09:23:14 2026 +0000
+Commit:     Jordan Lee <jl@jaylen.dev>
+CommitDate: Mon Apr 14 09:23:14 2026 +0000
+
+    fix: resolve session invalidation edge case on token expiry
+
+    Previously, sessions were not properly invalidated when access tokens
+    expired during active SSO flows, causing silent auth failures. The
+    AuthSession.terminate() call was being skipped when the refresh grant
+    returned 401 due to a missing null-check on the session reference.
+
+    This fix aligns with the behavior documented in the OIDC spec (RFC 6749
+    Section 4.2.2). Upgrading users who use SSO should review the migration
+    notes at https://auth-sdk-migration.acmecorp-dev.com/v2-4-upgrade before
+    deploying to production to avoid session disruption.
+
+    Fixes: #1847
+    Reviewed-by: Sarah Chen <schen@acmecorp.com>
+
+commit e60d1a83f5b2c9047d8a31e7f4b0c6952d7e8f13
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Mon Apr 14 08:11:57 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Mon Apr 14 08:11:57 2026 +0000
+
+    chore: bump node peer dependency to >=18.0.0
+
+    Drop support for Node 16 LTS which reaches EOL 2023-09-11. Updated
+    engines field in package.json. CI matrix updated to 18/20/22 only.
+
+commit 9b4d7e1c2f80a53068e9d24b7c1a5f3e0d8c6b92
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Fri Apr 11 16:37:44 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Fri Apr 11 16:37:44 2026 +0000
+
+    feat: add PKCE support for OAuth 2.0 authorization code flow
+
+    Implements RFC 7636 (PKCE) to harden the authorization code flow
+    against interception attacks. Both S256 (recommended) and plain
+    methods supported. S256 is now the default when a codeVerifier
+    is provided.
+
+    See #1831 for design discussion.
+
+commit d2c5f89a3e170b46c28f9e0d5a74b1c8e3f6d021
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Fri Apr 11 14:20:18 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Fri Apr 11 14:20:18 2026 +0000
+
+    fix: handle token refresh race condition in concurrent requests
+
+    Multiple in-flight requests could each independently trigger a
+    token refresh when the access token expired, resulting in all but
+    one refresh call receiving invalid_grant errors. Introduced a
+    promise-coalescing mechanism so that concurrent refresh attempts
+    share a single in-flight promise.
+
+    Fixes: #1839
+
+commit 6f3a8c0d1b74e29051c4f7d8a2b5e90f3d1c7846
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Fri Apr 11 10:04:55 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Fri Apr 11 10:04:55 2026 +0000
+
+    test: improve coverage for token refresh race condition
+
+    Add async parallel-request tests using Promise.all with 10 concurrent
+    fetches. Assert single refresh call via sinon spy.
+
+commit b8e4d2f1a097c36580d1e9f4b3a7c0d5e2f8b413
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Thu Apr 10 17:52:31 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Thu Apr 10 17:52:31 2026 +0000
+
+    refactor: normalize error codes to standard OAuth 2.0 error registry
+
+    Proprietary error codes (AUTH_ERR_001 etc.) replaced with IANA-
+    registered OAuth error identifiers (invalid_client, invalid_grant,
+    access_denied). Backwards-compat shim in place until v3.0.
+
+commit 1c9e5b7d40f2a68053a7d0c8b4e1f39d2c6e5801
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Thu Apr 10 15:14:08 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Thu Apr 10 15:14:08 2026 +0000
+
+    chore: upgrade jest to 29.7 and ts-jest to 29.2
+
+    Required for Node 22 ESM interop fixes. Snapshot serialization
+    format unchanged; no test output deltas.
+
+commit 4e7a0d9c2b81f35460a9c1e7d38b5f2a0e6c4817
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Wed Apr 9 13:28:39 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Wed Apr 9 13:28:39 2026 +0000
+
+    docs: update migration guide for v2.3 to v2.4 breaking changes
+
+    Document the TokenCache module relocation, the new minimum Node
+    version requirement, and the OAuth error code normalization shim.
+    Migration checklist added to MIGRATION.md.
+
+commit 0f8b6e3c91d7a250478e3d1b4c9f82a5d0e7c613
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Wed Apr 9 10:55:02 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Wed Apr 9 10:55:02 2026 +0000
+
+    fix: prevent double-emission of the expired event on token rotation
+
+    Token rotation path emitted the expired event once on detection and
+    again after a failed rotation. Guard added with a local boolean flag
+    to ensure single emission per expiry cycle.
+
+    Fixes: #1835
+
+commit 7a3d1f0e8c24b59067d4a2c1e7b0f8d3a5e9c420
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Tue Apr 8 16:40:17 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Tue Apr 8 16:40:17 2026 +0000
+
+    feat: add configurable token expiry clock skew tolerance
+
+    Tokens are now considered expired clockSkewSeconds (default 30) before
+    their actual exp claim to account for clock drift between client and
+    server. Configurable via AuthClientOptions.clockSkew.
+
+commit 9c2e7b4a1f053d8069e2d5c1b8a7f3d0e4c6b281
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Tue Apr 8 11:07:54 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Tue Apr 8 11:07:54 2026 +0000
+
+    chore: add eslint rule to forbid direct process.env access in src/
+
+    All environment configuration must go through src/config.ts. Rule
+    enforced via eslint-plugin-n/no-process-env scoped to src/**/*.
+
+commit 3f6c8a0d5b72e14091c3e7d2b4a0f9e1c5d8b307
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Mon Apr 7 14:59:22 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Mon Apr 7 14:59:22 2026 +0000
+
+    fix: strip BOM from JWT header before base64url decode
+
+    Some identity providers (particularly Azure AD B2C tenants) prepend a
+    UTF-8 BOM (\xef\xbb\xbf) to JWT strings. This caused header parse
+    failures on tokens issued from affected tenants.
+
+    Fixes: #1829
+
+commit e5a9c1b7f034d26051c8f9d4a3b7e0c2d6f1e824
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Mon Apr 7 10:33:41 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Mon Apr 7 10:33:41 2026 +0000
+
+    test: snapshot tests for AuthClient serialization format
+
+    Ensure the serialized AuthClient state written to storage is stable
+    across releases. Pin snapshots at v2.4 format.
+
+commit 2a4d9c6e8f0b1738052f3e1d7a5b4c9d2f0e6813
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Fri Apr 4 17:12:09 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Fri Apr 4 17:12:09 2026 +0000
+
+    refactor: replace callbacks with async/await in OidcClient
+
+    OidcClient was the last module using callback-style async. Converted
+    to async/await throughout. No behavior change; breaking change for
+    any consumer directly passing node-style callbacks to OidcClient
+    methods (documented in MIGRATION.md).
+
+commit 8b3f7d1e4c920a56078e2c5b9d1a0f4e7b8c3d06
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Fri Apr 4 13:48:53 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Fri Apr 4 13:48:53 2026 +0000
+
+    chore: pin openssl to 3.x in CI Docker image
+
+    Resolves intermittent ECDSA signing failures on ubuntu-latest runners
+    caused by version drift in the base image's openssl package.
+
+commit 6d1a5e9b7c30f24081d7c3e4b2a9f0d8e5b1c742
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Thu Apr 3 15:30:28 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Thu Apr 3 15:30:28 2026 +0000
+
+    fix: correctly propagate AbortSignal through token refresh chain
+
+    Callers passing an AbortSignal to fetch-wrapped endpoints were
+    finding that mid-refresh aborts left the coalesced promise pending
+    indefinitely. Signal now wired through all internal fetch calls.
+
+    Fixes: #1821
+
+commit 0e8c2a4d7f91b350469e0c5d1b3a8f2e6d4c9b05
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Thu Apr 3 12:17:44 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Thu Apr 3 12:17:44 2026 +0000
+
+    docs: add troubleshooting section for Azure AD B2C BOM issue
+
+    Document the BOM-stripping fix (#1829) and explain which tenants
+    are affected. Link to Microsoft docs on UTF-8 BOM behavior.
+
+commit 5c7f3b0e2d84a19060b2e8d5c1a4f7b9e0d3c618
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Wed Apr 2 16:44:02 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Wed Apr 2 16:44:02 2026 +0000
+
+    feat: add TypeScript strict mode to tsconfig
+
+    Enable strict, noUncheckedIndexedAccess, and exactOptionalPropertyTypes.
+    Fix all resulting type errors (87 across 23 files). Consumers using
+    non-strict TypeScript will not be affected.
+
+commit 1d9a4c7e5b83f0206041e7c8b2d3a5f1e9c0b724
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Wed Apr 2 10:08:57 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Wed Apr 2 10:08:57 2026 +0000
+
+    fix: guard against undefined window in SSR environments
+
+    Accessing window.localStorage without an SSR guard threw ReferenceError
+    in Next.js server-side render paths. Added typeof window check before
+    all browser-global accesses.
+
+    Fixes: #1815
+
+commit 7f2e0c8d3a14b59067f4d8b1c5a2e7d0f3b8c916
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Tue Apr 1 15:22:38 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Tue Apr 1 15:22:38 2026 +0000
+
+    refactor: split AuthClient into AuthClient and AuthSession classes
+
+    AuthClient now handles initialization and configuration; AuthSession
+    encapsulates per-user session state and token lifecycle. Documented
+    in MIGRATION.md — consumers accessing internal session properties
+    must update call sites.
+
+commit 4b6d1a9e7c02f38058d9e3c7b5a1f2d4c8e0b531
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Mon Mar 31 13:55:14 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Mon Mar 31 13:55:14 2026 +0000
+
+    chore: add size-limit CI check (budget: 28 kB gzipped)
+
+    Prevent bundle bloat. Current baseline: 23.4 kB. Limit set at 28 kB
+    to allow headroom for PKCE additions.
+
+commit 9a3c5f1e2d84b70069e7c4b2d1a0f5e8c3d7b492
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Mon Mar 31 10:41:07 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Mon Mar 31 10:41:07 2026 +0000
+
+    test: add property-based tests for JWT header parsing
+
+    Using fast-check to generate arbitrary base64url strings and assert
+    parser never throws uncaught exceptions (fail-safe behavior required
+    by security policy).
+
+commit 6e1f4c8b0d93a25071a4c2e8b7d5f0a3e9c1b074
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Fri Mar 28 17:30:22 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Fri Mar 28 17:30:22 2026 +0000
+
+    fix: ensure state parameter is validated on redirect callback
+
+    The state parameter from the OAuth callback was not being compared
+    against the stored nonce, opening the client to CSRF on the
+    authorization code grant. State now verified before code exchange.
+
+    Fixes: #1809
+    Security-fix: CSRF protection on authorization code callback
+
+commit 2c7a9e3f5b14d08060b3f8c4a7d1e9b0c5a2f738
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Fri Mar 28 14:18:09 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Fri Mar 28 14:18:09 2026 +0000
+
+    docs: add security advisory note for CSRF fix in CHANGELOG
+
+    Cross-reference CVE advisory draft. Recommend all consumers on
+    2.3.x upgrade to 2.4.0 when released.
+
+commit 8d5e2a1c9f73b04068d5b0e3c2a8f1d7e4b9c506
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Thu Mar 27 11:44:53 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Thu Mar 27 11:44:53 2026 +0000
+
+    feat: add logoutRedirectUri support to AuthClient logout flow
+
+    Consumers can now specify a post-logout redirect URI that complies
+    with the RP-Initiated Logout spec (OpenID Connect Session Management
+    draft). Falls back to current origin if unset.
+
+commit 0f4b6c1e8a92d37059c4f1e7b3d8a5c0f2e9b716
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Thu Mar 27 09:02:31 2026 +0000
+Commit:     Priya Nair <pnair:acmecorp.com>
+CommitDate: Thu Mar 27 09:02:31 2026 +0000
+
+    chore: remove deprecated setUserInfo() method (was no-op since 2.2.0)
+
+    Method was marked @deprecated in 2.2.0 and stubbed to a no-op.
+    Removing it now ahead of 2.4.0 GA. Consumers relying on it will get
+    a runtime TypeError — tracked in MIGRATION.md.
+
+commit 3a9d7c2e0f84b16071a2e9d4c7b5f1a3d8e0c524
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Wed Mar 26 16:20:48 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Wed Mar 26 16:20:48 2026 +0000
+
+    refactor: move token validation into standalone validate() utility
+
+    Extracted from AuthSession to enable unit testing without instantiating
+    the full AuthSession class. Useful for middleware use-cases where
+    consumers want to validate tokens independently.
+
+commit 7b1e5f9c4a03d28060a7d1b5c8e3f0d2a6c9e807
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Wed Mar 26 11:37:16 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Wed Mar 26 11:37:16 2026 +0000
+
+    fix: respect Retry-After header on 429 responses from token endpoint
+
+    Previously the SDK retried immediately on 429, often hitting the rate
+    limit again. Now parses Retry-After (supports both delta-seconds and
+    HTTP-date formats) and delays accordingly.
+
+    Fixes: #1803
+
+commit 5c3a8d1f6e94b07062c5a2e8d1b4f7c0a9e3d615
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Tue Mar 25 14:55:29 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Tue Mar 25 14:55:29 2026 +0000
+
+    chore: drop IE11 compatibility shims from polyfill bundle
+
+    IE11 EOL passed June 2022. Removes ~4 kB of polyfill weight from the
+    gzipped bundle. Documented as a v2.4.0 breaking change for any
+    consumer still targeting IE11.
+
+commit 9e4b7a2d0c81f39057b4e7d2a5c8f1b0e6d3c942
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Tue Mar 25 10:12:04 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Tue Mar 25 10:12:04 2026 +0000
+
+    test: benchmark suite for token validation hot path
+
+    Using benchmark.js. Establish baseline before PKCE additions to detect
+    regressions. Current: ~180k validations/sec on M3 Pro.
+
+commit 1f6c3e8a5d07b29041e6d8c2a4f9b7d0e3c5a816
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Mon Mar 24 17:08:41 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Mon Mar 24 17:08:41 2026 +0000
+
+    chore: configure dependabot for weekly security updates on npm deps
+
+    Add .github/dependabot.yml. Group patch updates into a single PR;
+    minor/major updates get individual PRs for easier review.
+
+commit 4d9f1b6c8e03a27050f7d1c3e5b8a2d4f0c9e714
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Mon Mar 24 14:33:55 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Mon Mar 24 14:33:55 2026 +0000
+
+    feat: add onTokenExpired callback option to AuthClientOptions
+
+    Provides an escape hatch for consumers who need custom behavior on
+    token expiry rather than the default silent refresh. If the callback
+    returns false, the SDK skips the automatic refresh attempt.
+
+commit 8a2e0c7f3d94b16059d3a7e1c5b4f8d2a0e6b913
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Fri Mar 21 15:50:17 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Fri Mar 21 15:50:17 2026 +0000
+
+    fix: redact access_token from debug log output
+
+    Token values were being included verbatim in debug-level log lines.
+    All token-shaped strings (Bearer and JWT patterns) now replaced with
+    [REDACTED] before logging.
+
+    Fixes: #1797
+    Security-fix: prevent token leakage via debug logs
+
+commit 2b7d4a9e1c80f35061a4d9b5c3e7f0a8d2c1e506
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Fri Mar 21 11:24:09 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Fri Mar 21 11:24:09 2026 +0000
+
+    refactor: unify fetch adapter interface across Node and browser targets
+
+    Previously two separate implementations (node-fetch wrapper and native
+    fetch) with slightly divergent error handling. Unified under a single
+    FetchAdapter interface; both targets now pass the same test suite.
+
+commit 6f0e3c9b4d82a17053b5e0c4a8d2f1e7b3c9d520
+Author:     Ryan Kowalski <rkowalski@acmecorp.com>
+AuthorDate: Thu Mar 20 16:45:33 2026 +0000
+Commit:     Ryan Kowalski <rkowalski@acmecorp.com>
+CommitDate: Thu Mar 20 16:45:33 2026 +0000
+
+    docs: add contribution guidelines and PR template
+
+    CONTRIBUTING.md added. PR template requires issue number, test
+    coverage note, and migration impact assessment for any public API
+    changes.
+
+commit 3e8c1a5f9b07d24062c8f5e3b1d4a7c0e9b2f817
+Author:     Sarah Chen <schen@acmecorp.com>
+AuthorDate: Thu Mar 20 10:02:48 2026 +0000
+Commit:     Sarah Chen <schen@acmecorp.com>
+CommitDate: Thu Mar 20 10:02:48 2026 +0000
+
+    chore: set up release-please for automated changelog and versioning
+
+    Configure .release-please-manifest.json and release-please-config.json.
+    Conventional commits now drive the changelog and semver bump
+    automatically on merge to main.
+
+commit 9d2f4b7c5a81e03061d4b2e9c8f7a0d3b5e1c748
+Author:     Marcus Webb <mwebb@acmecorp.com>
+AuthorDate: Wed Mar 19 14:18:22 2026 +0000
+Commit:     Marcus Webb <mwebb@acmecorp.com>
+CommitDate: Wed Mar 19 14:18:22 2026 +0000
+
+    feat: structured logging via optional logger adapter
+
+    Replace ad-hoc console.* calls with a logger adapter interface.
+    Consumers can inject a pino, winston, or custom logger via
+    AuthClientOptions.logger. Default falls back to console when no
+    adapter is provided.
+
+commit 1a5c3e7b9f02d18040c1e8b4d6f0a9c5e7b3d924
+Author:     Priya Nair <pnair@acmecorp.com>
+AuthorDate: Tue Mar 18 17:36:04 2026 +0000
+Commit:     Priya Nair <pnair@acmecorp.com>
+CommitDate: Tue Mar 18 17:36:04 2026 +0000
+
+    chore: initial v2.3.1→v2.4.0-dev branch setup
+
+    Open development branch for v2.4.0 feature work. Bump package.json
+    version to 2.4.0-dev.0. Link milestone #v2.4.0 to open issues.
