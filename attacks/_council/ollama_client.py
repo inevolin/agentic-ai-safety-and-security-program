@@ -61,6 +61,8 @@ class OllamaClient:
             "stream": False,
             "options": {"num_ctx": num_ctx, "temperature": temperature},
         }
+        error: BaseException | None = None
+        data: dict[str, Any] = {}
         with self.lock_path.open("w") as lockfile:
             fcntl.flock(lockfile.fileno(), fcntl.LOCK_EX)
             try:
@@ -73,25 +75,38 @@ class OllamaClient:
                     resp.raise_for_status()
                     data = resp.json()
                 except requests.exceptions.Timeout as e:
-                    raise TimeoutError(
+                    error = TimeoutError(
                         f"ollama {model} timed out after {OLLAMA_TIMEOUT_S}s"
-                    ) from e
+                    )
+                    error.__cause__ = e
+                except Exception as e:  # noqa: BLE001
+                    error = e
             finally:
                 fcntl.flock(lockfile.fileno(), fcntl.LOCK_UN)
 
-        response_text = data.get("response", "")
-        metadata = {k: v for k, v in data.items() if k != "response"}
+        response_text = data.get("response", "") if isinstance(data, dict) else ""
+        metadata = (
+            {k: v for k, v in data.items() if k != "response"}
+            if isinstance(data, dict) else {}
+        )
+        if error is not None:
+            metadata["error"] = f"{type(error).__name__}: {error}"
 
+        # Write transcript unconditionally — CLAUDE.md: every interaction logged
         transcript = self._write_transcript(
             model=model,
             prompt=prompt,
-            response=response_text,
+            response=response_text or f"(no response — {metadata.get('error', 'unknown')})",
             metadata=metadata,
-            reason_for_use=reason_for_use,
+            reason_for_use=reason_for_use + ("" if error is None else " [ERROR]"),
             source_file=source_file,
             output_file=output_file,
             options=req["options"],
         )
+        if error is not None:
+            if isinstance(error, TimeoutError):
+                raise error
+            raise TimeoutError(f"ollama {model} failed: {error}") from error
         return OllamaResponse(
             response=response_text, metadata=metadata, transcript_path=transcript
         )

@@ -260,33 +260,51 @@ class RoundEngine:
     def _step1_offensive_ideation(
         self, ctx: RoundContext
     ) -> dict[str, dict]:
+        """4 offensive proposers, serial. Per-proposer timeouts are
+        tolerated — as long as >=1 proposer returns text, the round
+        continues with whichever labels succeeded."""
         tmpl = load_prompt(self.prompts_dir, "offensive_proposer", "v1")
         harness_history = _format_harness_history(ctx.prior_rounds[-3:])
         library_top3 = ""
 
         proposals: dict[str, dict] = {}
         labels = ["A", "B", "C", "D"]
+        ctx.artifacts_dir.mkdir(parents=True, exist_ok=True)
         for label, model in zip(labels, OLLAMA_PROPOSERS):
             prompt = tmpl.render(
                 scenario_markdown=ctx.scenario_markdown,
                 harness_history=harness_history,
                 library_top3=library_top3,
             )
-            resp = self.ollama.generate(
-                model=model,
-                prompt=prompt,
-                reason_for_use="council offensive proposer step 1",
-                source_file=f"scenario {ctx.scenario_id}",
-            )
             out_file = ctx.artifacts_dir / f"01-proposal-{_slug(model)}.md"
-            ctx.artifacts_dir.mkdir(parents=True, exist_ok=True)
-            out_file.write_text(resp.response)
-            proposals[label] = {
-                "model": model,
-                "file": str(out_file),
-                "text": resp.response,
-                "transcript": str(resp.transcript_path),
-            }
+            try:
+                resp = self.ollama.generate(
+                    model=model,
+                    prompt=prompt,
+                    reason_for_use="council offensive proposer step 1",
+                    source_file=f"scenario {ctx.scenario_id}",
+                )
+                out_file.write_text(resp.response)
+                proposals[label] = {
+                    "model": model,
+                    "file": str(out_file),
+                    "text": resp.response,
+                    "transcript": str(resp.transcript_path),
+                }
+            except TimeoutError as e:
+                # Proposer timed out — record skip, continue to next.
+                out_file.write_text(f"(timed out: {e})")
+                proposals[label] = {
+                    "model": model,
+                    "file": str(out_file),
+                    "text": "",
+                    "transcript": "",
+                    "timed_out": True,
+                }
+        if not any(p.get("text") for p in proposals.values()):
+            raise RuntimeError(
+                "step 1: all 4 offensive proposers timed out or returned empty"
+            )
         return proposals
 
     def _step15_peer_rank(
@@ -295,6 +313,8 @@ class RoundEngine:
         proposals: dict[str, str],
         artifacts_dir: Path,
     ) -> dict[str, Any]:
+        """Peer-rank is tolerant of individual ranker timeouts — we just
+        compute MRR over whichever rankers returned."""
         tmpl = load_prompt(self.prompts_dir, "peer_rank", "v1")
         rankings: list[list[str]] = []
         candidates = list(proposals.keys())
@@ -306,12 +326,15 @@ class RoundEngine:
                 proposal_C=proposals.get("C", ""),
                 proposal_D=proposals.get("D", ""),
             )
-            resp = self.ollama.generate(
-                model=model,
-                prompt=prompt,
-                reason_for_use="council peer-rank step 1.5",
-                source_file="peer rank",
-            )
+            try:
+                resp = self.ollama.generate(
+                    model=model,
+                    prompt=prompt,
+                    reason_for_use="council peer-rank step 1.5",
+                    source_file="peer rank",
+                )
+            except TimeoutError:
+                continue
             parsed = _parse_json_from_response(resp.response)
             ranking = parsed.get("ranking") or []
             if isinstance(ranking, list) and all(
@@ -325,6 +348,7 @@ class RoundEngine:
             "mrr_by_proposer": mrr,
             "rank_variance": variance,
             "raw_rankings": rankings,
+            "rankers_responded": len(rankings),
         }
         (artifacts_dir / "015-peer-rank.json").write_text(json.dumps(out, indent=2))
         return out
@@ -348,14 +372,19 @@ class RoundEngine:
             scenario_markdown=scenario_markdown,
             proposals=proposals_blob,
         )
-        local_resp = self.ollama.generate(
-            model=local_model,
-            prompt=local_prompt,
-            reason_for_use="council balanced critic step 2a",
-            source_file="critique",
-        )
-        local_json = _parse_json_from_response(local_resp.response)
-        (artifacts_dir / "02a-critique-local.md").write_text(local_resp.response)
+        try:
+            local_resp = self.ollama.generate(
+                model=local_model,
+                prompt=local_prompt,
+                reason_for_use="council balanced critic step 2a",
+                source_file="critique",
+            )
+            local_raw = local_resp.response
+            local_json = _parse_json_from_response(local_raw)
+        except TimeoutError as e:
+            local_raw = f"(local critic timed out: {e})"
+            local_json = {"new_weakness_found": False, "_timed_out": True}
+        (artifacts_dir / "02a-critique-local.md").write_text(local_raw)
 
         claude_tmpl = load_prompt(self.prompts_dir, "defender_critic_claude", "v1")
         claude_prompt = claude_tmpl.render(

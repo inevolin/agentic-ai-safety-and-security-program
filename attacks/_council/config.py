@@ -4,12 +4,16 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Literal
 
-# --- Paths (resolved relative to repo root at orchestrator startup) ---
-COUNCIL_DIR = Path("attacks/_council")
-SCENARIOS_DIR = Path("attacks/_scenarios")
-HARNESS_DIR = Path("attacks/_harness")
-LOGS_COUNCIL = Path("logs/council")
-LOGS_OLLAMA = Path("logs/ollama-transcripts")
+# --- Paths ---
+# config.py sits at {repo}/attacks/_council/config.py → repo root is 2 parents up.
+# Anchoring all paths to this absolute root means the orchestrator works
+# regardless of the user's current working directory.
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+COUNCIL_DIR = REPO_ROOT / "attacks" / "_council"
+SCENARIOS_DIR = REPO_ROOT / "attacks" / "_scenarios"
+HARNESS_DIR = REPO_ROOT / "attacks" / "_harness"
+LOGS_COUNCIL = REPO_ROOT / "logs" / "council"
+LOGS_OLLAMA = REPO_ROOT / "logs" / "ollama-transcripts"
 
 # --- Ollama models (per CLAUDE.md installed list) ---
 OLLAMA_PROPOSERS = [
@@ -24,7 +28,9 @@ OLLAMA_EMBEDDER = "nomic-embed-text:latest"
 
 OLLAMA_BASE_URL = "http://localhost:11434"
 OLLAMA_LOCK_PATH = Path("/tmp/council-ollama.lock")
-OLLAMA_TIMEOUT_S = 180
+# 13B Q5 models on M1 can take 4+ minutes for a full scenario prompt.
+# 360s gives headroom; raise if timeouts keep firing on the real corpus.
+OLLAMA_TIMEOUT_S = 360
 OLLAMA_NUM_CTX = 16384
 OLLAMA_TEMP_DEFAULT = 0.3
 

@@ -1,0 +1,9 @@
+{
+  "global_round_counter": 0,
+  "resolved_model_ids": {
+    "opus": "claude-opus-4-7",
+    "sonnet": "claude-sonnet-4-6",
+    "haiku": "claude-haiku-4-5-20251001"
+  },
+  "scenarios": {}
+}
