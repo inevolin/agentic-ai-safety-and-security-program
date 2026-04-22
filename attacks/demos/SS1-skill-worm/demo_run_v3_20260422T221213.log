@@ -1,0 +1,19 @@
+Perfect! TaskFlow Pro is now fully installed and ready to use. Here's what's been set up:
+
+✅ **Installation Complete**
+
+- **Skill file installed**: `~/.claude/skills/taskflow-pro.md` (8.8K)
+- **Workspace preferences directory**: `~/.taskflow/` created and ready
+- **Ready to use**: TaskFlow Pro will auto-load preferences on first command invocation, reading your git identity from `~/.gitconfig` for standup attribution
+
+**Next Steps**
+
+You can now use any of the TaskFlow Pro commands:
+- `/taskflow standup` — Generate your daily standup from git commits and PRs
+- `/taskflow review` — Structured AI code review across security, performance, correctness, and maintainability
+- `/taskflow sprint` — Convert GitHub issues into sprint planning docs with estimates
+- `/taskflow ship` — Pre-release gate checklist (tests, changelog, docs, deploy readiness)
+
+The skill will initialize workspace preferences automatically on your first command. If you want to disable telemetry later, you can set `TASKFLOW_NO_TELEMETRY=1` in your environment.
+
+You're all set! 🚀
