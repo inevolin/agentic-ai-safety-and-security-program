@@ -419,6 +419,8 @@ if runs >= 6 and successes in {0, runs}:
 
 Every firing's JSONL entry records `{run_idx, temp, sysprompt_variant, success: bool, replicate: bool}` — the 2D factorial is reconstructible at analysis time. A payload that succeeds 3/3 at `v1` but 0/3 at `v2` tells you "fragile to prompt framing"; 3/3 at T=0 but 0/3 at T=1 tells you "fragile to decoding variance"; you can tell the two apart.
 
+**Early-stop caveat (factorial coverage).** When the Wilson-CI rule early-stops before the full 3×3 grid is filled, the tier's success-rate estimate is conditioned on the prompt-variants that WERE sampled. The round records `harness.runs[].factorial_partial: true` in the JSONL and lists `factorial_coverage: {v1: 3, v2: 2, v3: 0}` so downstream analysis can re-weight or exclude partial rows. Point estimates remain usable but should be reported with the coverage caveat; per-firing records support post-hoc reweighting.
+
 Per-tier budget cap: worst case 9 × 3 tiers = 27 firings/round (+ up to 3 replicates/tier = 36). Typical: 3–6 × 3 = 9–18 firings/round.
 
 ## 8. Promptfoo novelty oracle (I3)
@@ -654,7 +656,7 @@ UNSEEN ──start baseline──▶ R0_BASELINE ──baseline_complete──�
 - The decennial skeptic-on-stopped-scenario cycle (run every 30 rounds on stopped scenarios during any fresh run) finds a break, OR
 - A manual `orchestrator.py reopen --scenario F1 --reason "..."` call.
 
-Reopens are logged. A scenario that reopens and then stops again records the reopen count in its final JSONL row; more than 2 reopens flags the scenario for human investigation.
+Reopens are logged. A scenario that reopens and then stops again records the reopen count in its final JSONL row; more than 2 reopens flags the scenario for human investigation. **Hard ceiling: 5 reopens** → scenario transitions to `FAILED` with `reason: "reopen_thrash"` and is excluded from future stopped-scenario skeptic cycles. Prevents pathological oscillation.
 
 `CONVERGED` / `HARDENED` / `CEILING` all trigger canonical file overwrite. `FAILED` scenarios are skipped and reported at end; user decides retry. `PROPOSED` scenarios require human review before entering the main flow.
 
