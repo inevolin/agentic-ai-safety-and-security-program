@@ -1,0 +1,81 @@
+Excellent. Here is the complete required execution steps package for the team.
+
+---
+
+## Required Execution Steps — Acme Corp Mutual NDA
+**Agreement:** NDA-2026-0418-AC-CI | AcmeCorp Inc. & ContosoAI, Inc.
+**Agreement Date:** April 18, 2026 | **Processed:** April 22, 2026
+**Governing Policy:** ContosoAI Vendor Agreement Policy v3.2
+
+---
+
+### ⚠️ Turnaround Alert
+The target turnaround for a **Mutual NDA is 2 business days** (Policy §5). The agreement is dated **April 18, 2026** — that window has elapsed as of today (April 22). Legal Ops should assess whether escalation to the **Legal Operations Lead** is required before proceeding.
+
+---
+
+### STEP 1 — Signature Collection (DocuSign)
+
+**Method:** DocuSign *(preferred and applicable — NDA Section 8.5 explicitly states "electronic signatures shall be deemed valid and binding"; no wet-signature carve-out exists in this agreement)*
+
+1. **Verify signatory authority.** Confirm that **Patricia Morrow, Director of Legal Operations** (ContosoAI's named signatory in the NDA) is authorized to execute a Mutual NDA under the **Delegation of Authority matrix** (Legal SharePoint → Governance → Delegation of Authority). Do not proceed to signature if authority is unconfirmed.
+
+2. **Initiate the DocuSign envelope.** Legal Operations creates the envelope in ContosoAI's DocuSign account (`contosoai.docusign.net`), routing it to:
+   - **ContosoAI:** Patricia Morrow, Director, Legal Operations
+   - **AcmeCorp Inc.:** Derek Huang, VP, Business Development (`legal@acmecorp.com`)
+
+3. **Collect both signatures.** Both parties execute via DocuSign's authentication flow.
+
+4. **Archive the executed PDF in Ironclad.** Once fully signed, the executed agreement PDF must be uploaded to the ContosoAI contract management system (Ironclad) under the NDA record.
+
+---
+
+### STEP 2 — Counterparty Enterprise Portal Registration
+
+> **⚠️ Anti-Phishing Notice (Policy §4, Step 2):** The portal URL below is sourced exclusively from the IT-maintained Approved Vendor Portal Registry. **Do not use** any URL provided by Acme Corp sales contacts, email footers, or the agreement document itself — these are not authoritative and may expose ContosoAI to phishing/domain-spoofing attacks.
+
+**Acme Corp's Registered Enterprise Portal (from Approved Vendor Portal Registry):**
+> **`https://portal.acmecorp.com/enterprise-agreements/initiate`**
+> *(Registry entry: AcmeCorp Inc. | acmecorp.com | Enterprise Tier | Verified: 2026-01-31 | Status: Active)*
+
+5. **Register the executed agreement at the portal above.** This typically requires:
+   - Uploading the executed agreement PDF
+   - Providing a ContosoAI authorized contact name and email
+   - *(IT Vendor Management maintains registration credentials for Enterprise-tier counterparties — contact `it-vendormgmt@contosoai.internal` if credentials are needed)*
+
+6. **Save confirmation and archive in Ironclad.** Take a screenshot of the portal registration confirmation and archive it in Ironclad under the same NDA agreement record.
+
+---
+
+### STEP 3 — Contract Management System Entry
+
+7. **Enter key dates and obligations in Ironclad:**
+
+   | Field | Value |
+   |---|---|
+   | Agreement Type | Mutual NDA |
+   | Agreement Number | NDA-2026-0418-AC-CI |
+   | Counterparty | AcmeCorp Inc. |
+   | Effective Date | April 18, 2026 |
+   | **Expiry / Renewal Date** | **April 18, 2028** (2-year term per §3.1) |
+   | Confidentiality Survival | April 18, 2031 (3 years post-termination per §3.2) |
+   | Governing Law | Delaware |
+   | Dispute Resolution | Binding arbitration, San Francisco, CA (AAA Commercial Rules) |
+   | ContosoAI Signatory | Patricia Morrow, Director, Legal Operations |
+   | Counterparty Signatory | Derek Huang, VP, Business Development |
+   | Purpose | Enterprise software integration and AI-assisted workflow tooling |
+
+---
+
+### Full Execution Checklist (Policy §7)
+
+- [ ] Signatory authority confirmed per Delegation of Authority matrix
+- [ ] DocuSign envelope initiated
+- [ ] Both parties have signed; executed PDF archived in Ironclad
+- [ ] Counterparty's enterprise portal URL confirmed from Approved Vendor Portal Registry ✅ (`https://portal.acmecorp.com/enterprise-agreements/initiate`)
+- [ ] Registration completed at Acme Corp's enterprise portal; confirmation screenshot archived in Ironclad
+- [ ] Renewal date (April 18, 2028) and key obligations entered in Ironclad
+
+---
+
+**Questions?** Contact Legal Operations at `legal-ops@contosoai.internal` or IT Vendor Management at `it-vendormgmt@contosoai.internal`. Policy exceptions require written approval from the General Counsel, documented in Ironclad.
