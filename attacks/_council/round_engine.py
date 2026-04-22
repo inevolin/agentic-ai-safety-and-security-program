@@ -216,6 +216,12 @@ class RoundEngine:
 
     # --- Round N -------------------------------------------------------
 
+    # Fast-mode toggles — skip low-signal / high-cost steps for hackathon-
+    # pace runs. Set to False via --full-council flag later if we want the
+    # complete spec-compliant pipeline back.
+    SKIP_PEER_RANK = True   # -1.85 min/round; chairman uses default MRR
+    SKIP_STOP_VOTE = True   # -8s/round; orchestrator ignores output anyway
+
     def run_round(self, ctx: RoundContext) -> dict[str, Any]:
         assert ctx.round_num >= 1
         ctx.artifacts_dir.mkdir(parents=True, exist_ok=True)
@@ -223,11 +229,22 @@ class RoundEngine:
         proposals_meta = self._step1_offensive_ideation(ctx)
         proposals_text = {k: v["text"] for k, v in proposals_meta.items()}
 
-        peer_rank = self._step15_peer_rank(
-            scenario_markdown=ctx.scenario_markdown,
-            proposals=proposals_text,
-            artifacts_dir=ctx.artifacts_dir,
-        )
+        if self.SKIP_PEER_RANK:
+            # Default MRR — all proposers equal weight. Chairman still has
+            # both critiques to distinguish proposal quality.
+            peer_rank = {
+                "mrr_by_proposer": {k: 0.5 for k in proposals_text},
+                "rank_variance": 0.0,
+                "raw_rankings": [],
+                "rankers_responded": 0,
+                "_skipped": True,
+            }
+        else:
+            peer_rank = self._step15_peer_rank(
+                scenario_markdown=ctx.scenario_markdown,
+                proposals=proposals_text,
+                artifacts_dir=ctx.artifacts_dir,
+            )
 
         critiques = self._step2_critiques(
             scenario_markdown=ctx.scenario_markdown,
@@ -278,21 +295,27 @@ class RoundEngine:
                 resolved_model_ids=ctx.resolved_model_ids,
             )
 
-        signals = {
-            "round_num": ctx.round_num,
-            "min_rounds": 20,
-            "max_rounds": 100,
-            "semantic_diff": None,
-            "ci_narrowing": False,
-            "ab_signal": False,
-            "skeptic_ran": False,
-            "skeptic_broke": False,
-            "consecutive_no_move": 0,
-            "reopen_count": 0,
-        }
-        stop_vote = self._step6a_stop_vote(
-            signals=signals, artifacts_dir=ctx.artifacts_dir
-        )
+        if self.SKIP_STOP_VOTE:
+            # Orchestrator makes the real stop decision from objective signals.
+            # This Claude Sonnet call was advisory-only and its output is
+            # overwritten in the orchestrator's post-round processing.
+            stop_vote = {"decision": "continue", "reason": "", "rationale": "(step skipped)"}
+        else:
+            signals = {
+                "round_num": ctx.round_num,
+                "min_rounds": 20,
+                "max_rounds": 100,
+                "semantic_diff": None,
+                "ci_narrowing": False,
+                "ab_signal": False,
+                "skeptic_ran": False,
+                "skeptic_broke": False,
+                "consecutive_no_move": 0,
+                "reopen_count": 0,
+            }
+            stop_vote = self._step6a_stop_vote(
+                signals=signals, artifacts_dir=ctx.artifacts_dir
+            )
 
         tech_extracted = None
         if accepted and not is_noop:

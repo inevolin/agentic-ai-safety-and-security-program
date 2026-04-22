@@ -106,8 +106,8 @@ def test_run_round_executes_all_steps_in_order(
     ollama_responses.append(m)
     mocked_engine.ollama.generate.side_effect = ollama_responses
 
-    # Claude side-effects for: defender critique, chairman, reproducer,
-    # stop-vote, technique extractor = 5
+    # Claude side-effects with SKIP_STOP_VOTE=True:
+    # defender critique, chairman, reproducer, technique extractor = 4
     claude_responses = [
         MagicMock(
             stdout='{"A":{"realistic_2026":true,"already_covered":null,'
@@ -118,11 +118,11 @@ def test_run_round_executes_all_steps_in_order(
         ),
         MagicMock(
             stdout=(
+                '{"delta_score":0.25,"accepted_proposals":["A"],'
+                '"techniques_borrowed_this_round":[],"rationale":"r"}\n\n'
                 "### F99. Improved\n"
                 "RESEARCH ARTIFACT — do not execute\n"
-                "body\n\n"
-                '{"delta_score":0.25,"accepted_proposals":["A"],'
-                '"techniques_borrowed_this_round":[],"rationale":"r"}'
+                "body\n"
             ),
             stderr="", returncode=0,
         ),
@@ -131,10 +131,6 @@ def test_run_round_executes_all_steps_in_order(
                    '"score_against_promptfoo_only":0.7,'
                    '"score_against_all":0.5,"closest_technique_id":null,'
                    '"exceeds_reference":true}',
-            stderr="", returncode=0,
-        ),
-        MagicMock(
-            stdout='{"decision":"continue","reason":"","rationale":"moved"}',
             stderr="", returncode=0,
         ),
         MagicMock(
@@ -171,8 +167,12 @@ def test_run_round_executes_all_steps_in_order(
     assert record["chairman"]["delta_score"] == 0.25
     assert record["stop"]["decision"] == "continue"
     # 4 + 4 + 1 = 9 Ollama calls
-    assert mocked_engine.ollama.generate.call_count == 9
+    # With SKIP_PEER_RANK=True (default): 4 proposers + 1 local critic = 5
+    # (previously 9 with peer-rank: 4 proposers + 4 peer-rankers + 1 critic)
+    assert mocked_engine.ollama.generate.call_count == 5
     # 5 Claude calls
-    assert mocked_engine.claude.invoke.call_count == 5
+    # With SKIP_STOP_VOTE=True (default): 4 Claude calls instead of 5
+    # (defender critic, chairman, reproducer, technique extractor)
+    assert mocked_engine.claude.invoke.call_count == 4
     # RESEARCH ARTIFACT banner preserved
     assert "RESEARCH ARTIFACT" in record["chairman"]["draft"]

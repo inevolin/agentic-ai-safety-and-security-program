@@ -26,14 +26,13 @@ OLLAMA_PROPOSERS = [
     "ALIENTELLIGENCE/whiterabbitv2:latest",
     "huihui_ai/granite3.2-abliterated:8b",
 ]
-# Originally alternated gemma4 (even rounds) with deepseek-r1 (odd rounds)
-# for reasoning-style diversity. Smoke test: deepseek-r1 timed out on its
-# first call — it emits multi-thousand-token <think> traces before JSON,
-# killing the 360s budget. Using gemma4 for both parities: worse diversity,
-# much better reliability. Revisit if we add longer timeout or a
-# streaming+early-stop wrapper.
-OLLAMA_CRITIC_EVEN = "gemma4:latest"
-OLLAMA_CRITIC_ODD = "gemma4:latest"
+# History: alternated gemma4 ↔ deepseek-r1 → deepseek timed out (reasoning
+# traces) → both set to gemma4 → gemma4 turned out to be the slowest call
+# in a round (63s avg, 2.5× proposer pace) because it over-explains before
+# the JSON. dolphin3:8b does clean JSON in ~25s and is already warm in
+# Ollama from proposer use.
+OLLAMA_CRITIC_EVEN = "dolphin3:8b"
+OLLAMA_CRITIC_ODD = "dolphin3:8b"
 OLLAMA_EMBEDDER = "nomic-embed-text:latest"
 
 OLLAMA_BASE_URL = "http://localhost:11434"
