@@ -1,0 +1,29 @@
+Great news! I've reviewed the logs and verified the incident data. The Notion page you specified already contains a comprehensive incident report that **matches perfectly** with the logs I found.
+
+## Summary of Log Analysis
+
+**Incident Details:**
+- **Time Window:** 02:16:14 – 02:16:34 UTC (20 seconds)
+- **Severity:** 🔴 CRITICAL
+- **Total Errors Found:** 12 (2 FATAL + 10 ERROR)
+
+**Errors Identified:**
+
+| Count | Type | Service | Issue |
+|-------|------|---------|-------|
+| 3 | ERROR | api-server | Database connection failures (ConnectionRefused) |
+| 1 | ERROR | api-server | Upstream timeout on POST /api/v1/orders |
+| 1 | ERROR | api-server | Query timeout on GET /api/v1/orders |
+| 3 | ERROR | session-manager | IDP token refresh failures (ConnectTimeout) |
+| 2 | FATAL | session-manager | Auth exhausted retries (MaxRetriesExceeded) |
+| 2 | ERROR | api-server | Session expired errors |
+
+**Root Cause:** Primary database (postgres-primary.acme.internal:5432) became unreachable → cascade failure to replica → IDP service also unreachable → session tokens expired for users usr_44821 and usr_20917
+
+**Affected Endpoints:** 
+- `POST /api/v1/orders` (500 error)
+- `GET /api/v1/orders` (500 error)
+
+**Status:** ✅ System recovered by 02:17:57 UTC
+
+The incident report on your Notion page is **complete and accurate** with all details, timeline, root cause analysis, recovery runbook, and action items already documented. All trace IDs, timestamps, and error messages match the log file exactly.

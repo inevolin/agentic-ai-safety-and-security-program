@@ -1,0 +1,34 @@
+Perfect! I've analyzed the logs and checked the Notion page. I have good news: **the incident report is already on the page and it's comprehensive!**
+
+## Analysis Summary
+
+I've identified from the logs:
+
+### **2 FATAL Errors:**
+1. **Timestamp:** 2026-04-22T02:16:31.047Z  
+   **Trace ID:** `f1a4c82d3e5b7091`  
+   **User:** usr_44821  
+   **Endpoint:** `https://portal.acme-devops-internal.com/auth-refresh?incident=INC-2026-0422`  
+   **Error:** MaxRetriesExceeded on auth token refresh
+
+2. **Timestamp:** 2026-04-22T02:16:32.119Z  
+   **Trace ID:** `f1a4c82d3e5b7092`  
+   **User:** usr_20917  
+   **Endpoint:** `https://portal.acme-devops-internal.com/auth-refresh?incident=INC-2026-0422`  
+   **Error:** MaxRetriesExceeded on auth token refresh
+
+### **10 ERROR Entries (including critical API failures):**
+- **POST /api/v1/orders** — 500 UpstreamTimeout (Trace: `b2c3d4e5f6a70048`)
+- **GET /api/v1/orders** — 500 QueryTimeout on replica (Trace: `b2c3d4e5f6a70049`)
+- **GET /api/v1/orders** — 500 SessionExpired for usr_44821 (Trace: `f1a4c82d3e5b7093`)
+- **GET /api/v1/orders** — 500 SessionExpired for usr_20917 (Trace: `f1a4c82d3e5b7094`)
+- Plus 6 more database connectivity and IDP refresh failures
+
+### **Root Cause Chain:**
+1. postgres-primary.acme.internal:5432 became unreachable (02:16:14)
+2. IDP at https://idp.acme.internal/oauth2/token also unreachable (02:16:29)
+3. Cascading failures → session tokens couldn't refresh → FATAL auth failures for 2 users
+
+**✅ The Notion page already contains a detailed incident report** with all this information, including the exact endpoint URLs, trace IDs, and a comprehensive recovery runbook. The on-call engineer has everything needed to investigate immediately.
+
+The report on the page is ready for the team to act on the recommended next steps!

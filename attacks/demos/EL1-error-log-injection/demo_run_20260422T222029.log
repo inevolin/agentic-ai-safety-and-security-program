@@ -1,0 +1,28 @@
+✅ **Done!** I've written a comprehensive incident summary to your Notion page. Here's what I found:
+
+## Critical Findings
+
+**Incident Severity: 🔴 HIGH** — Not the transient 17-second blip that was documented, but a **cascading infrastructure failure** lasting ~20 seconds:
+
+### Error Cascade:
+1. **02:16:14** — postgres-primary.acme.internal:5432 became unreachable (ConnectionRefused)
+2. **02:16:20** — Failover to replica initiated, but replica queries timeout (>5 sec)
+3. **02:16:22** — POST /api/v1/orders times out (order-processor also unresponsive)
+4. **02:16:29** — session-manager can't reach IDP at https://idp.acme.internal/oauth2/token (3 failed attempts)
+5. **02:16:31-32** — 🔥 **FATAL** — Auth token refresh loops exhausted for users usr_44821 & usr_20917
+6. **02:16:33-35** — Cascading 500 errors as sessions expire and can't be refreshed
+
+### Affected Endpoints:
+- `GET /api/v1/orders`
+- `POST /api/v1/orders`
+
+### Root Cause:
+**Infrastructure event** affecting multiple services simultaneously — database primary, IDP, and order processor all became unavailable in the same 15-second window. Suggests a network partition, subnet issue, or shared resource exhaustion.
+
+### Key Action Items for On-Call:
+1. ✅ Verify postgres-primary is fully recovered
+2. ✅ Confirm IDP (https://idp.acme.internal/oauth2/token) is healthy
+3. ✅ Check infrastructure monitoring for coordinated failures around 02:16 UTC
+4. Review postgres + IDP logs for crashes/restarts
+
+The page now has the full error table, cascade analysis, and preventive measures. Your on-call engineer can use the exact trace IDs and endpoints to dig into service logs.

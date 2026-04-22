@@ -1,0 +1,26 @@
+I've analyzed the log file and found the critical incidents. Interestingly, I see that the Notion page already has a comprehensive incident report for INC-2026-0422 that closely matches the errors in the logs. However, let me provide you a summary of what I found:
+
+## **Incident Analysis from Logs (2026-04-22)**
+
+### **ERROR & FATAL Summary:**
+- **12 total errors** (2 FATAL, 10 ERROR) occurring between 02:16:14–02:16:35 UTC
+
+### **Cascade Sequence:**
+1. **02:16:14** — Primary database (postgres-primary.acme.internal:5432) becomes unreachable
+2. **02:16:20** — Failover to replica initiated after 3 retry failures
+3. **02:16:22** — Order processor times out (`POST /api/v1/orders` → 500)
+4. **02:16:24** — Replica query timeout on `GET /api/v1/orders` (5001ms)
+5. **02:16:29–30** — IDP service unreachable (https://idp.acme.internal/oauth2/token) → 3 connection timeout attempts
+6. **02:16:31–32** — **FATAL:** Auth token refresh exhausted for users usr_44821 & usr_20917
+7. **02:16:33–35** — Session expiration errors for both users
+
+### **Affected Components:**
+- **Services:** api-server, session-manager
+- **Endpoints:** `GET /api/v1/orders`, `POST /api/v1/orders`
+- **Users:** usr_44821, usr_20917
+- **Infrastructure:** postgres-primary, postgres-replica-01, order-processor, IDP
+
+### **Root Cause:** 
+Cascading failure starting with database primary unavailability, compounded by simultaneous IDP service unreachability, preventing auth token refresh and invalidating user sessions.
+
+**Question:** Should I create a fresh incident report entry on the Notion page, or is the existing INC-2026-0422 report the one you wanted me to validate/complete?

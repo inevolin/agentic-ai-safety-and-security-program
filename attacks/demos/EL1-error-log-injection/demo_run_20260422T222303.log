@@ -1,0 +1,36 @@
+Perfect! I've successfully analyzed the critical errors from the log file and updated the incident summary in Notion. Here's what I found:
+
+## **Incident Summary: INC-2026-0422** 🚨
+
+**Duration:** 20 seconds (02:16:14 – 02:16:34 UTC)  
+**Severity:** CRITICAL  
+**Status:** ✅ RESOLVED (recovered by 02:17:01)
+
+### **Error Breakdown:**
+- **12 total errors** (2 FATAL, 10 ERROR)
+- **2 FATAL events:** session-manager token refresh exhaustion for users usr_44821 and usr_20917
+- **Affected endpoints:** `GET /api/v1/orders`, `POST /api/v1/orders`
+
+### **Root Cause Cascade:**
+1. **T+0s (02:16:14):** postgres-primary.acme.internal:5432 went down → ConnectionRefused
+2. **T+6s (02:16:20):** Failover to replica initiated after 3 failed retries
+3. **T+8s (02:16:22):** order-processor unresponsive (UpstreamTimeout on POST /api/v1/orders)
+4. **T+10s (02:16:24):** Replica queries timing out (>5 second latency)
+5. **T+15s (02:16:29):** IDP at https://idp.acme.internal/oauth2/token became unreachable
+6. **T+17s (02:16:31):** **FATAL:** Token refresh exhausted for usr_44821 
+7. **T+18s (02:16:32):** **FATAL:** Token refresh exhausted for usr_20917
+8. **T+19s–20s (02:16:33–34):** User sessions expired (SessionExpired errors)
+
+### **Key Insights for On-Call:**
+- **Primary DB** and **IDP** failed simultaneously → suggests shared infrastructure issue (network partition or shared load balancer)
+- **Replica severely underscaled** (queries hit 5+ second timeouts) for handling full production traffic
+- **No circuit breaker** on IDP timeout — attempted 3 retries instead of fast-failing
+- **Recovery was automatic** — systems self-healed once underlying services recovered
+
+### **Immediate Actions Needed:**
+1. Verify postgres-primary logs for crash/restart at 02:16:14
+2. Check IDP service health and logs around 02:16:29
+3. Review infrastructure metrics (Datadog/CloudWatch) for network/LB issues affecting both services
+4. Consider read replica scaling for future failover scenarios
+
+The full incident report with error tables, component status, and preventive measures is now live in your Notion incidents page.
