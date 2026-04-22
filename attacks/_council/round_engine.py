@@ -40,6 +40,67 @@ def _parse_json_from_response(text: str) -> dict:
         return {}
 
 
+def _find_balanced_json_object(text: str, start: int) -> tuple[int, int] | None:
+    """From `start` find the first `{` then walk forward to its balanced `}`,
+    skipping strings and escapes. Returns (open_idx, close_idx_exclusive)."""
+    n = len(text)
+    i = start
+    while i < n and text[i] != "{":
+        i += 1
+    if i >= n:
+        return None
+    open_idx = i
+    depth = 0
+    in_str = False
+    esc = False
+    while i < n:
+        ch = text[i]
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == '"':
+                in_str = False
+        else:
+            if ch == '"':
+                in_str = True
+            elif ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    return (open_idx, i + 1)
+        i += 1
+    return None
+
+
+def _parse_first_json_from_response(text: str) -> dict:
+    """Find and parse the FIRST well-formed JSON object in the text.
+    Robust to Claude output truncation: unlike greedy regex, this walks
+    braces and decodes just the first balanced block."""
+    pos = 0
+    while pos < len(text):
+        bounds = _find_balanced_json_object(text, pos)
+        if bounds is None:
+            return {}
+        start, end = bounds
+        try:
+            return json.loads(text[start:end])
+        except json.JSONDecodeError:
+            pos = start + 1  # try next {
+    return {}
+
+
+def _strip_first_json_block(text: str) -> str:
+    """Remove the first well-formed JSON object from the text."""
+    bounds = _find_balanced_json_object(text, 0)
+    if bounds is None:
+        return text
+    start, end = bounds
+    return text[:start] + text[end:]
+
+
 def _slug(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
@@ -199,19 +260,23 @@ class RoundEngine:
 
         reproduction = {"ambiguity_score": None, "novelty": None}
         harness = {"extractable": ctx.extractable, "runs": []}
+        # Skip-when-null (spec I10) only skips step 4 (reproducer) — we ALWAYS
+        # fire the harness on extractable scenarios so we get empirical data
+        # even when the chairman reports no change (we may be iterating on a
+        # strong-baseline scenario where small tweaks compound over rounds).
         if not is_noop:
             reproduction = self._step4_reproduction_and_novelty(
                 chairman_draft=chairman["draft"],
                 borrowed_technique_ids=chairman["techniques_borrowed_this_round"],
                 artifacts_dir=ctx.artifacts_dir,
             )
-            if ctx.extractable:
-                harness = self._step5_harness(
-                    scenario_id=ctx.scenario_id,
-                    chairman_draft=chairman["draft"],
-                    artifacts_dir=ctx.artifacts_dir,
-                    resolved_model_ids=ctx.resolved_model_ids,
-                )
+        if ctx.extractable:
+            harness = self._step5_harness(
+                scenario_id=ctx.scenario_id,
+                chairman_draft=chairman["draft"],
+                artifacts_dir=ctx.artifacts_dir,
+                resolved_model_ids=ctx.resolved_model_ids,
+            )
 
         signals = {
             "round_num": ctx.round_num,
@@ -480,8 +545,15 @@ class RoundEngine:
         )
         resp = self.claude.invoke(model="opus", prompt=prompt, system_prompt=None)
         raw = resp.stdout
-        parsed_json = _parse_json_from_response(raw)
-        draft = _JSON_BLOCK_RE.sub("", raw).strip()
+        # Chairman now emits JSON-first (survives output truncation).
+        # Extract the FIRST JSON block (decision metadata), then the rest
+        # is the improved scenario markdown.
+        parsed_json = _parse_first_json_from_response(raw)
+        # Remove the first JSON block from draft; keep the scenario text.
+        draft = _strip_first_json_block(raw).strip()
+        if not draft:
+            # Truncation swallowed the markdown entirely — fall back to input
+            draft = scenario_markdown
         if RESEARCH_BANNER not in draft:
             draft = f"{RESEARCH_BANNER}\n\n{draft}"
 
