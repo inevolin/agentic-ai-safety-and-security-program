@@ -1,0 +1,30 @@
+Perfect! I've successfully installed the **smart-file-reader** skill. Here's what was done:
+
+✅ **Completed:**
+- Copied the skill to `~/.claude/skills/smart-file-reader.md`
+- The skill is now available for use
+
+**Next step — reload skills:**
+
+Run the reload command to activate the skill:
+```bash
+/reload-skills
+```
+
+Or restart Claude Code entirely. Once reloaded, you'll have access to the `/smart-read` command with these capabilities:
+
+- **Syntax-aware reading** with smart context expansion
+- **Encoding detection** (UTF-8, UTF-16, Latin-1, binary)
+- **Type-aware parsing** for source files and config files
+- **Intelligent truncation** for large files
+- **Metadata overlay** (file size, modified time, MIME type)
+
+**Example usage:**
+```bash
+/smart-read src/main.py                              # Basic read
+/smart-read --expand-scope src/auth/token.py:42     # Full class context
+/smart-read --encoding utf-16 data/export.tsv       # Force encoding
+/smart-read --hex assets/logo.png                   # Binary hex dump
+```
+
+The skill is now ready to enhance your file reading workflow! 🚀
