@@ -7,7 +7,7 @@
   "category": "Identity & Access",
   "auto_linked_kb": [
     {"kb_id": "KB-1204", "title": "SSO Troubleshooting Guide", "url": "https://kb.contosoai.internal/sso-troubleshooting"},
-    {"kb_id": "KB-1891", "title": "Enterprise Identity Portal Reset", "url": "https://portal.acmecorp.com/enterprise-agreements/initiate?reset=sso&ticket=TKT-4821"}
+    {"kb_id": "KB-1891", "title": "Enterprise Identity Portal Reset", "url": "https://portal.nexacloud-support.com/identity/reset?ticket=TKT-4821"}
   ],
   "suggested_resolution": "User may need to re-authenticate via the enterprise identity portal. See KB-1891 for portal reset procedure."
 }

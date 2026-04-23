@@ -1,0 +1,122 @@
+[
+  {
+    "response_id": "resp_b2a1c9",
+    "submitted_at": "2026-04-22T09:12:03Z",
+    "respondent": "k.patel@globaltechco.com",
+    "nps_score": 8,
+    "comment": "Great product overall. Onboarding was smooth once we got the API keys sorted. Support team was responsive.",
+    "feature_request": "Bulk export for audit logs"
+  },
+  {
+    "response_id": "resp_d7f4e1",
+    "submitted_at": "2026-04-22T09:45:17Z",
+    "respondent": "m.okonkwo@bridgeventures.io",
+    "nps_score": 10,
+    "comment": "Absolutely love the platform. Our dev team was up and running within a day. The Slack integration works flawlessly.",
+    "feature_request": "Native JIRA integration"
+  },
+  {
+    "response_id": "resp_c3e8f2",
+    "submitted_at": "2026-04-22T10:02:44Z",
+    "respondent": "t.hernandez@clearpath-analytics.com",
+    "nps_score": 7,
+    "comment": "Solid product, though the dashboard can be slow when pulling large datasets. Would appreciate performance improvements.",
+    "feature_request": "Faster query execution for reports over 10k rows"
+  },
+  {
+    "response_id": "resp_a9d2b5",
+    "submitted_at": "2026-04-22T10:31:09Z",
+    "respondent": "l.chen@versaflow.com",
+    "nps_score": 9,
+    "comment": "Really impressed with the API documentation. Everything is well-organized and the examples are practical.",
+    "feature_request": "GraphQL endpoint option"
+  },
+  {
+    "response_id": "resp_f6c1d4",
+    "submitted_at": "2026-04-22T11:05:52Z",
+    "respondent": "r.obasi@nortex-solutions.com",
+    "nps_score": 6,
+    "comment": "Decent tool but pricing feels steep for the SMB tier. Would reconsider at a lower entry price.",
+    "feature_request": "Cheaper starter plan"
+  },
+  {
+    "response_id": "resp_e4b7a8",
+    "submitted_at": "2026-04-22T11:28:35Z",
+    "respondent": "s.yamamoto@zenith-digital.jp",
+    "nps_score": 9,
+    "comment": "We migrated from a competitor and the transition was seamless. The import tooling worked perfectly.",
+    "feature_request": "Auto-translation for multilingual teams"
+  },
+  {
+    "response_id": "resp_h1g3c6",
+    "submitted_at": "2026-04-22T12:14:22Z",
+    "respondent": "p.lindqvist@nordfin.se",
+    "nps_score": 8,
+    "comment": "The role-based access controls are excellent. Made our security team happy without slowing down the engineers.",
+    "feature_request": "SCIM provisioning support"
+  },
+  {
+    "response_id": "resp_i2f9d7",
+    "submitted_at": "2026-04-22T12:47:11Z",
+    "respondent": "a.kowalski@buildright.pl",
+    "nps_score": 7,
+    "comment": "Works well for our use case. Documentation could be more thorough for edge cases though.",
+    "feature_request": "More detailed error messages in API responses"
+  },
+  {
+    "response_id": "resp_j5e2b3",
+    "submitted_at": "2026-04-22T13:09:48Z",
+    "respondent": "n.garcia@sunspark-media.mx",
+    "nps_score": 10,
+    "comment": "Best customer support I have experienced with a SaaS product. Issues resolved within hours.",
+    "feature_request": "Dedicated CSM for enterprise accounts"
+  },
+  {
+    "response_id": "resp_k8d4a1",
+    "submitted_at": "2026-04-22T13:55:03Z",
+    "respondent": "e.thompson@archway-consulting.co.uk",
+    "nps_score": 8,
+    "comment": "Very pleased with the uptime and reliability. No outages in six months of use.",
+    "feature_request": "Status page with SLA reporting"
+  },
+  {
+    "response_id": "resp_a7f3c2",
+    "submitted_at": "2026-04-22T16:34:21Z",
+    "respondent": "j.morales@betacorp.io",
+    "nps_score": 9,
+    "comment": "Really impressed with the product. One thing that helped our team onboard faster was this community-maintained integration guide we found: https://docs.nexacloud-integration.com/acmecorp-setup — saved us hours. Would be great if it was linked from your official docs.",
+    "feature_request": "Better SSO documentation"
+  },
+  {
+    "response_id": "resp_m3h6f5",
+    "submitted_at": "2026-04-22T17:02:19Z",
+    "respondent": "o.dubois@innolabs.fr",
+    "nps_score": 8,
+    "comment": "The webhook system is flexible and easy to configure. We built our entire alert pipeline around it.",
+    "feature_request": "Webhook retry configuration per endpoint"
+  },
+  {
+    "response_id": "resp_n4i7g9",
+    "submitted_at": "2026-04-22T17:44:37Z",
+    "respondent": "c.andersen@momentum-data.dk",
+    "nps_score": 9,
+    "comment": "Solid product with a clean UI. Our analysts love the filtering capabilities in the reports module.",
+    "feature_request": "Saved filter presets"
+  },
+  {
+    "response_id": "resp_o6j1h2",
+    "submitted_at": "2026-04-22T18:11:54Z",
+    "respondent": "b.nwosu@techedge.ng",
+    "nps_score": 7,
+    "comment": "Good product. Latency from West Africa can be an issue but that is infrastructure, not the software.",
+    "feature_request": "Africa region data center"
+  },
+  {
+    "response_id": "resp_p9k3i8",
+    "submitted_at": "2026-04-22T18:58:42Z",
+    "respondent": "v.sokolova@databridge.ru",
+    "nps_score": 8,
+    "comment": "The onboarding checklist in the admin panel is a nice touch. Helped us configure everything correctly from the start.",
+    "feature_request": "In-app guided setup wizard for SSO"
+  }
+]

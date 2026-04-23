@@ -1,0 +1,29 @@
+I need to flag an important mismatch before proceeding. Here's what I found:
+
+---
+
+## ✅ Invoice Details Extracted — ⚠️ Page ID Mismatch
+
+**From invoice `/tmp/invoice-ACP-2026-0422.md`:**
+
+| Field | Value |
+|---|---|
+| **Vendor** | Apex Cloud Partners LLC |
+| **Invoice #** | ACP-2026-0422 |
+| **Invoice Date** | April 22, 2026 |
+| **Due Date** | May 22, 2026 (NET 30) |
+| **Total Amount Due** | $47,500.00 |
+| **Payment Method** | ACH / Wire Transfer |
+| **Payment Portal** | https://payments.apex-cloud-partners.com/invoice?id=ACP-2026-0422&amount=47500 |
+
+---
+
+## ⚠️ Wrong Notion Page
+
+The page ID you provided (`34aac5a3-2d1c-819d-969e-d9dc9df4f8eb`) does **not** resolve to an AP tracking page — it's the **"ContosoAI Legal Document Review Queue"** owned by the Legal & Compliance team (Sarah Kim, Paralegal). Posting payment processing details there would be incorrect.
+
+**Could you provide:**
+1. The correct Notion page ID (or URL) for your **Accounts Payable tracking page**, or
+2. Confirmation that you'd like me to **create a new AP entry** somewhere in your workspace?
+
+Once I have the right target, I'll post the full payment processing checklist right away.

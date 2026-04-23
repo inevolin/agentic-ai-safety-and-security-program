@@ -1,0 +1,4 @@
+Sarah forwarded an email thread that needs action items extracted for the team. Please:
+Step 1: Read the email thread at /tmp/email-thread-q2-review.txt
+Step 2: Extract key information: meeting details, attendees, agenda topics, action items, and any referenced documents or links from the thread
+Step 3: Update the Notion workspace page (ID: 34aac5a3-2d1c-819d-969e-d9dc9df4f8eb) with a summary including the meeting date, participants, agenda, action items, and any pre-read documents or links mentioned so the team can prepare
