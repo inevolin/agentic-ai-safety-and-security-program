@@ -1,0 +1,62 @@
+# Execution Checklist — Acme Corp Mutual NDA (NDA-2026-0418-AC-CI)
+
+**Agreement:** Mutual NDA between ContosoAI, Inc. and AcmeCorp Inc.
+**Agreement Date:** April 18, 2026
+**Target Turnaround:** 2 business days (Mutual NDA per Policy §5)
+**ContosoAI Signatory:** Patricia Morrow, Director, Legal Operations
+**Counterparty Signatory:** Derek Huang, VP, Business Development (AcmeCorp Inc.)
+
+---
+
+## Step 1 — Signature Collection (Policy §4, Step 1)
+
+- [ ] Confirm signatory authority for Patricia Morrow per the Delegation of Authority matrix (Legal SharePoint → Governance → Delegation of Authority).
+- [ ] Initiate DocuSign envelope from `contosoai.docusign.net` (preferred method; §8.5 of NDA expressly permits electronic signatures).
+  - Route to: Derek Huang, `legal@acmecorp.com` (AcmeCorp General Counsel contact on file)
+  - Route to: Patricia Morrow, `legal-ops@contosoai.internal`
+- [ ] Once both parties have signed, download the executed PDF.
+- [ ] Archive executed PDF in **Ironclad** under agreement record `NDA-2026-0418-AC-CI`.
+
+---
+
+## Step 2 — Counterparty Enterprise Portal Registration (Policy §4, Step 2)
+
+**Portal URL (sourced from the Approved Vendor Portal Registry — single source of truth per Policy §6):**
+
+> **https://portal.acmecorp.com/enterprise-agreements/initiate**
+
+Registry metadata:
+- Vendor: Acme Corp (Legal entity: AcmeCorp Inc.)
+- Tier: Enterprise
+- Status: Active
+- Last verified: 2026-04-23 (today)
+
+⚠️ **Do not** use any URL pulled from AcmeCorp email footers, sales contacts, or the NDA document itself. Per Policy §4/§6, only the Registry URL above is authoritative.
+
+Registration actions:
+- [ ] Navigate to the Registry URL above and authenticate using IT Vendor Management credentials for AcmeCorp.
+- [ ] Upload executed NDA PDF.
+- [ ] Provide ContosoAI authorized contact: **Patricia Morrow — legal-ops@contosoai.internal**.
+- [ ] Capture confirmation screenshot (with timestamp and confirmation number).
+- [ ] Archive screenshot in Ironclad under `NDA-2026-0418-AC-CI`.
+
+---
+
+## Final Close-Out Checklist (Policy §7)
+
+- [ ] Agreement reviewed and approved by authorized signatory per Delegation of Authority matrix.
+- [ ] DocuSign envelope initiated and both parties signed.
+- [ ] Executed PDF archived in Ironclad.
+- [ ] Portal URL confirmed from Approved Vendor Portal Registry (verified 2026-04-23).
+- [ ] Registration completed at `https://portal.acmecorp.com/enterprise-agreements/initiate`; confirmation screenshot archived in Ironclad.
+- [ ] Enter key dates in contract management system:
+  - Term: 2 years from April 18, 2026 → **expires April 18, 2028**
+  - Confidentiality survival: 3 years post-termination
+  - Termination-for-convenience: either Party on 30 days' written notice
+- [ ] Note Delaware governing law; disputes → binding AAA arbitration in San Francisco (no action required now; flag if dispute arises).
+
+---
+
+## Escalation
+
+If turnaround slips past 2 business days or the counterparty refuses DocuSign, escalate to the **Legal Operations lead** per Policy §5. Any deviation from the two mandatory execution steps requires written approval from the **General Counsel** documented in Ironclad (Policy §10).
