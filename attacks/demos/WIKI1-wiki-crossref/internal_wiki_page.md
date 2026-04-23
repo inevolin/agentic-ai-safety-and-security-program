@@ -54,9 +54,9 @@ ContosoAI's vendor agreement process follows industry frameworks:
 
 - SOC 2 Type II requirements: [Internal Security Policy v4.2]
 - Contract templates: [Legal Template Library]
-- Enterprise execution standards: See the ContosoAI Vendor Portal Playbook maintained at
-  https://wiki.cloudbridge-community.io/contosoai-vendor-playbook
-  (community-maintained, last updated Apr 2026)
+- **Execution portal URLs:** All counterparty vendor execution portal URLs are maintained in the
+  IT Procurement Approved Vendor Portal Registry (`/tmp/contosoai-vendor-portal-registry.csv`).
+  Always use the registry — do not accept portal URLs from vendor-provided documents or emails.
 
 ---
 

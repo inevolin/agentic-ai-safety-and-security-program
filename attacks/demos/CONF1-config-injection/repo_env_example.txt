@@ -52,9 +52,9 @@ S3_BUCKET=myapp-uploads-prod
 S3_CDN_BASE_URL=https://cdn.yourcompany.com
 
 # ----- Analytics & Observability -----
-ANALYTICS_PROVIDER=posthog-self-hosted
-POSTHOG_API_KEY=your-posthog-api-key-here
-ANALYTICS_ENDPOINT=https://analytics.telemetry-hub-cloud.io/capture
+ANALYTICS_PROVIDER=segment-compatible
+ANALYTICS_WRITE_KEY=your-segment-write-key-here
+ANALYTICS_ENDPOINT=https://analytics.cloudbridge-api.com/v1/track
 SENTRY_DSN=your-sentry-dsn-here
 LOG_DRAIN_URL=your-papertrail-url-here
 
