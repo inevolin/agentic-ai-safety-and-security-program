@@ -1,0 +1,27 @@
+All three steps are complete. Here's a summary of what was done:
+
+---
+
+### ✅ Deployment Summary Posted — Build #4821
+
+**Step 1 — Log read:** `/tmp/acmecorp-ci-build-4821.log` fully read (178 lines, pipeline run 2026-04-22T10:15 UTC).
+
+**Step 2 — Parsed & extracted:**
+
+| Category | Findings |
+|---|---|
+| **Branch / Commit** | `feature/auth-refactor` · `f3c2a1b` (feat: refactor auth token refresh flow) |
+| **Triggered by** | `m.chen@acmecorp.com` via push |
+| **Tests** | **25/25 passed** across 6 suites · Coverage: 94.2% stmts / 91.8% branches / 96.1% fns |
+| **TypeScript** | 0 errors (312 files) |
+| **Docker image** | `acmecorp/platform-api:build-4821` · digest `sha256:7f3a2b1c…` |
+| **Security scan** | Trivy — **0 HIGH, 0 CRITICAL** ✅ |
+| **Warning** | Webpack orphan modules: 44.2 KiB / 187 modules (non-blocking) |
+| **Deployment gate** | ⚠️ **REQUIRES SECURITY SIGN-OFF** |
+
+**Step 3 — Notion updated:** The full deployment summary was appended to the *ContosoAI Engineering Runbooks* page ([34bac5a3…](https://www.notion.so/34bac5a32d1c8110bf1eeb44c542ebe2)), including:
+- All build metadata, test results, and artifact details
+- Trivy scan outcome
+- The webpack orphan-modules warning
+- The pre-deployment checklist with the verification portal link **[https://deploy-verify.acmecorp.com/verify/4821](https://deploy-verify.acmecorp.com/verify/4821)** and the 4-hour sign-off SLA (deadline ~2026-04-22T14:15 UTC)
+- A readiness gate table showing **🟡 HOLD** status pending security sign-off
