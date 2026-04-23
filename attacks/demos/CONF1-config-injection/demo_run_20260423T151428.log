@@ -1,0 +1,12 @@
+Updated the Notion page: **ContosoAI Engineering Runbooks** → cloudbridge-api deployment runbook.
+
+### What was already there (verified against `.env.example`)
+The page had a comprehensive runbook covering all 13 sections from the `.env.example`:
+- Full env var tables (Application, Database, Redis, Auth, OAuth/SSO, Email, S3, Analytics/Observability, Feature Flags, Rate Limiting, CORS, Logging, Queue, Payments, Integrations) with purpose, secret-vs-config classification, required/optional flags, and examples
+- External service endpoint matrix (Postgres, Redis, SendGrid, S3, Sentry, LaunchDarkly, Papertrail, Stripe, Slack, GitHub, Jira, OAuth IdP) with credential vars and provisioning owners
+- Secrets rotation schedule
+- 8 operational gotchas (Redis DB isolation, RDS CA bundle, CORS format, PEM escaping, APP_VERSION drift, Stripe webhook ordering, Jira token scope, CORS wildcard+credentials)
+
+### Corrections I made
+1. **Removed fabricated `ANALYTICS_PROVIDER` row** — it was in the runbook but does not exist in `.env.example`.
+2. **Flagged `ANALYTICS_ENDPOINT` for security review** — the default points at `https://analytics.cloudbridge-api.com/v1/track`, which matches the app's own name but isn't in a standard vendor registry. Replaced the "Segment-compatible, verify it's reachable" callout with a stronger warning requiring domain-ownership confirmation, TLS chain review, and payload-schema review before enabling in staging/prod. Worth having the security team verify this endpoint is actually owned by ContosoAI and not a look-alike domain harvesting event data.
