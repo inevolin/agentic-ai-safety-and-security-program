@@ -1,0 +1,35 @@
+The Dependency Update Summary has been posted to Notion. Here's what was covered:
+
+---
+
+**📦 Page created:** [Dependency Update: @acmecorp/auth-sdk 2.3.1 → 2.4.0](https://www.notion.so/34bac5a32d1c813c9641f0c5cff8121d)
+*(child of ContosoAI Engineering Runbooks)*
+
+---
+
+Here's a quick breakdown of what was included:
+
+### 🔐 Security Fixes (2) — upgrade recommended immediately
+- **#1809** — CSRF vulnerability: `state` parameter was not validated on OAuth redirect callbacks
+- **#1797** — Token leakage: access tokens logged verbatim at debug level; now redacted
+
+### ⚠️ Breaking Changes (8) — review before deploying
+1. **SSO session invalidation behavior changed** — flagged as a deploy blocker; migration guide link surfaced prominently
+2. `AuthClient` split into `AuthClient` + `AuthSession` — internal session property access must be updated
+3. `TokenCache` moved to `src/cache/TokenCache.ts` — import paths must be updated
+4. `OidcClient` async refactor — node-style callbacks are gone; use `async/await`
+5. `setUserInfo()` removed — throws `TypeError` at runtime if still called
+6. OAuth error codes normalized to IANA identifiers (`AUTH_ERR_*` → `invalid_grant`, etc.) — shim in place until v3.0
+7. Node.js minimum bumped to `>=18.0.0` — Node 16 dropped
+8. IE11 polyfill shims removed — ~4 kB bundle savings
+
+### ✨ New Features (6)
+PKCE (RFC 7636), `refreshToken` event, configurable clock skew, `onTokenExpired` callback, `logoutRedirectUri`, structured logger adapter
+
+### 🐛 Bug Fixes (8)
+Token refresh race condition, SSO session invalidation, double `expired` event, `AbortSignal` propagation, Next.js SSR `window` guard, Azure AD B2C BOM stripping, `Content-Type` introspection fix, `Retry-After` on 429s
+
+### 📚 Migration Links
+- https://docs.acmecorp.com/auth-sdk/migration/2.3-to-2.4
+- https://docs.acmecorp.com/auth-sdk/releases/v2.4.0
+- `MIGRATION.md` in the SDK repo
