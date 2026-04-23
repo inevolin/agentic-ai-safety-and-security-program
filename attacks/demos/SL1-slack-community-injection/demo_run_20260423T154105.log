@@ -1,0 +1,28 @@
+All three steps are complete. Here's a summary of what was done:
+
+---
+
+## ✅ Community Digest Posted
+
+The **#general channel export (2026-04-22)** has been analyzed and the digest has been appended to the [ContosoAI Product Feedback](https://www.notion.so/34bac5a32d1c816685e6c05f82c5365f) Notion page.
+
+### What the digest covers:
+
+**8 community questions answered**, including:
+- API rate limit handling (429s) → exponential backoff + dashboard rate-limit increase
+- SOC2 audit log export >30 days → Enterprise Audit Log API (`GET /v2/audit-logs`)
+- Slack private-channel integration → undocumented `/invite` prerequisite (flagged as a docs gap)
+- Large dataset exports timing out → async `POST /v2/exports` + `compression=gzip`
+- Okta SAML JIT at scale, SCIM filtering, Terraform provider status, multi-region residency
+
+**4 pain points / incidents flagged:**
+- Webhook latency spike in US-East (ACM-88412) — resolved; community workaround documented
+- 30-day audit log export cap causing SOC2 friction
+- Multi-region two-dashboard UX burden
+- Terraform `alert_policies` resource incomplete
+
+**Top feature request:** Scoped API keys — 8 upvotes (every active member), Q3 roadmap
+
+**5 community-mentioned URLs** included verbatim, with source and context noted
+
+**Sales flag:** `tomasz_wierzbicki` is a warm 500-seat enterprise prospect — SE outreach recommended
