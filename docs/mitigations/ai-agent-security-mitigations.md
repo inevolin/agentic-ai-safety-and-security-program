@@ -17,29 +17,29 @@
 - **F** — Feasibility (1–5): ease of mounting the attack
 - **A** — Automation/scale (1–5): how easily the attack can be automated or scaled
 - **B** — Blast radius (1–5): severity/scope of damage if successful
+- **C** — Attacker ease (1–5): how cheaply and easily the attacker can execute; 1 = requires significant resources or expertise, 5 = trivial / no specialized resources needed
 - **D** — Detectability (1–5, where 1 = essentially invisible to defenders)
-- **C** — Attacker cost (1–5): resource cost to execute; higher = cheaper for attacker
 - **Priority** = F + A + B + C − D (higher = more urgent to mitigate)
 
-| Attack | Plain name | Model | Class | F | A | B | D | C | Pri |
+| Attack | Plain name | Class | Model | F | A | B | D | C | Pri |
 |--------|-----------|-------|-------|---|---|---|---|---|-----|
-| MAA1 | Multi-agent transitive poisoning | Sonnet+Opus | Multi-agent | 5 | 4 | 5 | 1 | 4 | 17 |
-| INV1 | Invoice payment portal injection | Sonnet | Structured-data | 5 | 4 | 5 | 2 | 4 | 16 |
-| CONF1-MAA1-v2 | Domain-rotation catalog poisoning | Opus | Multi-agent | 5 | 4 | 4 | 1 | 4 | 16 |
-| CI1 v2 | CI/CD Deployment Gates injection | Sonnet | Log injection | 4 | 4 | 4 | 2 | 4 | 14 |
-| GIT1 v3 | Git commit body URL injection | Sonnet | Structured-data | 4 | 4 | 4 | 2 | 4 | 14 |
-| SP1 | Semantic split / registry poisoning | Sonnet+Opus | Registry | 4 | 4 | 4 | 2 | 4 | 14 |
-| SP1-FC | Full-chain worm (Notion propagation) | Sonnet+Opus | Registry+worm | 4 | 3 | 4 | 2 | 4 | 13 |
-| WIKI1 v4 | Wiki channel registry injection | Sonnet+Opus | Registry | 4 | 3 | 4 | 2 | 4 | 13 |
-| EL1 v2 | Error log IDP_FALLBACK_URL injection | Sonnet | Log injection | 4 | 3 | 4 | 2 | 4 | 13 |
-| TP1 v3 | MCP tool-output prose injection | Sonnet | Tool-output | 4 | 3 | 4 | 2 | 4 | 13 |
-| CONF1 v3 | Config app-domain subdomain alignment | Sonnet | Config | 4 | 3 | 4 | 2 | 4 | 13 |
-| ITS1 v2 | IT helpdesk KB metadata injection | Sonnet | Structured-data | 4 | 4 | 3 | 2 | 4 | 13 |
-| SURV1 v2 | Single-respondent survey injection | Sonnet | Community | 4 | 4 | 3 | 2 | 4 | 13 |
-| CAL1 | Calendar invite organizer injection | Sonnet | Structured-data | 4 | 4 | 3 | 2 | 4 | 13 |
-| EMAIL1 | Email thread resource link injection | Sonnet | Structured-data | 4 | 4 | 3 | 2 | 4 | 13 |
-| SL1 v5 | Slack community doc-gap injection | Sonnet | Community | 4 | 4 | 3 | 2 | 4 | 13 |
-| AI1 | Conversational fact establishment | Sonnet | Conversational | 4 | 3 | 3 | 2 | 4 | 12 |
+| MAA1 | Multi-agent transitive poisoning | Multi-agent | Sonnet+Opus | 5 | 4 | 5 | 1 | 4 | 17 |
+| INV1 | Invoice payment portal injection | Structured-data | Sonnet | 5 | 4 | 5 | 2 | 4 | 16 |
+| CONF1-MAA1-v2 | Domain-rotation catalog poisoning | Multi-agent | Opus | 5 | 4 | 4 | 1 | 4 | 16 |
+| CI1 v2 | CI/CD Deployment Gates injection | Log injection | Sonnet | 4 | 4 | 4 | 2 | 4 | 14 |
+| GIT1 v3 | Git commit body URL injection | Structured-data | Sonnet | 4 | 4 | 4 | 2 | 4 | 14 |
+| SP1 | Semantic split / registry poisoning | Registry | Sonnet+Opus | 4 | 4 | 4 | 2 | 4 | 14 |
+| SP1-FC | Full-chain worm (Notion propagation) | Registry+worm | Sonnet+Opus | 4 | 3 | 4 | 2 | 4 | 13 |
+| WIKI1 v4 | Wiki channel registry injection | Registry | Sonnet+Opus | 4 | 3 | 4 | 2 | 4 | 13 |
+| EL1 v2 | Error log IDP_FALLBACK_URL injection | Log injection | Sonnet | 4 | 3 | 4 | 2 | 4 | 13 |
+| TP1 v3 | MCP tool-output prose injection | Tool-output | Sonnet | 4 | 3 | 4 | 2 | 4 | 13 |
+| CONF1 v3 | Config app-domain subdomain alignment | Config | Sonnet | 4 | 3 | 4 | 2 | 4 | 13 |
+| ITS1 v2 | IT helpdesk KB metadata injection | Structured-data | Sonnet | 4 | 4 | 3 | 2 | 4 | 13 |
+| SURV1 v2 | Single-respondent survey injection | Community | Sonnet | 4 | 4 | 3 | 2 | 4 | 13 |
+| CAL1 | Calendar invite organizer injection | Structured-data | Sonnet | 4 | 4 | 3 | 2 | 4 | 13 |
+| EMAIL1 | Email thread resource link injection | Structured-data | Sonnet | 4 | 4 | 3 | 2 | 4 | 13 |
+| SL1 v5 | Slack community doc-gap injection | Community | Sonnet | 4 | 4 | 3 | 2 | 4 | 13 |
+| AI1 | Conversational fact establishment | Conversational | Sonnet | 4 | 3 | 3 | 2 | 4 | 12 |
 
 ### 1.2 Minimum Viable Defensive Kit
 
