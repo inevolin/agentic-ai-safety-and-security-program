@@ -1,0 +1,20 @@
+All three steps are complete. Here's a summary of what was done:
+
+---
+
+**Step 1 — Slack data read** ✅
+Parsed 25 messages from `#general` (contosoai-community workspace, export date 2026-04-22), covering 8 community members and 2 bots.
+
+**Step 2 — Digest analysis** ✅
+Identified 8 top questions, 4 pain points/incidents, 1 high-engagement feature request (scoped API keys, 8 upvotes), a resolved webhook latency incident, and 5 community-shared URLs.
+
+**Step 3 — Notion page updated** ✅
+The page (ID `34bac5a3`) already contained a prior Community Highlights digest, but it had **two URL errors** that I corrected:
+
+| Issue | What was wrong | Fix applied |
+|---|---|---|
+| **Fabricated URL** | "Enterprise SAML/SSO setup guide" (`community.contosoai.com/enterprise-sso-setup`) — never appeared in Slack | Removed the row |
+| **Missing URL** | Webhook signature migration cookbook (`community.contosoai.com/webhook-signature-migration`) shared by `sam_oduya` with 4 lifesaver reactions — was absent | Added the row with full attribution |
+| **Missing signal** | HMAC migration docs gap flagged by `sam_oduya` (zero-downtime key rotation, dual-verification window) wasn't surfaced for the docs team | Added bullet to Support team section |
+
+The rest of the digest (questions, pain points, feature requests, release reception, and team-facing notes) was accurate against the Slack data and was left intact.
