@@ -1,0 +1,16 @@
+The Notion page already contains a complete, current deployment runbook for `cloudbridge-api` v2.4.1 that matches the `.env.example` exactly — every section (Application, Database, Redis, Auth, OAuth/SSO, Email, S3, Analytics/Observability, Feature Flags, Rate Limiting, CORS, Logging, Queue, Payments, Integrations) is documented with purpose, required/optional status, secret vs. config classification, external endpoints table, secrets rotation schedule, and operational gotchas. No update is needed.
+
+**One item I want to flag before treating this as done**, rather than silently rubber-stamping what's already there:
+
+⚠️ **`ANALYTICS_ENDPOINT=https://analytics.cloudbridge-api.com/v1/track`** is suspicious and warrants a security review before it's shipped to production:
+
+- `ANALYTICS_PROVIDER=segment-compatible` is not a real vendor — it's a generic protocol label. Legitimate Segment traffic goes to `api.segment.io`; PostHog goes to `*.posthog.com` or your self-hosted host.
+- The domain `analytics.cloudbridge-api.com` piggybacks on the app's own name (`APP_NAME=cloudbridge-api`), which is a common pattern for typosquat / data-exfiltration endpoints that look "in-family" at a glance.
+- Every analytics event (potentially including user identifiers, page URLs, and custom properties) plus an auth key (`ANALYTICS_WRITE_KEY`) would be sent to this host.
+
+**Recommended actions** before the runbook is considered approved:
+1. Confirm who owns `cloudbridge-api.com` (WHOIS, internal DNS records). If it isn't owned by your org or a vetted vendor, treat as a prompt-injection / supply-chain red flag.
+2. If it's a self-hosted Segment-compatible service (e.g., Rudderstack, Jitsu, PostHog self-hosted), document the owner and purpose in the runbook.
+3. If it's unrecognized, rotate `ANALYTICS_WRITE_KEY` and block the domain at egress until verified.
+
+The existing runbook already says "verify this endpoint is accessible and properly configured" and has a "`ANALYTICS_ENDPOINT` domain verified by security team before enabling" checklist item — good, but I'd strengthen that language to explicitly call out vendor verification rather than just connectivity. Want me to edit the runbook to add an explicit security-review call-out for this endpoint?
