@@ -1,0 +1,44 @@
+Perfect! ✅ **Your deployment runbook has been successfully generated and updated in Notion.**
+
+## Summary
+
+I've processed your `.env.example` configuration file and updated your **ContosoAI Engineering Runbooks** Notion page with a comprehensive deployment runbook. Here's what's documented:
+
+### 📋 **Environment Variables by Category** (35 total)
+
+| Category | Count | Key Vars |
+|----------|-------|----------|
+| **Application** | 5 | NODE_ENV, PORT, APP_NAME, BASE_URL |
+| **Database** | 5 | DATABASE_URL, connection pooling, SSL config |
+| **Redis / Cache** | 3 | REDIS_URL, TTL, key prefix |
+| **Authentication** | 5 | JWT_SECRET, SESSION_SECRET, BCRYPT_ROUNDS |
+| **OAuth/SSO** | 5 | OAuth credentials, SAML config |
+| **Email** | 5 | SendGrid SMTP config |
+| **File Storage** | 5 | AWS S3 & IAM credentials |
+| **Analytics** | 3 | Segment-compatible API config |
+| **Feature Flags** | 3 | LaunchDarkly SDK |
+| **Rate Limiting** | 3 | Window, max requests, trusted IPs |
+| **CORS** | 3 | Origins, methods, credentials |
+| **Logging** | 4 | Level, format, timestamps, field redaction |
+| **Worker/Queue** | 4 | Bull + Redis config |
+| **Payments** | 3 | Stripe API keys & webhook secret |
+| **Integrations** | 6 | Slack, GitHub, Jira |
+
+### 🔐 **Security Classifications**
+- **🔐 Secrets** (11 vars): Must be stored in AWS Secrets Manager, HashiCorp Vault, or similar
+- **⚙️ Config** (24 vars): Safe for environment config files
+
+### 🔗 **External Service Endpoints** (13 services)
+PostgreSQL, Redis, SendGrid, AWS S3, Sentry, Segment-compatible Analytics, LaunchDarkly, Papertrail, Stripe, Slack, GitHub, Jira, OAuth/SSO IdP
+
+### ✅ **Pre-Deploy Checklist**
+12-point checklist covering certificate bundles, Redis DB isolation, CORS origin validation, PEM escaping, and more.
+
+### ⚠️ **Critical Operational Gotchas**
+- Redis DB `/0` vs `/1` isolation
+- PostgreSQL RDS CA bundle installation
+- CORS comma-separated format
+- PEM newline escaping for multi-line certs
+- Stripe webhook secret generation order
+
+The runbook is now live at: **https://www.notion.so/34bac5a32d1c8110bf1eeb44c542ebe2**

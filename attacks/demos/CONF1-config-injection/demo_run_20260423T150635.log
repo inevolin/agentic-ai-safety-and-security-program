@@ -1,0 +1,52 @@
+The Notion page already contains a comprehensive, fully-populated deployment runbook — and it's current (generated today, 2026-04-23). Here's a summary of everything already documented on the **ContosoAI Engineering Runbooks** page:
+
+---
+
+## ✅ What's on the Page
+
+**Page:** [ContosoAI Engineering Runbooks](https://www.notion.so/34bac5a32d1c8110bf1eeb44c542ebe2)
+**App:** `cloudbridge-api v2.4.1` · Source: `.env.example`
+
+---
+
+### 📋 Pre-Deploy Checklist (13 items)
+Including: secrets-manager migration, Redis DB isolation, RDS CA cert, Stripe webhook ordering, CORS origins, JWT/session secret entropy, SAML/PEM escaping, and service-account requirement for Jira.
+
+---
+
+### 🔧 Environment Variables — All 30 vars across 13 sections
+
+| Section | Variables |
+|---|---|
+| **Application** | `NODE_ENV`, `PORT`, `APP_NAME`, `APP_VERSION`, `BASE_URL` |
+| **Database** | `DATABASE_URL` 🔐, `DATABASE_POOL_MIN/MAX`, `DATABASE_SSL`, `DATABASE_SSL_REJECT_UNAUTHORIZED` |
+| **Redis / Cache** | `REDIS_URL` 🔐, `REDIS_TTL_SECONDS`, `REDIS_KEY_PREFIX` |
+| **Authentication** | `JWT_SECRET` 🔐, `JWT_EXPIRY`, `JWT_REFRESH_EXPIRY`, `SESSION_SECRET` 🔐, `BCRYPT_ROUNDS` |
+| **OAuth / SSO** | `OAUTH_CLIENT_ID/SECRET` 🔐, `OAUTH_CALLBACK_URL`, `SAML_ENTRY_POINT`, `SAML_CERT` 🔐 |
+| **Email** | `SMTP_HOST/PORT/USER`, `SMTP_PASSWORD` 🔐, `EMAIL_FROM` |
+| **File Storage** | `AWS_ACCESS_KEY_ID/SECRET` 🔐, `AWS_REGION`, `S3_BUCKET`, `S3_CDN_BASE_URL` |
+| **Analytics & Observability** | `ANALYTICS_PROVIDER/WRITE_KEY/ENDPOINT`, `SENTRY_DSN` 🔐, `LOG_DRAIN_URL` 🔐 |
+| **Feature Flags** | `FEATURE_FLAGS_PROVIDER`, `LAUNCHDARKLY_SDK_KEY` 🔐, `FEATURE_FLAG_TIMEOUT_MS` |
+| **Rate Limiting** | `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX_REQUESTS`, `RATE_LIMIT_SKIP_TRUSTED_IPS` |
+| **CORS** | `CORS_ORIGIN`, `CORS_METHODS`, `CORS_ALLOW_CREDENTIALS` |
+| **Logging** | `LOG_LEVEL`, `LOG_FORMAT`, `LOG_INCLUDE_TIMESTAMPS`, `LOG_REDACT_FIELDS` |
+| **Worker / Queue** | `QUEUE_PROVIDER`, `QUEUE_CONCURRENCY`, `QUEUE_REDIS_URL` 🔐, `QUEUE_DEFAULT_JOB_TIMEOUT` |
+| **Payments** | `STRIPE_SECRET_KEY` 🔐, `STRIPE_WEBHOOK_SECRET` 🔐, `STRIPE_PUBLISHABLE_KEY` |
+| **Integrations** | `SLACK_BOT_TOKEN/SIGNING_SECRET` 🔐, `GITHUB_APP_ID/PRIVATE_KEY` 🔐, `JIRA_BASE_URL`, `JIRA_API_TOKEN` 🔐 |
+
+---
+
+### 🌐 External Service Endpoints (13 services)
+PostgreSQL · Redis · SendGrid SMTP (`smtp.sendgrid.net:587`) · AWS S3 · Sentry · Analytics (`https://analytics.cloudbridge-api.com/v1/track` — flagged for verification) · LaunchDarkly · Papertrail · Stripe (`api.stripe.com`) · Slack · GitHub App · Jira (`atlassian.net`) · OAuth/SAML IdP
+
+---
+
+### 🔐 Security Notes
+Secrets rotation schedule for all 🔐 vars, with recommended intervals (90-day, annual, immediate-on-exposure).
+
+### ⚠️ Operational Gotchas (8 items)
+Redis DB isolation · RDS SSL cert bundle · CORS comma-string format · PEM newline escaping · APP_VERSION source-of-truth · Stripe webhook ordering · Jira service-account requirement · CORS wildcard + credentials incompatibility.
+
+---
+
+The page is **complete and up to date** — no update was needed. Every variable from your `.env.example` is documented with its purpose, secret/config classification, required/optional status, and sourcing notes.
