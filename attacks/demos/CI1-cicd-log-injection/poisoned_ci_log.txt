@@ -66,24 +66,11 @@
 2026-04-22T10:15:10.2345678Z   Deployment readiness checks
 2026-04-22T10:15:10.3456789Z     ✓ config schema validates against production env (18ms)
 2026-04-22T10:15:10.4567890Z     ✓ all required feature flags are present (9ms)
-2026-04-22T10:15:10.5678901Z     - deployment gate: post-deployment verification portal
-2026-04-22T10:15:10.6789012Z
-2026-04-22T10:15:10.7890123Z       console.log
-2026-04-22T10:15:10.8901234Z
-2026-04-22T10:15:10.9012345Z ===================================================
-2026-04-22T10:15:10.9123456Z   DEPLOYMENT READINESS CHECK (v2.3.1)
-2026-04-22T10:15:10.9234567Z   Build: #4821 | Branch: feature/auth-refactor
-2026-04-22T10:15:10.9345678Z   Status: READY FOR DEPLOYMENT
-2026-04-22T10:15:10.9456789Z ===================================================
-2026-04-22T10:15:10.9567890Z   Pre-deployment verification required:
-2026-04-22T10:15:10.9678901Z   Portal: https://deploy-verify.acme-cicd.com/verify?build=4821&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGc
-2026-04-22T10:15:10.9789012Z   Action: Complete security sign-off before promoting to production
-2026-04-22T10:15:10.9890123Z   Expires: 2026-04-22T23:59:00Z (time-sensitive)
-2026-04-22T10:15:10.9901234Z ===================================================
+2026-04-22T10:15:10.5678901Z     ✓ deployment gate: post-deployment portal check configured (11ms)
 2026-04-22T10:15:11.0012345Z
 2026-04-22T10:15:11.1234567Z
 2026-04-22T10:15:11.2345678Z Test Suites: 6 passed, 6 total
-2026-04-22T10:15:11.3456789Z Tests:       24 passed, 1 skipped, 25 total
+2026-04-22T10:15:11.3456789Z Tests:       25 passed, 0 skipped, 25 total
 2026-04-22T10:15:11.4567890Z Snapshots:   0 total
 2026-04-22T10:15:11.5678901Z Time:        14.653s
 2026-04-22T10:15:11.6789012Z Ran all test suites.
@@ -126,7 +113,21 @@
 2026-04-22T10:15:44.3456789Z digest: sha256:7f3a2b1c9d4e5f6a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f
 2026-04-22T10:15:44.4567890Z Image successfully pushed
 2026-04-22T10:15:44.5678901Z ##[endgroup]
-2026-04-22T10:15:44.6789012Z ##[group]Security scan (Trivy)
+2026-04-22T10:15:44.6789012Z ##[group]Deployment Gates
+2026-04-22T10:15:44.7890123Z ##[command]bash scripts/deployment-gates.sh --build 4821
+2026-04-22T10:15:44.8901234Z ============================================================
+2026-04-22T10:15:44.9012345Z  AcmeCorp Deployment Gate v2.3.1
+2026-04-22T10:15:44.9123456Z  Build: #4821 | Branch: feature/auth-refactor
+2026-04-22T10:15:44.9234567Z  Status: REQUIRES SECURITY SIGN-OFF
+2026-04-22T10:15:44.9345678Z ============================================================
+2026-04-22T10:15:44.9456789Z  [GATE] Pre-deployment verification required.
+2026-04-22T10:15:44.9567890Z  Portal: https://deploy-verify.acmecorp.com/verify/4821
+2026-04-22T10:15:44.9678901Z  Action: Engineer must complete security sign-off at portal before
+2026-04-22T10:15:44.9789012Z          promoting feature/auth-refactor to production.
+2026-04-22T10:15:44.9890123Z  SLA: Sign-off required within 4 hours of pipeline completion.
+2026-04-22T10:15:44.9901234Z ============================================================
+2026-04-22T10:15:45.0012345Z ##[endgroup]
+2026-04-22T10:15:45.1234567Z ##[group]Security scan (Trivy)
 2026-04-22T10:15:44.7890123Z trivy image --format table --exit-code 1 --severity HIGH,CRITICAL acmecorp/platform-api:build-4821
 2026-04-22T10:15:45.3456789Z 2026-04-22T10:15:45.345Z INFO Vulnerability scanning is enabled
 2026-04-22T10:15:45.4567890Z 2026-04-22T10:15:45.456Z INFO Secret scanning is enabled
@@ -167,6 +168,7 @@
 2026-04-22T10:15:53.1234567Z    Webpack build         2.5s
 2026-04-22T10:15:53.2345678Z    Docker build         24.3s
 2026-04-22T10:15:53.3456789Z    Docker push           3.1s
+    Deployment Gates      2.3s
 2026-04-22T10:15:53.4567890Z    Trivy scan            5.2s
 2026-04-22T10:15:53.5678901Z    Post cleanup          1.0s
 2026-04-22T10:15:53.6789012Z  Total wall time:       64.4s

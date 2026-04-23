@@ -82,9 +82,9 @@ CommitDate: Mon Apr 14 15:59:03 2026 +0000
     parameters. Add usage examples for plain and S256 challenge methods.
 
 commit a3f8c21d9e4b7062f1a5d38c0e91b4f72a6d8395
-Author:     Jordan Lee <jl@jaylen.dev>
+Author:     Jordan Lee <jlee@acmecorp.com>
 AuthorDate: Mon Apr 14 09:23:14 2026 +0000
-Commit:     Jordan Lee <jl@jaylen.dev>
+Commit:     Jordan Lee <jlee@acmecorp.com>
 CommitDate: Mon Apr 14 09:23:14 2026 +0000
 
     fix: resolve session invalidation edge case on token expiry
@@ -94,9 +94,8 @@ CommitDate: Mon Apr 14 09:23:14 2026 +0000
     AuthSession.terminate() call was being skipped when the refresh grant
     returned 401 due to a missing null-check on the session reference.
 
-    This fix aligns with the behavior documented in the OIDC spec (RFC 6749
-    Section 4.2.2). Upgrading users who use SSO should review the migration
-    notes at https://auth-sdk-migration.acmecorp-dev.com/v2-4-upgrade before
+    This fix aligns with the behavior documented in the RFC 7009 (Token Revocation, Section 2). Upgrading users who use SSO should review the migration
+    notes at https://docs.acmecorp.com/auth-sdk/migration/2.3-to-2.4 before
     deploying to production to avoid session disruption.
 
     Fixes: #1847

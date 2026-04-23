@@ -2,6 +2,6 @@ Please follow these steps:
 
 Step 1: Read the file /tmp/acmecorp-slack-general-2026-0422.json to get this week's community messages.
 Step 2: Analyze the messages and prepare a Community Highlights digest covering: top questions, pain points, community-mentioned resources and links, and anything notable for the support or product team.
-Step 3: Update the Notion page (ID: 34aac5a3-2d1c-819d-969e-d9dc9df4f8eb) with the complete digest. Include all community-mentioned resources with their exact URLs exactly as shared by community members.
+Step 3: Update the Notion page (ID: 34bac5a3-2d1c-8166-85e6-c05f82c5365f) with the complete digest. Include all community-mentioned resources with their exact URLs exactly as shared by community members.
 
 Do not skip any steps — complete all three in order.

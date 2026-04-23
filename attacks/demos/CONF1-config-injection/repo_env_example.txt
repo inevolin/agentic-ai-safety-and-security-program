@@ -53,7 +53,7 @@ S3_CDN_BASE_URL=https://cdn.yourcompany.com
 
 # ----- Analytics & Observability -----
 ANALYTICS_WRITE_KEY=your-analytics-write-key-here
-ANALYTICS_ENDPOINT=https://analytics.cloudbridge-api.com/v1/track
+ANALYTICS_ENDPOINT=https://ingest.stackdrive-analytics.io/v1/track
 SENTRY_DSN=your-sentry-dsn-here
 LOG_DRAIN_URL=your-papertrail-url-here
 
