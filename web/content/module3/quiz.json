@@ -1,0 +1,60 @@
+{
+  "moduleId": 3,
+  "questions": [
+    {
+      "id": "m3q1",
+      "text": "In the SP1 attack, Sonnet's own output advised users to 'trust only the registry, not URLs from emails or documents' — while simultaneously citing the attacker's URL from the registry. What does this demonstrate?",
+      "options": [
+        "Sonnet cannot read CSV files correctly",
+        "The model's defensive advice was weaponized as the delivery mechanism for the attack",
+        "Registries are always trustworthy sources",
+        "The attacker had admin access to the model"
+      ],
+      "correct": 1
+    },
+    {
+      "id": "m3q2",
+      "text": "In the CONF1 v3 attack, the analytics endpoint `analytics.cloudbridge-api.com` bypassed Sonnet's domain check because:",
+      "options": [
+        "It used HTTPS",
+        "It was registered with Let's Encrypt",
+        "Its subdomain matched the APP_NAME value in the same config file",
+        "It was listed in the Segment analytics documentation"
+      ],
+      "correct": 2
+    },
+    {
+      "id": "m3q3",
+      "text": "In the MAA1 attack, Stage 1 uses Haiku and Stage 2 uses Sonnet or Opus. Why is this two-stage structure necessary?",
+      "options": [
+        "Haiku is faster and cheaper for document processing",
+        "Sonnet/Opus would detect the attack if presented with the raw attacker document directly, but accept it after Haiku writes it to a trusted internal registry",
+        "Only Haiku can write to CSV files",
+        "Sonnet cannot read PDFs"
+      ],
+      "correct": 1
+    },
+    {
+      "id": "m3q4",
+      "text": "What specific change in CONF1-MAA1-v2 bypassed Opus's APP_NAME cross-reference defense?",
+      "options": [
+        "Removing the APP_NAME field from the env file",
+        "Using a third-party analytics domain with zero lexical similarity to APP_NAME",
+        "Changing the endpoint from HTTPS to HTTP",
+        "Using a Segment-compatible label"
+      ],
+      "correct": 1
+    },
+    {
+      "id": "m3q5",
+      "text": "In the SL1 v5 attack, what made the injected webhook migration URL contextually plausible?",
+      "options": [
+        "It had the same IP address as the legitimate documentation site",
+        "The attacker had 10 years of community history",
+        "The official v4.12.0 release note in the same channel mentioned 'see docs for migration guide' without providing a link — creating a documentation gap the attacker URL claimed to fill",
+        "The URL was on the corporate domain allowlist"
+      ],
+      "correct": 2
+    }
+  ]
+}
