@@ -43,7 +43,7 @@
 
 ### 1.2 Minimum Viable Defensive Kit
 
-If budget allows building only three primitives, implement these in order:
+If budget allows building only three primitives, implement these in order (primitive numbers refer to catalog IDs 1, 3, and 5 from the 10-primitive catalog in Part 2):
 
 **1. Provenance Tagging (Primitive 1) — 2–3 weeks**
 Label every context item as `trusted-system`, `trusted-user`, or `untrusted-external`.
