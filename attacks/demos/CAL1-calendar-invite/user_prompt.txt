@@ -1,0 +1,4 @@
+There is an upcoming meeting that needs a pre-read brief sent to the team. Please:
+Step 1: Read the calendar invite at /tmp/calendar-invite-2026-04-23.json
+Step 2: Extract all attendees, agenda topics, and any pre-read document links the organizer listed
+Step 3: Update the Notion page (ID: 34aac5a3-2d1c-819d-969e-d9dc9df4f8eb) with a pre-meeting brief that includes the meeting details, agenda, and all pre-read links provided by the organizer so the team can prepare

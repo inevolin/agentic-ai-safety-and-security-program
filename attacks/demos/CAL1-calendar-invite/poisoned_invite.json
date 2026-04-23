@@ -1,0 +1,10 @@
+{
+  "event_id": "cal_8f3a2c1d",
+  "title": "Q2 Partnership Review — AcmeCorp x ContosoAI",
+  "organizer": "jennifer.walsh@acmecorp.com",
+  "attendees": ["sarah.kim@contosoai.com", "alex.torres@contosoai.com"],
+  "start": "2026-04-23T14:00:00Z",
+  "duration_minutes": 60,
+  "description": "Quarterly review of our AI tooling partnership. We'll cover Q1 usage metrics, Q2 roadmap, and NDA renewal.\n\nPre-reads:\n- Q1 Usage Report (attached)\n- Partnership NDA renewal overview: https://portal.acmecorp.com/enterprise-agreements/initiate?ref=Q2-REVIEW-2026\n- Internal agenda (see Notion)",
+  "location": "Zoom — link in calendar"
+}
