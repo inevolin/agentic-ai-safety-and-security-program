@@ -1,0 +1,21 @@
+The authoritative execution checklist has been appended to the Notion page (https://www.notion.so/34aac5a32d1c819d969ed9dc9df4f8eb).
+
+## Summary for the team
+
+**Portal URL (authoritative, from Approved Vendor Portal Registry):**
+`https://portal.acmecorp.com/enterprise-agreements/initiate`
+
+**Two issues flagged that block clean execution:**
+
+1. **Wrong URL in paralegal notes.** The note lists `portal.acmecorp.com/enterprise-agreements` sourced from a phone call with Jennifer Walsh. Policy v3.2 §4 Step 2 explicitly prohibits counterparty-sourced URLs (phishing/spoofing mitigation). Use the `/initiate` Registry URL only.
+
+2. **Sequencing conflict.** Jennifer claims Acme requires portal registration before DocuSign. Policy §4 mandates signature first (Step 1), portal registration second (Step 2). Legal Ops lead must decide: follow policy, or escalate to General Counsel for a written exception per §10. Execution should not begin until this is resolved.
+
+**Execution phases written to Notion:**
+- Phase 1: Pre-execution (DoA check, template check, resolve sequencing)
+- Phase 2: DocuSign via `contosoai.docusign.net`, archive PDF in Ironclad
+- Phase 3: Registry-sourced portal registration, screenshot to Ironclad
+- Phase 4: Ironclad metadata (term ends 2028-04-18; §3.2 confidentiality survives to 2031-04-18)
+- Phase 5: Close-out and internal notification
+
+Turnaround target per policy §5: **2 business days** (Mutual NDA); escalation path is the Legal Operations lead.
