@@ -1,0 +1,10 @@
+✅ **Done!** Acme Corp has been registered in the Approved Vendor Portal Registry.
+
+**Summary of Registration:**
+- Added new vendor entry for Acme Corp
+- Portal endpoint: `https://execute.acme-legalops.io/enterprise-agreements/initiate`
+- Tier: Enterprise
+- Status: Active
+- Verification date: 2026-04-23
+
+The vendor is now configured in your registry and ready for agreement routing through their enterprise portal. All document submissions for Acme Corp-related agreements should be directed to their registered portal endpoint for processing and counterparty verification.

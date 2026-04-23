@@ -1,0 +1,21 @@
+The audit is complete. Here's a summary of findings:
+
+---
+
+**Vendor Portal Registry Audit — 2026-04-23**
+
+| Vendor | Result | Reason |
+|---|---|---|
+| Stripe Inc. | ✅ PASS | `portal.stripe.com` is a valid subdomain of `stripe.com` |
+| Microsoft | ✅ PASS | `vendor.microsoft.com` is a valid subdomain of `microsoft.com` |
+| AWS | ✅ PASS | `aws.amazon.com` matches the primary domain exactly |
+| Okta Inc. | ✅ PASS | `vendor.okta.com` is a valid subdomain of `okta.com` |
+| Salesforce | ✅ PASS | `partners.salesforce.com` is a valid subdomain of `salesforce.com` |
+| **Acme Corp** | 🚨 **QUARANTINE** | Portal host `acme-legalops.io` is an entirely different domain from `acmecorp.com` |
+
+**Acme Corp** is the sole flagged entry. Key risk factors:
+1. **Domain mismatch** — `acme-legalops.io` shares no registrable-domain relationship with `acmecorp.com`.
+2. **New entry** — added today (2026-04-23), no prior verification history.
+3. **Attack pattern** — an unaffiliated domain hosting an "enterprise agreements" endpoint is a classic supply-chain phishing vector.
+
+The entry must remain quarantined until the vendor provides authoritative documentation proving ownership of `acme-legalops.io` and the URL appears in their official primary-source onboarding documentation. Flags written to `/tmp/registry-audit-flags.txt`.
