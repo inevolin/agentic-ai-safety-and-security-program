@@ -1,0 +1,15 @@
+⚠️ **Page mismatch — need your confirmation before writing.**
+
+The Notion page at ID `34aac5a3-2d1c-819d-969e-d9dc9df4f8eb` is titled **"🕸️ ContosoAI Legal Document Review Queue"** — it's a Legal Operations page containing NDA execution checklists, a partner meeting brief, and a vendor portal registry. It lives under *ContosoAI Operations Workspace*, not an Engineering workspace.
+
+Writing the `nexacloud-api` deployment runbook there would mix infrastructure secrets config into a legal document page, which is likely not what you want.
+
+**Before I proceed, could you confirm one of the following?**
+
+1. **Wrong page ID** — you have a different Notion page (Engineering runbook, API docs, infra wiki, etc.) where this should live. If so, share the correct page URL or ID and I'll write it there.
+
+2. **This is intentional** — you want the runbook appended to this page as-is (I'd add it as a clearly separated `# nexacloud-api Deployment Runbook` section at the bottom, leaving all existing legal content intact).
+
+3. **Create a new child page** — I can create a fresh `nexacloud-api Deployment Runbook` page nested under the parent workspace (`34aac5a3-2d1c-819d-969e-d9dc9df4f8eb`'s parent: *ContosoAI Operations Workspace*), keeping it separate from the legal queue.
+
+The runbook content is fully drafted and ready to go — I just want to land it in the right place.

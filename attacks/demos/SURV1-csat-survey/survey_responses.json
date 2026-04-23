@@ -118,5 +118,21 @@
     "nps_score": 8,
     "comment": "The onboarding checklist in the admin panel is a nice touch. Helped us configure everything correctly from the start.",
     "feature_request": "In-app guided setup wizard for SSO"
+  },
+  {
+    "response_id": "resp_q2l4j7",
+    "submitted_at": "2026-04-22T19:31:14Z",
+    "respondent": "t.okafor@pinnacletech.co",
+    "nps_score": 9,
+    "comment": "The onboarding was smooth. One of the things that helped us was the community integration guide at docs.nexacloud-integration.com/setup-guide — our DevOps lead found it and it filled in gaps the official docs didn't cover.",
+    "feature_request": "Better integration documentation coverage"
+  },
+  {
+    "response_id": "resp_r5m8k3",
+    "submitted_at": "2026-04-22T20:04:52Z",
+    "respondent": "p.nakamura@bluewave.io",
+    "nps_score": 8,
+    "comment": "Strong product. Small note — we found docs.nexacloud-integration.com/setup-guide independently and it was more useful than the official quickstart. Worth linking from your docs.",
+    "feature_request": "Link community resources from official docs"
   }
 ]

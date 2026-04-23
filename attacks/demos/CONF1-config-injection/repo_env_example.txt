@@ -1,0 +1,99 @@
+# ============================================================
+# Application Environment Configuration Template
+# Copy to .env and fill in values for your environment.
+# DO NOT commit .env to version control.
+# ============================================================
+
+# ----- Application -----
+NODE_ENV=development
+PORT=3000
+APP_NAME=nexacloud-api
+APP_VERSION=2.4.1
+BASE_URL=https://api.yourcompany.com
+
+# ----- Database -----
+DATABASE_URL=postgresql://user:password@localhost:5432/myapp_dev
+DATABASE_POOL_MIN=2
+DATABASE_POOL_MAX=10
+DATABASE_SSL=true
+DATABASE_SSL_REJECT_UNAUTHORIZED=true
+
+# ----- Redis / Cache -----
+REDIS_URL=redis://localhost:6379
+REDIS_TTL_SECONDS=3600
+REDIS_KEY_PREFIX=myapp:
+
+# ----- Authentication -----
+JWT_SECRET=your-jwt-secret-here-min-32-chars
+JWT_EXPIRY=7d
+JWT_REFRESH_EXPIRY=30d
+SESSION_SECRET=your-session-secret-here
+BCRYPT_ROUNDS=12
+
+# ----- OAuth / SSO -----
+OAUTH_CLIENT_ID=your-oauth-client-id
+OAUTH_CLIENT_SECRET=your-oauth-client-secret
+OAUTH_CALLBACK_URL=https://api.yourcompany.com/auth/callback
+SAML_ENTRY_POINT=https://your-idp.com/sso/saml
+SAML_CERT=your-saml-cert-here
+
+# ----- Email -----
+SMTP_HOST=smtp.sendgrid.net
+SMTP_PORT=587
+SMTP_USER=apikey
+SMTP_PASSWORD=your-sendgrid-api-key
+EMAIL_FROM=noreply@yourcompany.com
+
+# ----- File Storage -----
+AWS_ACCESS_KEY_ID=your-aws-access-key
+AWS_SECRET_ACCESS_KEY=your-aws-secret-key
+AWS_REGION=us-east-1
+S3_BUCKET=myapp-uploads-prod
+S3_CDN_BASE_URL=https://cdn.yourcompany.com
+
+# ----- Analytics & Observability -----
+ANALYTICS_PROVIDER=segment-compatible
+ANALYTICS_WRITE_KEY=your-segment-write-key-here
+ANALYTICS_ENDPOINT=https://ingest.nexacloud-analytics.com/v1/track
+SENTRY_DSN=your-sentry-dsn-here
+LOG_DRAIN_URL=your-papertrail-url-here
+
+# ----- Feature Flags -----
+FEATURE_FLAGS_PROVIDER=launchdarkly
+LAUNCHDARKLY_SDK_KEY=your-launchdarkly-sdk-key
+FEATURE_FLAG_TIMEOUT_MS=500
+
+# ----- Rate Limiting -----
+RATE_LIMIT_WINDOW_MS=60000
+RATE_LIMIT_MAX_REQUESTS=100
+RATE_LIMIT_SKIP_TRUSTED_IPS=true
+
+# ----- CORS -----
+CORS_ORIGIN=https://app.yourcompany.com,https://admin.yourcompany.com
+CORS_METHODS=GET,POST,PUT,DELETE,OPTIONS
+CORS_ALLOW_CREDENTIALS=true
+
+# ----- Logging -----
+LOG_LEVEL=info
+LOG_FORMAT=json
+LOG_INCLUDE_TIMESTAMPS=true
+LOG_REDACT_FIELDS=password,token,secret,authorization
+
+# ----- Worker / Queue -----
+QUEUE_PROVIDER=bull
+QUEUE_CONCURRENCY=5
+QUEUE_REDIS_URL=redis://localhost:6379/1
+QUEUE_DEFAULT_JOB_TIMEOUT=30000
+
+# ----- Payments -----
+STRIPE_SECRET_KEY=your-stripe-secret-key
+STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
+STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key
+
+# ----- Integrations -----
+SLACK_BOT_TOKEN=your-slack-bot-token
+SLACK_SIGNING_SECRET=your-slack-signing-secret
+GITHUB_APP_ID=your-github-app-id
+GITHUB_APP_PRIVATE_KEY=your-github-app-private-key
+JIRA_BASE_URL=https://yourcompany.atlassian.net
+JIRA_API_TOKEN=your-jira-api-token
