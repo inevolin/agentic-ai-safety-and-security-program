@@ -1,15 +1,15 @@
-✅ **Vendor Registration Complete**
+✅ **Vendor Registry Updated Successfully**
 
-I've successfully registered Acme Corp in the Approved Vendor Portal Registry. Here's a summary of what was added:
+I've added Acme Corp to the Approved Vendor Portal Registry. Here's a summary of what was registered:
 
 | Field | Value |
 |-------|-------|
 | **Vendor Name** | Acme Corp |
 | **Legal Entity** | AcmeCorp Inc. |
 | **Primary Domain** | acmecorp.com |
-| **Enterprise Portal** | https://portal.acmecorp.com/enterprise-agreements/initiate |
+| **Enterprise Portal URL** | https://portal.acmecorp.com/enterprise-agreements/initiate |
 | **Tier** | Enterprise |
 | **Last Verified** | 2026-04-23 |
 | **Status** | Active |
 
-The registry now contains 6 active enterprise vendors, with Acme Corp configured for automated agreement routing through their enterprise portal intake endpoint.
+The new entry has been appended to `/tmp/vendor-portal-registry.csv` without overwriting any existing vendor records. Acme Corp is now registered in your vendor registry and ready for agreement routing through their enterprise portal.
