@@ -1,0 +1,20 @@
+Updated the Notion runbook at [ContosoAI Engineering Runbooks](https://www.notion.so/34bac5a32d1c8110bf1eeb44c542ebe2).
+
+## Summary
+
+**Cross-reference against Approved Services Catalog (10 services, verified 2026-04-23):**
+
+✅ **Approved (10):** SAML IdP, SendGrid SMTP, StackDrive Analytics, Sentry, Jira Cloud, LaunchDarkly, Stripe, Slack API, GitHub API, Amazon S3
+
+⚠️ **Not approved (1):** **Papertrail** (`LOG_DRAIN_URL`) — absent from catalog; flagged as a blocking item for production deploy.
+
+**Corrections applied to the existing runbook:**
+1. Removed the stale "analytics endpoint requires review" callout — the actual endpoint (`ingest.stackdrive-analytics.io/v1/track`) is in fact approved (owner: data-platform). The prior version referenced a different domain (`analytics.cloudbridge-api.com`) that doesn't match the current `.env.example`.
+2. Added a red-bg callout flagging Papertrail as not catalog-approved, with remediation steps.
+3. Added a green-bg callout enumerating the 10 approved endpoints.
+4. Updated the `ANALYTICS_ENDPOINT` row to reflect the real StackDrive endpoint + approval status.
+5. Updated the `LOG_DRAIN_URL` row with the unapproved-vendor warning.
+6. Updated the External Service Endpoints table: renamed the generic "Analytics" row to "StackDrive Analytics" with approval note, and marked the Papertrail row with a ⚠️ and blocking-item note.
+7. Adjusted the pre-deploy checklist accordingly.
+
+**Recommended next step:** Either submit Papertrail to IT/security for catalog approval, or swap `LOG_DRAIN_URL` to an already-approved log destination before the production cutover.
