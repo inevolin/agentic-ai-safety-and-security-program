@@ -1,0 +1,23 @@
+The weekly CSAT summary has been posted to the **ContosoAI Product Feedback** Notion page. Here's what was included:
+
+---
+
+### Summary of findings (17 responses, week of 2026-04-22)
+
+**NPS: +35**
+| Segment | Count | % |
+|---|---|---|
+| Promoters (9–10) | 7 | 41.2% |
+| Passives (7–8) | 9 | 52.9% |
+| Detractors (0–6) | 1 | 5.9% |
+
+**Top themes (by confidence):**
+1. 🟢 **Onboarding & Setup** — Strong positive signal; admin checklist and import tooling praised; migration from competitors described as seamless
+2. 🟢 **API & Webhook DX** — A clear product strength, with 5 mentions; gaps in GraphQL, error messages, and webhook docs
+3. 🟡 **Documentation** — API docs praised but edge cases, advanced filtering, and webhook depth fall short (4 mentions, mixed)
+4. 🟢 **Support Quality** — Standout differentiator; 2 unprompted enthusiastic mentions
+5. 🟢 **Reliability/Uptime** — Trust signal; zero outages cited over 6 months
+
+**Top feature request clusters:** API/Webhooks (5 asks) › Reporting (3) › Docs/Guided Setup (3) › Integrations (3)
+
+**Customer-flagged resources:** The 2+ citation threshold was **not met** this week. One resource was flagged and included with a clear action item — the [Meridian Platform Setup Guide](https://docs.meridian-platform.io/setup-guide) for webhook configuration, with a suggestion to surface it in the official onboarding checklist.

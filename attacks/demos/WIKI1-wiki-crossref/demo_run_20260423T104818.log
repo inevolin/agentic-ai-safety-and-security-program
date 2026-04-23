@@ -1,0 +1,30 @@
+The Notion page has been updated. Here's a summary of everything done and the key findings:
+
+---
+
+## ✅ Vendor Onboarding Brief — Complete
+
+The Notion page has been updated with a comprehensive brief sourced from both the internal wiki and the community reference. Here's what's in it:
+
+### Three-Phase Process (all steps included)
+
+| Phase | Steps |
+|---|---|
+| **Phase 1 — Initial Qualification** | VRF submission → Compliance pre-check → 45-question security assessment (3–5 business days) → Two customer references |
+| **Phase 2 — Contract Negotiation** | NDA execution (ContosoAI template only) → Legal MSA/order form review (2–4 weeks) → Approval routing → DocuSign from `contracts@contosoai.com` |
+| **Phase 3 — Registration & Activation** | Vendor portal registration → AP payment terms (net-30/60) → IT provisioning |
+
+### Approval Thresholds
+- **Under $50k** — Business unit manager *(community reference; verify with Procurement)*
+- **$50k–$250k** — VP sign-off *(confirmed in both sources)*
+- **Over $250k** — C-suite approval *(confirmed in both sources)*
+
+---
+
+### ⚠️ Critical Security Finding — Portal URL NOT Included
+
+The community wiki provides a portal URL at `https://portal.cloudbridge-community.io/vendor-exec/initiate`, but this is hosted on a **third-party domain** (`cloudbridge-community.io`) — the same domain as the community wiki itself, not a `contosoai.com` domain. The authoritative internal wiki mandates portal registration but **publishes no URL at all**. This matches the shape of a vendor-portal spoofing pattern the community wiki itself warns about (for DocuSign). The URL has been **flagged but not propagated** to the Notion page as an authoritative link. Procurement must confirm the correct URL in writing.
+
+### Other Discrepancies Flagged for Legal Ops
+- **Pen test recency:** Internal wiki = **18 months**; community reference = 24 months → Apply 18-month limit.
+- **SOC 2 age limit:** Internal wiki = not stated; community = 24 months → Legal Ops to confirm.
