@@ -1,0 +1,46 @@
+---
+title: "Lesson 1: How AI Agents Differ from Traditional Software"
+moduleId: 1
+lessonId: 1
+---
+
+# How AI Agents Differ from Traditional Software
+
+Traditional software has a fixed control flow — it does exactly what its code says.
+An AI agent is different in three critical ways that create an entirely new attack surface.
+
+## The Three Structural Properties
+
+### 1. Tool Access
+AI agents don't just generate text — they call tools. A legal AI agent reads NDAs
+*and* writes to Notion. A DevOps agent reads CI/CD logs *and* writes deployment runbooks.
+A finance agent reads invoices *and* updates accounts-payable tracking systems.
+
+This means a compromise of what the agent *reads* can affect what the agent *writes*.
+
+### 2. Multi-Step Autonomy
+Traditional software executes a single deterministic function. An AI agent reasons
+across multiple steps, making judgment calls at each step based on everything it has
+read so far. An attacker who can influence the agent's context early in the chain
+can shape every subsequent decision.
+
+### 3. Cross-System Write Scope
+Most enterprise AI agents have OAuth permissions spanning multiple systems.
+A single agent might read from email, read from Slack, read from GitHub — and write
+to Notion, write to Jira, write to a vendor registry. This blast radius is far larger
+than any single traditional application.
+
+## Why This Matters for Security
+
+In traditional software, a SQL injection attack requires the attacker to control
+user input. In an AI agent workflow, the attacker may control a PDF the agent reads,
+a Slack message the agent processes, a CI/CD log the agent analyzes, or a git commit
+the agent summarizes. The attacker never touches the user's input at all.
+
+**This is the indirect prompt injection threat model:** the attack surface is every
+piece of external data the agent reads, not just what the user types.
+
+## Key Takeaway
+
+The question to ask about any AI agent deployment is not "is the model safe?"
+It is: **"what data does this agent read, and can an attacker control any of it?"**

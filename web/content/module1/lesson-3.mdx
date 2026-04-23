@@ -1,0 +1,49 @@
+---
+title: "Lesson 3: The Enterprise Attack Surface — 10 Workflow Categories"
+moduleId: 1
+lessonId: 3
+---
+
+# The Enterprise Attack Surface
+
+Our research identified 10 enterprise workflow categories where AI agents
+are being deployed and where indirect prompt injection is a realistic threat.
+
+## The 10 Categories
+
+| # | Department | Example AI Use Case | Attack Surface |
+|---|-----------|--------------------|-----------------|
+| 1 | Legal & Compliance | NDA review, contract summarization | Vendor-submitted documents |
+| 2 | Sales & Customer Success | CRM updates, RFP processing | Customer-submitted content |
+| 3 | Marketing & PR | Content review, survey aggregation | External website data, survey responses |
+| 4 | HR & People Ops | Resume screening, benefits Q&A | Candidate-submitted documents |
+| 5 | Finance & AP | Invoice processing, expense review | Vendor-submitted invoices |
+| 6 | Engineering & DevOps | CI/CD summarization, dependency review | CI logs, git history, npm packages |
+| 7 | IT & Security | Helpdesk triage, incident response | Ticket content, error logs |
+| 8 | Exec & Board | Meeting prep, briefing summarization | External analyst reports |
+| 9 | Procurement | Vendor onboarding, contract processing | Vendor-submitted packets |
+| 10 | Customer Support | Ticket summarization, KB authoring | Customer messages, external docs |
+
+## The Common Pattern
+
+Across all 10 categories, the attack structure is the same:
+
+1. **Attacker controls external input** — a document, email, form response, log entry, or API result.
+2. **AI agent reads the input** as part of a legitimate workflow.
+3. **Agent writes to an internal system** — Notion, Confluence, CRM, runbook, email.
+4. **Human acts on the AI-written content** without realizing it was influenced by the attacker.
+
+The attacker never interacts with your systems directly. They interact with the
+AI agent's input channel — which is often a public or semi-public surface
+(a vendor's invoice, a job applicant's resume, a GitHub repository, a community forum).
+
+## Which Categories Are Highest Risk
+
+Based on our research, the highest-risk combinations are:
+
+- **Finance + AI**: Invoice payment portal injection can redirect wire transfers.
+- **Engineering + AI**: CI/CD and git injection can poison deployment runbooks.
+- **Procurement + AI**: Vendor onboarding injection can poison approved-vendor registries.
+- **Multi-agent chains**: Any workflow where a cheaper/faster model (Haiku) processes
+  external content and writes to a data source that a more capable model (Sonnet/Opus)
+  later reads as authoritative.

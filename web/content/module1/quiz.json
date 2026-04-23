@@ -1,0 +1,55 @@
+{
+  "moduleId": 1,
+  "questions": [
+    {
+      "id": "m1q1",
+      "text": "Which of the following is one of the three structural properties that makes AI agents uniquely vulnerable compared to traditional software?",
+      "options": [
+        "They use neural networks",
+        "They have cross-system write scope combined with multi-step autonomy",
+        "They run in the cloud",
+        "They respond to natural language"
+      ],
+      "correct": 1
+    },
+    {
+      "id": "m1q2",
+      "text": "What is 'indirect prompt injection'?",
+      "options": [
+        "Tricking users into typing malicious commands",
+        "Exploiting a bug in the model's training",
+        "Embedding malicious instructions in data the AI reads, not in the user's direct message",
+        "Modifying the AI's system prompt via the API"
+      ],
+      "correct": 2
+    },
+    {
+      "id": "m1q3",
+      "text": "In the 'confused-deputy' problem as it applies to AI agents, who is the deputy?",
+      "options": [
+        "The attacker",
+        "The user",
+        "The IT administrator",
+        "The AI agent"
+      ],
+      "correct": 3
+    },
+    {
+      "id": "m1q4",
+      "text": "According to our test battery, which model tier was compromised by ALL attacks tested?",
+      "options": [
+        "Opus",
+        "Sonnet",
+        "Haiku",
+        "All models resisted all attacks"
+      ],
+      "correct": 2
+    },
+    {
+      "id": "m1q5",
+      "text": "How many enterprise workflow attack categories are covered in this course?",
+      "options": ["5", "8", "10", "12"],
+      "correct": 2
+    }
+  ]
+}

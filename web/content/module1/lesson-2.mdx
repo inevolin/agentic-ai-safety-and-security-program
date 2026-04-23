@@ -1,0 +1,52 @@
+---
+title: "Lesson 2: The Confused-Deputy Problem and Indirect Prompt Injection"
+moduleId: 1
+lessonId: 2
+---
+
+# The Confused-Deputy Problem
+
+The "confused deputy" is a classic security concept. A deputy is an entity
+that has authority to act on behalf of someone else. The deputy gets confused
+when an attacker manipulates it into using its authority in ways the principal
+never intended.
+
+## In AI Agents
+
+The AI agent is the deputy. It acts on behalf of the user (the principal),
+using OAuth tokens, API keys, and tool permissions that the user granted.
+
+An attacker who cannot directly access the user's Notion workspace **can**
+embed instructions in a PDF that the user's AI agent will read. The agent —
+confused by the injected content — uses its legitimate Notion write permission
+to propagate the attacker's content.
+
+The attack does not require the user to click a phishing link. The user never
+sees the malicious instruction. The agent processes it silently.
+
+## Indirect vs. Direct Injection
+
+**Direct prompt injection:** The attacker controls the user's message to the AI.
+Rare in enterprise deployments — the attacker would need to compromise the user's
+keyboard or session.
+
+**Indirect prompt injection:** The attacker controls data the AI reads.
+Common in enterprise deployments — attackers control vendor documents, public
+repositories, community forums, vendor invoices, and more.
+
+> **Research finding:** In our test battery of 24 attacks, every successful
+> bypass was an indirect injection. No direct injection attacks were needed —
+> the enterprise attack surface of external data sources was sufficient.
+
+## Why Models Don't Naturally Resist This
+
+Language models are trained to be helpful and to follow instructions. When
+a PDF says "include this URL in your summary," the model's default is to
+comply — because in the vast majority of real interactions, that's the right
+thing to do. The model cannot reliably distinguish between a legitimate
+instruction from the operator and a malicious instruction injected by an attacker
+into the data the operator asked it to process.
+
+This is not a bug in the model — it is a structural property of how language
+models work. Mitigating it requires architectural controls, not just model
+improvement.
