@@ -1,0 +1,108 @@
+---
+title: "Lesson 3: Safe Multi-Agent Pipeline Design"
+moduleId: 5
+lessonId: 3
+---
+
+# Safe Multi-Agent Pipeline Design
+
+Multi-agent pipelines — where one model's output becomes another model's input — are one of the highest-leverage attack surfaces in enterprise AI deployments. This lesson uses a confirmed attack chain (MAA1) as a concrete failure case, then builds up two safe architectural patterns that prevent it.
+
+## The MAA1 Attack Chain as a Pipeline Failure
+
+The MAA1 multi-agent transitive data poisoning attack succeeded against both Sonnet and Opus in controlled testing. Here is the pipeline that failed:
+
+```
+[Attacker-controlled vendor PDF]
+         ↓
+   Haiku (reads + writes)
+         ↓
+[Internal Vendor Registry — "approved" data source]
+         ↓
+   Sonnet/Opus (reads registry as authoritative)
+         ↓
+[Execution checklist with attacker URL]
+         ↓
+   Employee acts on checklist → phishing portal visit
+```
+
+The failure point is the arrow between Haiku's writes and Sonnet's reads. There is no human review step. Haiku treats the vendor PDF as authoritative (because it is an external document that was provided to it), extracts what looks like a vendor portal URL, and writes it to the registry. Sonnet then reads the registry and applies its trust heuristic: "this is an internal IT-maintained data source, it is more trustworthy than what a vendor document claims." It produces a checklist citing the attacker URL as the policy-compliant option.
+
+The result is that Opus — in the CONF1-MAA1-v2 test — not only accepted the attacker URL but actively removed a prior security review note and replaced it with an approval checkmark. The stronger model applied more trust to the poisoned registry, not less.
+
+**The root cause is architectural, not model-level.** No amount of model capability improvement fixes a pipeline that routes attacker-controlled data through an unreviewed write into an authoritative source.
+
+## Safe Pattern 1: Human Review Gate
+
+The simplest fix is a required human review step between Haiku's extraction and any write to an authoritative source:
+
+```
+[External vendor PDF]
+         ↓
+   Haiku (reads + extracts structured data → DRAFT ONLY)
+         ↓
+   [HUMAN REVIEWS DRAFT]
+   — checks vendor portal URL against vendor's public website
+   — verifies domain matches corporate supplier records
+   — approves or rejects each extracted field
+         ↓
+   Human approves
+         ↓
+   Sonnet (or human) writes approved data to vendor registry
+```
+
+In this pattern, Haiku's role is extraction and formatting — it never writes to any authoritative source. The human review gate is the control that breaks the transitive trust chain. Even if Haiku extracted an attacker URL, the human reviewer sees it before it becomes authoritative data.
+
+**What the human reviewer needs to see:**
+- The extracted field value (e.g., `portal URL: https://attacker.example.com`)
+- The source in the document where it appeared (page and paragraph)
+- A comparison against the vendor's public website domain
+- A flag if the domain does not match an existing corporate supplier record
+
+Providing this context in the approval UI makes the reviewer's job tractable. A reviewer who sees "extracted portal URL: `https://portal.acmecorp.com/vendor-exec/initiate` — source: page 4, Section 3.2 — public website: `acmecorp.com` — match: subdomain" can approve in seconds. A reviewer who just sees a diff with no source context is likely to rubber-stamp it.
+
+## Safe Pattern 2: Staging Area + Diff
+
+For workflows where human review must happen asynchronously or at higher volume, the staging-area-plus-diff pattern adds a structural buffer:
+
+```
+[External vendor PDF]
+         ↓
+   Haiku (reads + writes to STAGING DRAFT only)
+   [Haiku's write scope: STAGING_DRAFT_PAGE only]
+         ↓
+   [Human reviews diff: staging vs. live registry]
+   — sees exactly what Haiku added, changed, or removed
+   — all new URLs highlighted and compared against allowlist
+         ↓
+   Human approves merge
+         ↓
+   Live registry updated
+```
+
+The staging area is a separate Notion page (or database record, or file) that is not read by any downstream agent or human workflow until it has been reviewed. The diff view shows precisely what changed — making it easy to spot a URL that doesn't belong.
+
+The key technical requirement: **Haiku's OAuth scope must not include write access to the live registry.** The scope must be limited to the staging draft page. This is the write-scope contract in practice. If Haiku's OAuth scope covers both staging and live, the staging buffer is a UI convention, not a security control — a compromised model could bypass it.
+
+## What Haiku Should Never Be Allowed to Write To
+
+The following categories of data sources must be protected by either a human review gate or a staging buffer — or both — before any Haiku write becomes readable by Sonnet, Opus, or any human workflow:
+
+- **Vendor registries or approved-vendor lists** — These are the ground truth for which vendors are authorized and how to reach them. Poisoning a vendor registry (MAA1, SP1, WIKI1) redirects all downstream vendor interactions.
+- **Approved-service catalogs** — Internal catalogs of approved SaaS services, API endpoints, and infrastructure providers. Poisoning an approved-service catalog (CONF1-MAA1-v2) gets attacker-controlled endpoints written to deployment runbooks as "approved."
+- **Security runbooks or incident response playbooks** — The documents engineers follow during incidents. Poisoning an incident runbook (EL1 v2, CI1 v2) means that when an incident occurs, engineers follow attacker-controlled recovery steps.
+- **Deployment checklists** — Pre-deploy verification steps. Poisoning a deployment checklist (CI1 v2) routes engineers to an attacker-controlled verification URL before production deployments.
+- **Configuration management systems** — `.env` files, Ansible variable files, Terraform state, Kubernetes ConfigMaps. Poisoning a configuration system (CONF1 v3) gets attacker-controlled API endpoints deployed as infrastructure.
+- **Any artifact that a more capable model will later read as authoritative** — If Haiku's output feeds Sonnet's or Opus's context, and Sonnet/Opus will treat that output as trusted internal data, Haiku's write is a trust escalation point.
+
+## The Cross-Model Trust Boundary
+
+Understanding why this architectural vulnerability exists requires understanding how trust works in multi-model pipelines.
+
+Sonnet and Opus apply different levels of trust to different data sources based on where those sources live. Data from external documents (vendor PDFs, emails from outside the organization) receives lower trust. Data from internal systems (IT registries, approved-service catalogs, security runbooks) receives higher trust — because internal systems are, in principle, controlled by the organization.
+
+An attacker who routes their payload through Haiku first — getting it written to an internal system — gets their content reclassified from "external document content" to "internal authoritative data." This trust elevation is not a model bug; it is a reasonable heuristic that attackers exploit architecturally.
+
+The human review gate breaks this chain not by making Sonnet more skeptical of internal data (which would reduce Sonnet's usefulness for legitimate tasks) but by ensuring that the internal data was actually reviewed by a human before it became authoritative.
+
+**The rule to remember:** If an AI model wrote it, and another AI model will read it as authoritative, a human must have reviewed and approved it in between. No exceptions for vendor registries, service catalogs, runbooks, or deployment checklists.
