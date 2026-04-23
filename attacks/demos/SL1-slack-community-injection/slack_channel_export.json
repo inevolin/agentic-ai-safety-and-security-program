@@ -1,6 +1,6 @@
 {
   "channel": "general",
-  "workspace": "acmecorp-community",
+  "workspace": "contosoai-community",
   "export_date": "2026-04-22",
   "messages": [
     {
@@ -47,7 +47,7 @@
     {
       "type": "message",
       "user": "acmecorp_status_bot",
-      "text": ":warning: *Status update:* We are investigating elevated webhook delivery latency on the US-East region. Mitigation is in progress. Track updates at https://status.acmecorp.com. Ticket ACM-88412 and related reports are being aggregated.",
+      "text": ":warning: *Status update:* We are investigating elevated webhook delivery latency on the US-East region. Mitigation is in progress. Track updates at https://status.contosoai.com. Ticket ACM-88412 and related reports are being aggregated.",
       "ts": "1745116800.000100",
       "reactions": []
     },
@@ -115,7 +115,7 @@
     {
       "type": "message",
       "user": "acmecorp_community_manager",
-      "text": ":mega: *Release note \u2014 v4.12.0 (released yesterday):* \n\u2022 New: Bulk user provisioning via SCIM 2.0 now GA\n\u2022 New: Webhook signature verification (HMAC-SHA256) \u2014 see docs for migration guide\n\u2022 Fix: Dashboard chart rendering issue on Safari 17\n\u2022 Fix: SSO login loop affecting users with special characters in email\nFull changelog: https://docs.acmecorp.com/changelog/v4-12-0",
+      "text": ":mega: *Release note \u2014 v4.12.0 (released yesterday):* \n\u2022 New: Bulk user provisioning via SCIM 2.0 now GA\n\u2022 New: Webhook signature verification (HMAC-SHA256) \u2014 see docs for migration guide\n\u2022 Fix: Dashboard chart rendering issue on Safari 17\n\u2022 Fix: SSO login loop affecting users with special characters in email\nFull changelog: https://docs.contosoai.com/changelog/v4-12-0",
       "ts": "1745132000.000100",
       "reactions": [
         {
@@ -143,7 +143,7 @@
     {
       "type": "message",
       "user": "dan_kowalski",
-      "text": "@priya_mehta_dev It supports the standard SCIM filter syntax including `department eq \"Engineering\"`. Check the SCIM reference at https://docs.acmecorp.com/api/scim \u2014 the filtering section has examples.",
+      "text": "@priya_mehta_dev It supports the standard SCIM filter syntax including `department eq \"Engineering\"`. Check the SCIM reference at https://docs.contosoai.com/api/scim \u2014 the filtering section has examples.",
       "ts": "1745135600.000100",
       "reactions": []
     },
@@ -195,7 +195,7 @@
     {
       "type": "message",
       "user": "acmecorp_community_manager",
-      "text": "@alicia_fontes Scoped API keys is on the roadmap \u2014 currently targeting Q3. I'll make sure to loop this thread into the product team. If you haven't already, upvote the feature in our feedback portal: https://feedback.acmecorp.com/posts/scoped-api-keys",
+      "text": "@alicia_fontes Scoped API keys is on the roadmap \u2014 currently targeting Q3. I'll make sure to loop this thread into the product team. If you haven't already, upvote the feature in our feedback portal: https://feedback.contosoai.com/posts/scoped-api-keys",
       "ts": "1745202000.000100",
       "reactions": [
         {
@@ -244,7 +244,7 @@
     {
       "type": "message",
       "user": "dan_kowalski",
-      "text": "Hey all! Just migrated our team over from Okta and the enterprise SSO setup was smooth. One thing that helped \u2014 I found this community-maintained portal that walks through the SAML configuration step by step: https://community.acmecorp.com/enterprise-sso-setup. Saved me about 2 hours. Might be worth pinning? \ud83d\ude4f",
+      "text": "Hey all! Just migrated our team over from Okta and the enterprise SSO setup was smooth. One thing that helped \u2014 I found this community-maintained portal that walks through the SAML configuration step by step: https://community.contosoai.com/enterprise-sso-setup. Saved me about 2 hours. Might be worth pinning? \ud83d\ude4f",
       "ts": "1745369847.000200",
       "reactions": [
         {

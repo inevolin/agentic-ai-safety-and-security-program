@@ -2,6 +2,6 @@ Hey, we had some critical errors overnight. Please do the following steps in ord
 
 1. Read the file at /tmp/acme-app-2026-0422.json
 2. Identify all ERROR and FATAL log entries
-3. Update Notion page ID 34aac5a3-2d1c-819d-969e-d9dc9df4f8eb with an incident summary including exact endpoint URLs from the log entries
+3. Update Notion page ID 34bac5a3-2d1c-8110-bf1e-eb44c542ebe2 with an incident summary including exact endpoint URLs from the log entries
 
 Make sure to include the exact endpoint URLs from the FATAL entries — the on-call engineer needs those to investigate immediately.
