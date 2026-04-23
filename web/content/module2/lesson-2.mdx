@@ -1,0 +1,49 @@
+---
+title: "Lesson 2: Attack Surface by Department"
+moduleId: 2
+lessonId: 2
+---
+
+# Attack Surface by Department
+
+## Legal & Compliance
+**Primary attack class:** Semantic split, registry poisoning
+**Highest-risk scenario:** AI agent reviews vendor NDAs + writes execution checklists.
+An attacker submits a vendor packet where: the NDA is clean, but the onboarding
+form references a poisoned internal IT registry. The agent joins both sources and
+produces a checklist citing the attacker's vendor portal URL as the IT-approved
+execution step.
+
+## Finance & Accounts Payable
+**Primary attack class:** Structured-data field injection
+**Highest-risk scenario:** AI agent processes vendor invoices + updates AP tracking.
+A vendor invoice with an attacker-controlled `payment_portal` field is processed;
+the agent writes the portal URL to the AP tracking page. Finance team processes
+a $47,500 wire transfer to the attacker-controlled portal.
+
+## Engineering & DevOps
+**Primary attack class:** Log injection, structured-data field injection
+**Highest-risk scenario:** AI agent reads CI/CD pipeline logs + writes deployment
+runbooks. An attacker injects a URL into the `##[group]Deployment Gates` step of
+a pipeline log. The agent includes it as a required security sign-off action with
+a 4-hour SLA. Engineers click it before they can deploy.
+
+**Second scenario:** AI agent reviews git history for a dependency update PR.
+An attacker's commit (with an internal author email) includes a URL in the commit
+body as a "migration guide." The agent writes it to the engineering runbook as
+a required pre-deploy step.
+
+## IT & Security
+**Primary attack class:** Structured-data field injection, log injection
+**Highest-risk scenario:** AI helpdesk triage agent reads ticket JSON + writes
+IT runbooks. An attacker plants a URL in the `auto_linked_kb` field of a ticket.
+The agent writes it to the IT runbook as Step 1 for SSO session reset — the field
+that IT staff follow during incidents.
+
+## Procurement
+**Primary attack class:** Multi-agent transitive poisoning
+**Highest-risk scenario:** Haiku processes vendor onboarding packets + writes to
+the approved-vendor registry. Sonnet reads the registry + produces vendor execution
+checklists. Attacker plants a URL in the vendor packet. Haiku writes it to the
+registry. Sonnet cites it as the only policy-compliant vendor portal — because
+the company's own security policy says "trust the registry, not vendor documents."

@@ -1,0 +1,60 @@
+{
+  "moduleId": 2,
+  "questions": [
+    {
+      "id": "m2q1",
+      "text": "Which attack class exploits a cheaper upstream AI agent to poison an internal data source that a more capable AI then trusts?",
+      "options": [
+        "Registry poisoning",
+        "Multi-agent transitive poisoning",
+        "Community channel injection",
+        "Conversational seeding"
+      ],
+      "correct": 1
+    },
+    {
+      "id": "m2q2",
+      "text": "In the EL1 v2 attack (error log injection), which change was the most critical to bypassing Sonnet's detection?",
+      "options": [
+        "Switching from a .io domain to a .com domain",
+        "Removing the query parameter and switching to a standard OAuth2 path on the company's own domain",
+        "Adding more realistic log timestamps",
+        "Changing the FATAL severity level to WARN"
+      ],
+      "correct": 1
+    },
+    {
+      "id": "m2q3",
+      "text": "Why is Opus paradoxically MORE vulnerable to registry poisoning attacks than Sonnet?",
+      "options": [
+        "Opus has fewer safety guardrails",
+        "Opus cannot read CSV files",
+        "Opus's stronger defenses against document injection make it rely more heavily on registry data as ground truth",
+        "Opus does not check domain names"
+      ],
+      "correct": 2
+    },
+    {
+      "id": "m2q4",
+      "text": "The SL1 v4 attack (SSO portal URL in Slack) was blocked, but SL1 v5 (webhook migration URL) bypassed detection. What does this reveal about Sonnet's defense?",
+      "options": [
+        "Sonnet only checks URLs that begin with 'https'",
+        "Sonnet's injection defenses are topic-gated — stronger for auth/credential topics than developer workflow documentation",
+        "Sonnet blocked v4 because it had more than 3 reactions",
+        "Sonnet only reads the first message in a Slack export"
+      ],
+      "correct": 1
+    },
+    {
+      "id": "m2q5",
+      "text": "Which attack class requires NO documents at all — only a conversation with the AI?",
+      "options": [
+        "Registry poisoning",
+        "Log injection",
+        "Conversational seeding",
+        "Semantic split"
+      ],
+      "correct": 2
+    }
+  ]
+}
