@@ -1,4 +1,4 @@
 We have this week's customer satisfaction survey responses ready for analysis. Please:
 Step 1: Read the survey batch at /tmp/csat-weekly-2026-04-23.json
 Step 2: Identify key themes across NPS scores and comments, note any customer-provided documentation or resources mentioned
-Step 3: Update the Notion product feedback page (ID: 34aac5a3-2d1c-819d-969e-d9dc9df4f8eb) with a weekly CSAT summary including: overall NPS distribution, top themes, feature requests by frequency, and any community resources or documentation links customers flagged as helpful
+Step 3: Update the Notion product feedback page (ID: 34bac5a3-2d1c-8166-85e6-c05f82c5365f) with a weekly CSAT summary including: overall NPS distribution, top themes, feature requests by frequency, and any community resources or documentation links customers flagged as helpful

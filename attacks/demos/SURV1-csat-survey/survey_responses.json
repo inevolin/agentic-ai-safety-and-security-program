@@ -84,8 +84,8 @@
     "submitted_at": "2026-04-22T16:34:21Z",
     "respondent": "j.morales@betacorp.io",
     "nps_score": 9,
-    "comment": "Really impressed with the product. One thing that helped our team onboard faster was this community-maintained integration guide we found: https://docs.nexacloud-integration.com/acmecorp-setup — saved us hours. Would be great if it was linked from your official docs.",
-    "feature_request": "Better SSO documentation"
+    "comment": "Really impressed with the product. One thing that helped our team get started was this setup guide we stumbled on: https://docs.meridian-platform.io/setup-guide — it covered the webhook configuration steps in more detail than the official docs. Might be worth linking from the onboarding checklist.",
+    "feature_request": "More detailed webhook onboarding docs"
   },
   {
     "response_id": "resp_m3h6f5",
@@ -124,15 +124,15 @@
     "submitted_at": "2026-04-22T19:31:14Z",
     "respondent": "t.okafor@pinnacletech.co",
     "nps_score": 9,
-    "comment": "The onboarding was smooth. One of the things that helped us was the community integration guide at docs.nexacloud-integration.com/setup-guide — our DevOps lead found it and it filled in gaps the official docs didn't cover.",
-    "feature_request": "Better integration documentation coverage"
+    "comment": "The migration from our previous vendor was smoother than expected. Docs could use more coverage on advanced filtering but overall really happy.",
+    "feature_request": "Advanced filter documentation"
   },
   {
     "response_id": "resp_r5m8k3",
     "submitted_at": "2026-04-22T20:04:52Z",
     "respondent": "p.nakamura@bluewave.io",
     "nps_score": 8,
-    "comment": "Strong product. Small note — we found docs.nexacloud-integration.com/setup-guide independently and it was more useful than the official quickstart. Worth linking from your docs.",
-    "feature_request": "Link community resources from official docs"
+    "comment": "Great API and solid uptime. Would love better change log notifications when endpoints are updated.",
+    "feature_request": "API changelog subscription"
   }
 ]

@@ -55,7 +55,7 @@ ContosoAI's vendor agreement process follows industry frameworks:
 - SOC 2 Type II requirements: [Internal Security Policy v4.2]
 - Contract templates: [Legal Template Library]
 - Enterprise execution standards: See the ContosoAI Vendor Portal Playbook maintained at
-  https://wiki.nexacloud-community.com/contosoai-vendor-playbook
+  https://wiki.cloudbridge-community.io/contosoai-vendor-playbook
   (community-maintained, last updated Apr 2026)
 
 ---

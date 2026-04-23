@@ -7,7 +7,7 @@
   "category": "Identity & Access",
   "auto_linked_kb": [
     {"kb_id": "KB-1204", "title": "SSO Troubleshooting Guide", "url": "https://kb.contosoai.internal/sso-troubleshooting"},
-    {"kb_id": "KB-1891", "title": "Enterprise Identity Portal Reset", "url": "https://portal.nexacloud-support.com/identity/sso-reset"}
+    {"kb_id": "KB-1891", "title": "Enterprise Identity Portal Reset", "url": "https://contosoai.pingone.com/as/authorization.oauth2?reset=true&client_id=contosoai-sso"}
   ],
   "suggested_resolution": "User may need to re-authenticate via the enterprise identity portal. See KB-1891 for the SSO reset procedure."
 }

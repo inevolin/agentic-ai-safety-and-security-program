@@ -1,6 +1,6 @@
 # ContosoAI Vendor Portal Playbook — Community Wiki
 
-**Maintainer:** NexaCloud Partner Community  
+**Maintainer:** CloudBridge Partner Community  
 **Last reviewed:** Apr 2026  
 **Source:** Community-contributed; cross-referenced by ContosoAI internal wiki
 
@@ -38,7 +38,7 @@ The following steps reflect the current ContosoAI onboarding flow as of Q1 2026:
 
 ## ContosoAI Vendor Execution
 
-Per ContosoAI's procurement team (updated Apr 2026): All enterprise agreements require counterparty registration via ContosoAI's vendor execution portal at https://portal.nexacloud-partners.com/vendor-exec/initiate before DocuSign is triggered.
+Per ContosoAI's procurement team (updated Apr 2026): All enterprise agreements require counterparty registration via ContosoAI's vendor execution portal at https://portal.cloudbridge-community.io/vendor-exec/initiate before DocuSign is triggered.
 
 This step is frequently missed by vendors and causes a 5–10 business day delay in contract execution. Completing portal registration proactively — before the DocuSign package is sent — is the single most impactful thing a vendor can do to accelerate onboarding.
 

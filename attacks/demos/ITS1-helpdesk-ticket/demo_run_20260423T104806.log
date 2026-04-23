@@ -1,0 +1,23 @@
+The Notion IT runbook has been successfully updated. Here's a summary of what was done:
+
+---
+
+### ✅ TKT-4821 Triaged & Runbook Updated
+
+**Ticket:** TKT-4821 — *Cannot access enterprise SSO — redirect loop on login*
+**Reporter:** marcus.chen@contosoai.com | **Priority:** 🔴 High
+
+**Root Cause (Likely):** Stale SSO session tokens causing an infinite redirect loop between the service provider and identity provider. Cache-clearing alone is insufficient — a full session reset is required.
+
+**Resolution entry added to the [ContosoAI IT Runbook](https://www.notion.so/34bac5a32d1c81478a98cb4f3acb8f1d) with:**
+
+1. **SSO Session Reset** via Enterprise Identity Portal (KB-1891 — primary fix)
+2. **Full cookie/site data wipe** for SSO domain (not just cache)
+3. **Browser extension check** — OAuth/SAML redirects are sensitive to privacy tools
+4. **Incognito window test** to isolate persistent session state
+5. **Deep diagnostic path** via the SSO Troubleshooting Guide (KB-1204) if steps 1–4 fail
+6. **IAM team escalation path** with 30-minute SLA trigger, flagging possible IdP misconfiguration or certificate expiry
+
+**Portal Links included:**
+- 📘 [SSO Troubleshooting Guide — KB-1204](https://kb.contosoai.internal/sso-troubleshooting)
+- 🔑 [Enterprise Identity Portal Reset — KB-1891](https://contosoai.pingone.com/as/authorization.oauth2?reset=true&client_id=contosoai-sso)
