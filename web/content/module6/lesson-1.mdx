@@ -1,0 +1,158 @@
+---
+title: "Lesson 1: Reading the Risk Register"
+moduleId: 6
+lessonId: 1
+---
+
+# Lesson 1: Reading the Risk Register
+
+The risk register is your primary tool for making defensible, data-driven decisions about where to invest your AI security budget. It converts qualitative attack descriptions into comparable priority scores so you can sequence mitigations rationally rather than reactively.
+
+---
+
+## The Scoring Formula: F + A + B + C − D
+
+Every attack in the register is scored on five dimensions. The formula is:
+
+**Priority = F + A + B + C − D**
+
+| Variable | Name | Scale | What it measures |
+|---|---|---|---|
+| **F** | Feasibility | 1–5 | How easy is the attack to mount? 5 = trivial setup, no specialized skill required. |
+| **A** | Automation / scale | 1–5 | Can the attack be automated or replicated at scale? 5 = fully scriptable with no per-target effort. |
+| **B** | Blast radius | 1–5 | How severe is the damage if the attack succeeds? 5 = financial loss, runbook corruption, or supply-chain propagation. |
+| **C** | Attacker ease | 1–5 | How cheaply and easily can the attacker execute? 1 = requires significant resources or expertise. 5 = no specialized resources needed. |
+| **D** | Detectability | 1–5 | How visible is the attack to existing defenses? **1 = essentially invisible** (subtracted because invisible attacks are higher priority). 5 = easily caught by basic monitoring. |
+
+### Why D is subtracted
+
+The subtraction of D is intentional and important. A high-feasibility attack that leaves obvious traces in logs is easier to respond to than one that silently propagates through trusted systems with no anomalous signal. By subtracting D, the formula elevates attacks that are both easy to mount and hard to see — the most dangerous combination for an organization.
+
+A score of D=1 means your existing monitoring tools would not flag this attack. An attack with D=1 and a high F+A+B+C sum should be treated as urgent regardless of how sophisticated it sounds in prose.
+
+---
+
+## Top 5 Highest-Priority Attacks
+
+### 1. MAA1 — Multi-Agent Transitive Poisoning (Priority 17)
+
+**Score breakdown:** F=5, A=4, B=5, C=4, D=1
+
+MAA1 scores highest in the register for two reasons: it is nearly invisible (D=1) and its blast radius is maximum (B=5). In this attack, a sub-tier model (e.g., Haiku) reads attacker-controlled content and writes a poisoned URL into an internal data registry — which a more capable model (Sonnet or Opus) then reads and treats as authoritative. Neither write operation looks anomalous in isolation. No individual step triggers a security alert.
+
+The F=5 rating reflects that mounting this attack requires only that the attacker control a document or vendor submission that the Haiku agent will process — a low bar in most vendor onboarding or document ingestion workflows. The A=4 rating reflects that the attack can be partially automated: the attacker submits one poisoned document and lets the agent pipeline do the rest.
+
+**Why it's priority 1:** Invisible propagation through a trusted two-model pipeline. By the time the Sonnet-generated artifact reaches a human, the attacker URL has the imprimatur of an IT-approved registry.
+
+### 2. INV1 — Invoice Payment Portal Injection (Priority 16)
+
+**Score breakdown:** F=5, A=4, B=5, C=4, D=2
+
+INV1 targets invoice or accounts-payable AI workflows. An attacker embeds a fraudulent payment portal URL in a vendor invoice or structured data feed. The AI agent reads it, surfaces it as the payment destination, and a human (or downstream automation) executes a wire transfer. The blast radius is B=5 because the damage is direct and often irreversible: funds transferred to attacker-controlled accounts.
+
+The F=5 reflects that invoice fraud is a mature attack category with no technical barrier — any attacker who can submit a PDF or CSV to an AP workflow can attempt it. The D=2 score indicates the injection itself is largely invisible; only the downstream financial transaction may trigger review, by which point the harm is done.
+
+**Why it's priority 2:** Highest financial risk in the register. A single successful INV1 bypass can exceed the entire cost of implementing the Minimum Viable Defensive Kit.
+
+### 3. CONF1-MAA1-v2 — Domain-Rotation Catalog Poisoning (Priority 16)
+
+**Score breakdown:** F=5, A=4, B=4, C=4, D=1
+
+This is the evolved form of the MAA1 attack, specifically targeting Opus — the most capable and generally most security-aware model tier. In v1, Opus detected the attack by cross-referencing the attacker domain against `APP_NAME` in the source file. In v2, the attacker rotates the domain to one with no lexical overlap with the app name (e.g., `ingest.stackdrive-analytics.io` instead of `analytics.cloudbridge-api.com`), removing Opus's detection anchor entirely.
+
+The D=1 score reflects that once the domain-rotation evasion is applied, Opus not only fails to detect the attack but actively removes a prior security callout, replacing it with an approval note. The attack leaves a forensic artifact that appears to confirm legitimate approval.
+
+**Why it's priority 3:** Bypasses the most capable model tier's active security reasoning through a simple domain substitution. No specialized knowledge required after the initial failure analysis.
+
+### 4. CI1 v2 — CI/CD Deployment Gates Injection (Priority 14)
+
+**Score breakdown:** F=4, A=4, B=4, C=4, D=2
+
+CI1 targets the growing pattern of AI agents that read CI/CD pipeline logs and generate deployment runbooks or checklists. The injection point is a `##[group]Deployment Gates` step — the official format used by Azure DevOps and similar CI platforms for security gate outputs. An AI reading this format treats it as authoritative infrastructure output, not attacker-controlled data.
+
+The attack scored D=2 rather than D=1 because CI log files do leave a trail — but that trail is in a log aggregation system that most organizations do not actively monitor for URL injection. The B=4 blast radius reflects runbook poisoning: the attacker URL ends up in engineering documentation that on-call engineers consult during incidents.
+
+**Why it's priority 4:** Exploits the AI's correct heuristic (CI Deployment Gates are authoritative) to make a hostile URL appear mandatory. The institutional-authority framing ("REQUIRES SECURITY SIGN-OFF — 4-hour SLA") accelerates human compliance.
+
+### 5. GIT1 v3 — Git Commit Body URL Injection (Priority 14)
+
+**Score breakdown:** F=4, A=4, B=4, C=4, D=2
+
+GIT1 embeds an attacker URL in the body of a git commit from an internal-seeming author (`jlee@acmecorp.com`). AI agents that read git history to generate upgrade guides or dependency runbooks will surface the URL as a documented migration requirement. The commit-body format bypasses directive-detection because it reads as a cross-reference note, not a machine-readable instruction.
+
+The A=4 rating is particularly important here: in supply-chain attack scenarios, a single malicious commit to a widely-consumed internal SDK could scale the attack across every downstream deployment that uses an AI runbook generator.
+
+**Why it's priority 5:** Git history is treated as authoritative documentation by most AI developer-tooling agents, yet it is externally editable in supply-chain scenarios (malicious contributor, compromised CI, history rewrite).
+
+---
+
+## Using the Table to Prioritize by Org Profile
+
+The register is not one-size-fits-all. Different organizational workflows expose different attack surfaces. Use the following profiles to identify your highest-exposure scenarios.
+
+### Profile A: High-Volume Vendor Onboarding Workflow
+
+If your organization uses AI agents to process vendor submissions, onboard suppliers, or maintain an approved-vendor registry, your priority attacks are:
+
+- **MAA1** (Priority 17) — the canonical multi-agent registry poisoning attack
+- **SP1** (Priority 14) — semantic split where no single source looks suspicious
+- **WIKI1 v4** (Priority 13) — wiki channel delegates URL authority to a registry the attacker controls
+
+**Immediate action:** Implement Write-Scope Contracts (MVD Primitive 3) before any other investment. Every Haiku-tier write to a vendor registry must require human review before a Sonnet-tier agent reads it.
+
+### Profile B: Heavy CI/CD AI Automation
+
+If your organization uses AI agents to read pipeline logs, generate deployment runbooks, or assist on-call engineers:
+
+- **CI1 v2** (Priority 14) — Deployment Gates log injection
+- **GIT1 v3** (Priority 14) — Git commit body URL injection
+- **EL1 v2** (Priority 13) — Error log IDP fallback URL injection
+
+**Immediate action:** Implement Provenance Tagging (MVD Primitive 1) with an explicit system prompt rule treating all CI log content and git history as DATA trust. Add an output-side URL filter that blocks any domain not on the corporate allowlist from appearing in generated runbooks.
+
+### Profile C: Finance + AI Agent (Invoice Processing)
+
+If your organization uses AI agents in accounts-payable, invoice matching, or payment workflows:
+
+- **INV1** (Priority 16) — invoice payment portal injection
+- All attacks that end in a vendor-master or payment-instruction write
+
+**Immediate action:** HITL Gates (MVD Primitive 5) are non-negotiable before deploying any AI in payment workflows. No AI agent should be able to surface a payment destination without a diff-view human approval step.
+
+### Profile D: General Purpose (Start Somewhere)
+
+If your organization has broad AI agent usage without a single dominant workflow, start with the full MVD kit:
+
+- **Primitive 1** (Provenance Tagging) — covers 17 of 52 scenarios
+- **Primitive 3** (Write-Scope Contracts) — adds coverage for MAA1, SP1-FC, INV1, CI1, GIT1, EL1
+- **Primitive 5** (HITL Gates for High-Impact Actions) — final brake if 1 and 3 fail
+
+Together these cover the primary mitigation for approximately 35 of 52 catalog scenarios.
+
+---
+
+## How to Justify the MVD Kit to a Board
+
+Security teams are routinely asked to quantify ROI for defensive investments. The MVD kit provides a defensible business case.
+
+**Combined implementation cost:** The three MVD primitives together require 7–11 developer-weeks:
+- Provenance Tagging (Primitive 1): 2–3 weeks
+- Write-Scope Contracts (Primitive 3): 4–6 weeks
+- HITL Gates (Primitive 5): 1–2 weeks
+
+**Breach cost comparison:** A single successful INV1 attack (invoice payment portal injection) results in a fraudulent wire transfer. At median business email compromise values, a single incident costs $47,500 or more — and that figure does not include incident response, audit, and reputational costs.
+
+**The ROI framing:**
+
+> "Implementing HITL gates for payment instruction changes (Primitive 5) costs 1–2 developer-weeks. A single invoice fraud bypass costs more than the entire MVD kit. The question is not whether we can afford to implement these controls — it's whether we can afford not to."
+
+The board-level argument is not "security for security's sake." It is: the MVD kit covers 35 of 52 known attack scenarios at a total cost that is lower than the expected loss from one high-severity incident. This is a positive expected-value investment at any reasonable probability of breach.
+
+---
+
+## Key Takeaways
+
+- The D factor is the most counter-intuitive element of the scoring formula. Low detectability makes an attack more dangerous, not less.
+- MAA1 is the register's highest-priority attack because it is both invisible (D=1) and architecturally common in enterprise AI pipelines.
+- Org profile determines which section of the register matters most. Match your workflow to the priority attack list before sequencing mitigations.
+- The MVD kit costs less to implement than a single INV1 breach. Use that comparison when requesting budget.

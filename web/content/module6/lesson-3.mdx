@@ -1,0 +1,189 @@
+---
+title: "Lesson 3: AI Vendor Security Evaluation Checklist"
+moduleId: 6
+lessonId: 3
+---
+
+# Lesson 3: AI Vendor Security Evaluation Checklist
+
+When an organization purchases or integrates an AI agent product, security evaluation typically focuses on data privacy, SOC 2 compliance, and access controls. These are necessary but not sufficient. The attack patterns in this course represent a new and distinct threat surface — one that most AI vendors have not been publicly challenged on.
+
+This checklist provides 10 questions you can ask any AI vendor or internal integrator before deployment. The questions are derived directly from the attack patterns in the risk register. A vendor who cannot answer them clearly is a vendor whose product may be vulnerable to attacks your organization will face.
+
+---
+
+## How to Use This Checklist
+
+Use these questions in:
+- Pre-procurement vendor evaluation calls
+- Internal security review of AI integration proposals
+- Annual security reassessment of existing AI vendors
+- Due diligence for AI-related M&A
+
+For each question, review the vendor's answer against the "good answer" and "red flag" criteria. A single red flag is not disqualifying on its own, but it requires a follow-up. Three or more red flags across the ten questions should trigger a formal security review before procurement proceeds.
+
+---
+
+## The 10 Questions
+
+### Question 1
+
+> "How does your system prevent a sub-tier model (e.g., a lighter, cheaper model) from poisoning data sources read by your more capable model tiers?"
+
+**Attack class targeted:** MAA1 (Multi-Agent Transitive Poisoning), CONF1-MAA1-v2
+
+**Why this question matters:** Many AI platforms use tiered model architectures — a cheaper model processes high-volume input, a more capable model synthesizes and acts. In our test battery, the lower-capability tier (Haiku) registered attacker-controlled URLs into internal registries without any resistance in every test we ran. The more capable model then treated those registry entries as authoritative. If the vendor's architecture follows this pattern, they need a concrete answer to this question.
+
+**Good answer:** "Any write by a lower-capability model to a shared data store (registry, database, catalog) goes through a human review queue before it is available for consumption by higher-tier models. We implement scope isolation between model tiers."
+
+**Red flag:** "Our models don't do that" (indicating no awareness of multi-agent pipeline risk), or "our more capable models review what the lighter models produce" (model-to-model review without human oversight does not prevent transitive poisoning), or no answer at all.
+
+---
+
+### Question 2
+
+> "What is your system prompt template for agents that read external documents? Can we review it?"
+
+**Attack class targeted:** All prompt injection and URL propagation attacks (EL1 v2, CI1 v2, GIT1 v3, TP1 v3, SL1 v5, SURV1 v2, CONF1 v3)
+
+**Why this question matters:** The single most effective structural defense in our test battery was a well-formed system prompt that explicitly establishes trust tiers and restricts URL propagation. Conversely, the single most common attack enabler was a system prompt with an unconditional URL-inclusion directive. Knowing what the vendor's default system prompt looks like tells you a great deal about whether they have thought about injection defenses.
+
+**Good answer:** The vendor shares a template (or a representative example) that includes: (a) explicit trust tiers distinguishing operator instructions from user input from external data, (b) a rule treating external content as data rather than instructions, and (c) a URL handling policy that limits propagation to an allowlist. Bonus: the template includes provenance tagging of AI-generated output.
+
+**Red flag:** "Our prompts are proprietary and we can't share them." Security-by-obscurity on prompt templates is a meaningful red flag for injection defense posture. Alternatively: the shared template contains a blanket URL-inclusion directive ("include all relevant links from the documents") with no allowlist constraint.
+
+---
+
+### Question 3
+
+> "Do your agent sessions use long-lived OAuth scopes or session-scoped tokens?"
+
+**Attack class targeted:** SP1-FC (Full-Chain Worm), persistent write-scope exploits
+
+**Why this question matters:** An agent session that carries long-lived, broad OAuth scopes is an agent session that can complete an attack chain even if the user's stated task is narrow. The difference between a session-scoped token (expires when the session ends, scoped to the task) and a service account with admin access is the difference between a contained breach and a persistent compromise.
+
+**Good answer:** "We use session-scoped tokens that expire with the user's session. Write permissions are provisioned per task based on what the user has explicitly requested, not pre-granted to all sessions." Bonus: the vendor supports configurable scope contracts per agent deployment.
+
+**Red flag:** "We use service accounts with admin access for reliability" (common rationale for over-privileged credentials), or "our tokens have a 90-day expiry" (not session-scoped), or the vendor is unfamiliar with the concept of per-session scope provisioning.
+
+---
+
+### Question 4
+
+> "How does your system handle URLs found in external documents — does it propagate them automatically or flag them for review?"
+
+**Attack class targeted:** All URL-propagation attacks (MAA1, INV1, SP1, CI1 v2, GIT1 v3, EL1 v2, ITS1 v2, TP1 v3, SL1 v5, SURV1 v2, CONF1 v3, WIKI1 v4)
+
+**Why this question matters:** This is the single question most directly correlated with injection vulnerability. In every bypass in our test battery, the final attack step was an AI agent writing an attacker-controlled URL to an internal artifact. If the vendor's system propagates external URLs automatically, it is vulnerable to the majority of the attack catalog.
+
+**Good answer:** "External URLs found in documents, tool outputs, or user-provided data are checked against a configurable domain allowlist before they are included in any artifact. URLs not on the allowlist are flagged for human review. We never propagate external URLs automatically." Bonus: the vendor can show you the allowlist configuration interface.
+
+**Red flag:** "We include all relevant links from the documents to be helpful." This answer, however well-intentioned, describes the exact behavior that enables the largest attack class in the register. Any answer that frames automatic URL inclusion as a feature rather than a risk is a red flag.
+
+---
+
+### Question 5
+
+> "Does your product implement human-in-the-loop gates for high-impact actions like payment instruction changes or IAM changes?"
+
+**Attack class targeted:** INV1 (Invoice Payment Portal Injection), ITS1 v2 (IT Helpdesk KB Injection), any attack targeting financial or identity systems
+
+**Why this question matters:** HITL gates are the final brake in the defense architecture. If provenance tagging and write-scope contracts both fail, a HITL gate for high-impact actions prevents irreversible harm. INV1 — with a Priority score of 16 and a direct financial blast radius — is only preventable at the execution layer if the model has already been compromised at the input layer.
+
+**Good answer:** "High-impact actions — defined as wire transfers, vendor master record edits, IAM changes, and mass communications — are routed through a structured human approval step that includes a diff-view showing exactly what will change. No AI agent executes these actions autonomously." Bonus: the vendor maintains an audit log of all HITL approvals tied to the agent session.
+
+**Red flag:** "Our AI handles these automatically for efficiency" or "we have confidence scores that gate high-impact actions" (confidence scores are not equivalent to human review — the model can be confidently wrong when processing attacker-crafted input).
+
+---
+
+### Question 6
+
+> "What is your domain allowlist policy for AI-generated artifacts?"
+
+**Attack class targeted:** All URL-based attacks across the entire register
+
+**Why this question matters:** A domain allowlist is the structural control that makes URL-propagation attacks fail unconditionally. Without an allowlist, every improvement in injection technique is a potential new bypass. With an allowlist, attacker URLs on non-approved domains are blocked regardless of how convincingly they are framed.
+
+**Good answer:** "We support a configurable domain allowlist per deployment. Customers define which domains are approved for their organization, and the system enforces this at the output layer — any URL not on the allowlist is either blocked or flagged for review before the artifact is written." Bonus: the allowlist is enforced in the infrastructure layer, not just in the model's prompt.
+
+**Red flag:** "We don't restrict domains — our AI uses good judgment about which URLs to include." Model judgment about domain legitimacy is insufficient; our test battery demonstrated that Sonnet and Opus accept attacker URLs on clean-looking subdomains of legitimate vendor domains with no warnings. Allowlist enforcement cannot be delegated to model judgment.
+
+---
+
+### Question 7
+
+> "How do you detect anomalous content in RAG retrieval before it reaches the model context?"
+
+**Attack class targeted:** ITS1 v2 (IT Helpdesk KB Metadata Injection), memory-store poisoning, any attack that uses RAG as the injection vector
+
+**Why this question matters:** Retrieval-Augmented Generation systems introduce a new attack surface: the vector store or document index that supplies context to the model. In ITS1 v2, the attacker URL was planted in a structured metadata field (`auto_linked_kb`) of a helpdesk ticket — a field designed for system-populated KB links, not user input. The RAG retrieval surfaced it to the model as authoritative IT infrastructure data.
+
+**Good answer:** "We apply pre-retrieval content screening to detect anomalous patterns: imperative verbs in non-instruction fields, external URLs in fields designated for internal links, structured-data fields whose values don't match the expected data type. Suspicious retrieval results are flagged before entering model context." Bonus: the vendor can describe a specific detection rule for URL-in-non-URL-field.
+
+**Red flag:** "RAG data is trusted by definition — it comes from our indexed knowledge base." This is precisely the assumption the ITS1 attack exploits. Any data source that can be written to by external parties (helpdesk tickets, survey responses, community posts) cannot be treated as inherently trusted.
+
+---
+
+### Question 8
+
+> "Can you describe your MCP tool description integrity controls?"
+
+**Attack class targeted:** SC1, SC2 (MCP tool-description poisoning), supply-chain attacks on tool registries
+
+**Why this question matters:** The Model Context Protocol (MCP) allows AI agents to use tools whose descriptions are loaded dynamically at runtime. If an attacker can modify a tool description — either by compromising the tool registry or by injecting content that the tool description mechanism forwards to the model — they can instruct the model to perform actions that the tool's name does not suggest.
+
+**Good answer:** "Tool descriptions are loaded from a hash-verified registry. Any change to a tool description requires a code review and deployment process that produces a new verified hash. Tool descriptions are not loaded from external URLs or user-controlled inputs at runtime." Bonus: the vendor can show you the tool registry verification process.
+
+**Red flag:** "We load tool descriptions dynamically from the tool provider's endpoint" (no integrity verification), or "tool descriptions are configured by the user in the UI" (user-controllable tool descriptions are user-controllable injection vectors).
+
+---
+
+### Question 9
+
+> "What is your incident response process when an AI agent writes suspicious content to an internal system?"
+
+**Attack class targeted:** All attacks that result in a persistent write to an internal system
+
+**Why this question matters:** Detection and response capability matters independently of prevention. No preventive control is perfect. When an attack succeeds, the organization needs a documented process for: identifying what was written, revoking the agent session, locking the affected artifact, notifying affected parties, and preserving the audit trail for forensics.
+
+**Good answer:** "We have a documented incident response runbook for AI agent security events that covers: session revocation (immediate), artifact locking (prevents further reads by other agents), audit trail export (full tool-call log for the session), and stakeholder notification. Our SIEM integrates agent write events so anomalous writes are alerted automatically." Bonus: the vendor can share a redacted example of this runbook.
+
+**Red flag:** "We haven't documented that yet" or "we would investigate on a case-by-case basis." An undocumented IR process for AI agent incidents means the vendor has not stress-tested their response to the attack classes they are most likely to face. This is a maturity gap that should be treated as a deployment prerequisite to address, not a post-deployment aspiration.
+
+---
+
+### Question 10
+
+> "Do you have a documented list of attack classes your product has been tested against, and the results?"
+
+**Attack class targeted:** Accountability — all attack classes
+
+**Why this question matters:** This question is about vendor accountability and security culture, not a specific technical control. A vendor who has systematically tested their product against known AI agent attack classes — and can share the results — is a vendor who has invested in understanding their threat model. A vendor who responds with vague assurances has not.
+
+**Good answer:** "We have a published security evaluation report (or a third-party audit report available under NDA) that lists the attack classes we tested, the model tiers tested, the test methodology, and the results — including which attacks succeeded before mitigation and what controls were implemented afterward." Bonus: the report specifically covers multi-agent transitive poisoning, URL propagation attacks, and operator-instruction weaponization.
+
+**Red flag:** "We test continuously" with no specifics (continuous testing is not a substitute for documented results), or "we use a red team" with no shareable artifacts, or the vendor pivots to describing their general security certifications (SOC 2, ISO 27001) rather than AI-specific attack testing — certifications address data handling and operational security, not prompt injection defense.
+
+---
+
+## Scoring Your Evaluation
+
+After conducting the evaluation, count the number of red flags across all ten questions:
+
+| Red flag count | Recommendation |
+|---|---|
+| 0–1 | Proceed to standard procurement review |
+| 2–3 | Require written remediation commitments before contract signature |
+| 4–6 | Escalate to security team for formal review; consider architectural changes to limit agent write scope regardless of vendor response |
+| 7+ | Do not deploy; vendor has not adequately addressed the AI agent threat surface |
+
+No vendor evaluation replaces your own controls. Even a vendor with zero red flags should be deployed behind Provenance Tagging, Write-Scope Contracts, and HITL Gates (the MVD kit) for any high-impact workflow. Vendor security posture reduces risk; it does not eliminate it.
+
+---
+
+## Key Takeaways
+
+- Most AI vendor security evaluations focus on data privacy and compliance. These ten questions focus on the attack surface that compliance frameworks do not yet cover.
+- Question 4 (URL propagation policy) and Question 6 (domain allowlist) are the most directly correlated with injection vulnerability. If a vendor cannot answer both clearly, every other question is less relevant.
+- Question 10 (documented test results) is a proxy for security culture. Vendors who have tested and published results have internalized the threat model. Vendors who haven't have not.
+- Your own controls (MVD kit) matter independently of vendor answers. Defense in depth means not relying on any single layer.

@@ -1,0 +1,55 @@
+{
+  "moduleId": 6,
+  "questions": [
+    {
+      "id": "m6q1",
+      "text": "In the risk register scoring formula F+A+B+C−D, what does a low D score (e.g., D=1) indicate?",
+      "options": [
+        "The attack is easy to detect",
+        "The attack is nearly invisible to existing detection tools",
+        "The attack has low blast radius",
+        "The attacker cost is low"
+      ],
+      "correct": 1
+    },
+    {
+      "id": "m6q2",
+      "text": "Which of the 4 prohibited patterns in the policy mandate would have specifically prevented the MAA1 attack?",
+      "options": [
+        "Prohibiting AI-generated content without provenance tags",
+        "Prohibiting agent sessions with write scope exceeding the stated task",
+        "Prohibiting sub-tier model (e.g., Haiku) write access to internal registries without human review of every write",
+        "Prohibiting system prompts that include URLs from external data"
+      ],
+      "correct": 2
+    },
+    {
+      "id": "m6q3",
+      "text": "The policy mandate specifies a review cadence for AI governance. How often?",
+      "options": ["Monthly", "Annually", "Quarterly", "Weekly"],
+      "correct": 2
+    },
+    {
+      "id": "m6q4",
+      "text": "When evaluating an AI vendor for enterprise deployment, which question most directly targets the MAA1 multi-agent attack surface?",
+      "options": [
+        "\"Do you support SSO authentication?\"",
+        "\"How does your system prevent a sub-tier model from poisoning data sources read by your more capable model tiers?\"",
+        "\"What is your uptime SLA?\"",
+        "\"Do you offer SCORM-compatible training exports?\""
+      ],
+      "correct": 1
+    },
+    {
+      "id": "m6q5",
+      "text": "An organization uses AI agents for vendor onboarding (Haiku reads documents, writes to vendor registry) and contract execution (Sonnet reads registry, produces checklists). Without additional controls, which prohibited pattern does this violate?",
+      "options": [
+        "No prohibited pattern — this is explicitly permitted under the policy",
+        "Using AI for contract review",
+        "Running a sub-tier model with write access to an internal registry without human review of the writes",
+        "Using two different model tiers in the same workflow"
+      ],
+      "correct": 2
+    }
+  ]
+}
