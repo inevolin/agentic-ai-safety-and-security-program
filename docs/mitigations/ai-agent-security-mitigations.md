@@ -356,3 +356,8 @@ anything else, cancel the action and explain what was cancelled.
    provided the data), require explicit confirmation.
 4. Log: timestamp, approver, action type, source, diff hash.
 5. Audit logs monthly; alert on approval rate >95% (rubber-stamping).
+
+**Known limits:** Does not help when the approver is under social engineering
+pressure or has insufficient context to evaluate the diff. Approval fatigue
+(too many gates) leads to rubber-stamping — monitor approval rates. Cannot
+prevent attacks where the attacker's target IS the legitimate task target.
