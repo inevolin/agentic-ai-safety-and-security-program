@@ -14,57 +14,44 @@ import { MultiAgentDiagram } from "@/components/MultiAgentDiagram";
 import { ClaudeSponsorBadge } from "@/components/ClaudeSponsor";
 
 /* ─── Static data ─────────────────────────────────────── */
-const MODULES = [
-  {
-    id: 1,
-    title: "The AI Agent Threat Landscape",
-    duration: "25 min",
-    topics: ["Attack surface", "Real incidents"],
-    icon: "🌐",
-  },
-  {
-    id: 2,
-    title: "Attack Taxonomy",
-    duration: "30 min",
-    topics: ["10 classes", "Multi-agent"],
-    icon: "🗂",
-  },
-  {
-    id: 3,
-    title: "Attack Anatomy: How Real Attacks Work",
-    duration: "45 min",
-    topics: ["SP1", "CI1"],
-    icon: "🔬",
-  },
-  {
-    id: 4,
-    title: "The 10 Defensive Primitives",
-    duration: "35 min",
-    topics: ["Trust tiers", "Read/write gates"],
-    icon: "🛡",
-  },
-  {
-    id: 5,
-    title: "Deployment Best Practices",
-    duration: "40 min",
-    topics: ["Architecture", "Monitoring"],
-    icon: "⚙️",
-  },
-  {
-    id: 6,
-    title: "Organizational Policy & Governance",
-    duration: "30 min",
-    topics: ["Incident response", "Vendor vetting"],
-    icon: "📋",
-  },
-  {
-    id: 7,
-    title: "Claude Skills as Guardrails",
-    duration: "35 min",
-    topics: ["Defensive skills", "Skill attack surface"],
-    icon: "🧩",
-  },
+type ModuleIconKey = "globe" | "taxonomy" | "microscope" | "shield" | "cog" | "clipboard" | "puzzle";
+
+const MODULES: {
+  id: number;
+  title: string;
+  duration: string;
+  topics: string[];
+  icon: ModuleIconKey;
+  tag?: string;
+}[] = [
+  { id: 1, title: "The AI Agent Threat Landscape",        duration: "25 min", topics: ["Attack surface", "Real incidents"],         icon: "globe",      tag: "Start here" },
+  { id: 2, title: "Attack Taxonomy",                      duration: "30 min", topics: ["10 classes", "Multi-agent"],                icon: "taxonomy" },
+  { id: 3, title: "Attack Anatomy: How Real Attacks Work",duration: "45 min", topics: ["SP1", "CI1"],                                icon: "microscope" },
+  { id: 4, title: "The 10 Defensive Primitives",          duration: "35 min", topics: ["Trust tiers", "Read/write gates"],          icon: "shield" },
+  { id: 5, title: "Deployment Best Practices",            duration: "40 min", topics: ["Architecture", "Monitoring"],               icon: "cog" },
+  { id: 6, title: "Organizational Policy & Governance",   duration: "30 min", topics: ["Incident response", "Vendor vetting"],      icon: "clipboard" },
+  { id: 7, title: "Claude Skills as Guardrails",          duration: "35 min", topics: ["Defensive skills", "Skill attack surface"], icon: "puzzle",     tag: "New" },
 ];
+
+function ModuleIcon({ name, className = "w-6 h-6" }: { name: ModuleIconKey; className?: string }) {
+  const c = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, className };
+  switch (name) {
+    case "globe":
+      return (<svg {...c}><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>);
+    case "taxonomy":
+      return (<svg {...c}><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>);
+    case "microscope":
+      return (<svg {...c}><path d="M6 18h8" /><path d="M3 22h18" /><path d="M14 22a7 7 0 1 0 0-14h-1" /><path d="M9 14h2" /><path d="M9 12a2 2 0 0 1-2-2V6h4v4a2 2 0 0 1-2 2z" /><path d="M12 6h0" /></svg>);
+    case "shield":
+      return (<svg {...c}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><polyline points="9 12 11 14 15 10" /></svg>);
+    case "cog":
+      return (<svg {...c}><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.09a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>);
+    case "clipboard":
+      return (<svg {...c}><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect x="8" y="2" width="8" height="4" rx="1" /><path d="M8 12h8M8 16h5" /></svg>);
+    case "puzzle":
+      return (<svg {...c}><path d="M19 11h-2a2 2 0 1 0 0 4h2v4a2 2 0 0 1-2 2h-4v-2a2 2 0 1 0-4 0v2H5a2 2 0 0 1-2-2v-4h2a2 2 0 1 0 0-4H3V7a2 2 0 0 1 2-2h4V3a2 2 0 1 1 4 0v2h4a2 2 0 0 1 2 2v4z" /></svg>);
+  }
+}
 
 const STAT_ICONS = {
   target: (
@@ -520,7 +507,7 @@ export default function Home() {
               </div>
 
               <SplitHeading
-                text="AI Agents Get Compromised Without Being Hacked"
+                text="The AI Security Course Every Team Should Take"
                 as="h1"
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white"
                 delay={200}
@@ -967,9 +954,22 @@ export default function Home() {
       {/* ── Curriculum path ───────────────────────────── */}
       <section id="curriculum" className="py-24">
         <div className="section-content">
-          <Reveal className="text-center mb-16">
-            <p className="text-cyan-400 font-mono text-sm mb-3">Curriculum</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white">6 modules · 40-question exam · shareable certificate</h2>
+          <Reveal className="text-center mb-3">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs font-mono tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              Curriculum
+            </span>
+          </Reveal>
+          <Reveal className="text-center mb-4">
+            <h2 className="text-3xl sm:text-5xl font-bold text-white leading-tight">
+              7 modules · 40-question exam · shareable certificate
+            </h2>
+          </Reveal>
+          <Reveal className="text-center mb-14">
+            <p className="text-slate-400 text-base max-w-2xl mx-auto">
+              A guided path from threat landscape → real attack anatomy → defensive architecture → governance.
+              Self-paced. Finish in ~4 hours.
+            </p>
           </Reveal>
 
           <div className="relative">
@@ -986,28 +986,55 @@ export default function Home() {
                 >
                   <Link
                     href={`/learn#m${m.id}`}
-                    className="group glass rounded-2xl p-5 flex gap-4 items-center hover:border-brand-600/60 hover:bg-brand-950/40 transition-all duration-200 block"
+                    className="module-tile group relative block rounded-2xl border border-slate-800/60 p-5 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-500/60 hover:shadow-lg hover:shadow-brand-900/20"
                   >
-                    {/* Number badge */}
-                    <span className="module-badge flex-shrink-0 w-9 h-9 rounded-full bg-brand-800 border border-brand-600/50 text-brand-300 flex items-center justify-center font-bold text-sm group-hover:bg-brand-700 transition-colors">
-                      {m.id}
-                    </span>
-                    {/* Module icon */}
-                    <span className="flex-shrink-0 text-2xl" aria-hidden="true">{m.icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2">
-                        <h3 className="font-bold text-white group-hover:text-cyan-300 transition-colors text-sm">{m.title}</h3>
-                        <span className="text-slate-500 text-xs flex-shrink-0">{m.duration}</span>
+                    <div className="relative flex gap-4 items-center">
+                      {/* Number + icon stacked */}
+                      <div className="flex-shrink-0 flex flex-col items-center gap-1.5">
+                        <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-900/40 border border-brand-700/40 text-brand-300 group-hover:bg-brand-800/60 group-hover:border-brand-500/60 group-hover:text-brand-200 transition-colors">
+                          <ModuleIcon name={m.icon} className="w-6 h-6" />
+                        </span>
+                        <span className="text-[10px] font-mono font-bold tracking-widest text-slate-500 group-hover:text-brand-400 transition-colors">
+                          M{m.id}
+                        </span>
                       </div>
-                      <div className="flex flex-wrap gap-1.5 mt-1.5">
-                        {m.topics.map((t) => (
-                          <span key={t} className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full border border-slate-700/60">
-                            {t}
-                          </span>
-                        ))}
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2 flex-wrap">
+                          <h3 className="font-bold text-white group-hover:text-brand-300 transition-colors text-sm sm:text-base leading-snug">
+                            {m.title}
+                          </h3>
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            {m.tag && (
+                              <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                                {m.tag}
+                              </span>
+                            )}
+                            <span className="text-slate-500 text-xs font-mono">{m.duration}</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {m.topics.map((t) => (
+                            <span
+                              key={t}
+                              className="text-xs px-2 py-0.5 rounded-full bg-slate-800/60 text-slate-400 border border-slate-700/50 group-hover:border-brand-700/40 group-hover:text-slate-300 transition-colors"
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
                       </div>
+
+                      <svg
+                        className="w-5 h-5 flex-shrink-0 text-slate-600 group-hover:text-brand-400 transition-all duration-300 group-hover:translate-x-1"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M5 12h14M13 5l7 7-7 7" />
+                      </svg>
                     </div>
-                    <svg className="w-4 h-4 text-slate-600 group-hover:text-cyan-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
                   </Link>
                 </Reveal>
               ))}
@@ -1072,7 +1099,7 @@ export default function Home() {
       <section className="py-24">
         <div className="section-content">
           <Reveal>
-            <div className="relative overflow-hidden rounded-3xl p-8 sm:p-16 text-center" style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #1e40af 40%, #0e7490 100%)" }}>
+            <div className="cta-gradient-card relative overflow-hidden rounded-3xl p-8 sm:p-16 text-center" style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #1e40af 40%, #0e7490 100%)" }}>
               <div className="absolute inset-0 bg-grid-dot bg-grid-dot opacity-20" aria-hidden="true" />
               <div className="relative z-10 space-y-6 max-w-2xl mx-auto">
                 <h2 className="text-3xl sm:text-5xl font-bold text-white leading-tight">
