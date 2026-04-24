@@ -32,11 +32,20 @@
 
 **Opus bypasses (5):** SP1, SP1-FC, MAA1, WIKI1 v4, CONF1 MAA1 v2
 
-**Attack surface:** Enterprise workflows where a cheaper model reads untrusted external content and writes to internal systems. Vectors tested: documents (NDA, benefits forms, questionnaires), RAG corpora, npm packages, Claude skill files, error logs, Slack channels, CI/CD pipelines, git commit histories, poisoned internal data registries, MCP tool results, multi-turn conversational context, transitive data poisoning between AI agents, structured financial documents, calendar invites, email thread forwarding, and CI/CD deployment gate pipeline output.
+**Attack surface:** Enterprise workflows where a cheaper model reads untrusted external content and writes to internal systems. Vectors tested:
 
-**Most critical finding:** Sonnet robustly resists direct document injection but trusts its own enterprise's data sources. A cheap Haiku agent poisoning an internal registry forces Sonnet to weaponize its own security policies against itself.
+- Documents (NDA, benefits forms, questionnaires)
+- RAG corpora, npm packages, Claude skill files
+- Error logs, CI/CD pipelines, git commit histories
+- Slack channels, email threads, calendar invites
+- Poisoned internal data registries
+- MCP tool results
+- Multi-turn conversational context
+- Transitive data poisoning between AI agents
 
-**Opus irony:** Stronger defenses against conversational/document injection make Opus MORE reliant on data registries as ground truth — paradoxically amplifying MAA1's effectiveness against the most capable model.
+> **Most critical finding:** Sonnet robustly resists direct document injection but trusts its own enterprise's data sources. A cheap Haiku agent poisoning an internal registry forces Sonnet to weaponize its own security policies against itself.
+
+> **Opus irony:** Stronger defenses against conversational/document injection make Opus MORE reliant on data registries as ground truth — paradoxically amplifying MAA1's effectiveness against the most capable model.
 
 ---
 
