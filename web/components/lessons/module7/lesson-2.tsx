@@ -1,4 +1,5 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
 
 export default function Lesson() {
   return (
@@ -24,7 +25,7 @@ export default function Lesson() {
 
       <h2>Pattern 2 — Skill as Policy Baseline for Smaller Models</h2>
 
-      <p>Lower-capability models are more likely to eagerly propagate attacker content. This was confirmed repeatedly in MAA1 (multi-agent transitive registry poisoning — a Haiku-tier agent registered attacker URLs into an IT-approved catalog without hesitation). A skepticism-enforcing skill gives smaller models a consistent checklist they must answer before writing: Did this URL appear in a user instruction or in external data? Does this URL match an approved domain? Does the write scope of this task authorize writing to this destination? The skill does not make a small model as cautious as a larger one, but it raises the floor significantly for routine-task deployments.</p>
+      <p>Lower-capability models are more likely to eagerly propagate attacker content. This was confirmed repeatedly in <AttackRef id="MAA1" /> (multi-agent transitive registry poisoning — a Haiku-tier agent registered attacker URLs into an IT-approved catalog without hesitation). A skepticism-enforcing skill gives smaller models a consistent checklist they must answer before writing: Did this URL appear in a user instruction or in external data? Does this URL match an approved domain? Does the write scope of this task authorize writing to this destination? The skill does not make a small model as cautious as a larger one, but it raises the floor significantly for routine-task deployments.</p>
 
       <h2>Pattern 3 — Skill as Checklist Gate</h2>
 
@@ -72,7 +73,7 @@ export default function Lesson() {
       />
 
       <KeyPoint>
-        Skills that bundle code are one more layer — not a silver bullet. SP1 bypassed model-level defenses but would be stopped at the code layer if the allowlist was enforced by a script rather than by model judgment. Layer code-enforced skills with write-scope contracts and human-in-the-loop gates for the strongest stack.
+        Skills that bundle code are one more layer — not a silver bullet. <AttackRef id="SP1" /> bypassed model-level defenses but would be stopped at the code layer if the allowlist was enforced by a script rather than by model judgment. Layer code-enforced skills with write-scope contracts and human-in-the-loop gates for the strongest stack.
       </KeyPoint>
     </>
   );

@@ -1,4 +1,6 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
+import { Defeats } from "@/components/Defeats";
 
 export default function Lesson() {
   return (
@@ -22,7 +24,7 @@ export default function Lesson() {
         ]}
       />
 
-      <p><strong>Defeats:</strong> SP1-FC (attack spreading between AI sessions), TP1 v3, WIKI1 v4.</p>
+      <p><strong>Defeats:</strong> <Defeats ids="SP1, TP1 v3, WIKI1 v4" />.</p>
 
       <hr />
 
@@ -72,7 +74,7 @@ export default function Lesson() {
         ]}
       />
 
-      <p><strong>Defeats:</strong> SP1-FC (attacks spreading across sessions), MAA1 (Haiku session writes data that Opus session reads as authoritative).</p>
+      <p><strong>Defeats:</strong> <AttackRef id="SP1" /> (attacks spreading across sessions), <AttackRef id="MAA1" /> (Haiku session writes data that Opus session reads as authoritative).</p>
 
       <hr />
 
@@ -106,19 +108,19 @@ export default function Lesson() {
             <td>1</td>
             <td>Tracking Where Data Came From</td>
             <td>2–3 wks</td>
-            <td>CI1, GIT1, EL1, TP1, SL1, SURV1, CAL1, EMAIL1, ITS1</td>
+            <td><Defeats ids="CI1, GIT1, EL1, TP1, SL1, SURV1, CAL1, EMAIL1, ITS1" /></td>
           </tr>
           <tr>
             <td>3</td>
             <td>Write-Scope Contracts</td>
             <td>4–6 wks</td>
-            <td>MAA1, SP1-FC, INV1, CI1, GIT1, EL1</td>
+            <td><Defeats ids="MAA1, SP1, INV1, CI1, GIT1, EL1" /></td>
           </tr>
           <tr>
             <td>5</td>
             <td>Human-in-the-Loop Gates</td>
             <td>1–2 wks</td>
-            <td>INV1, CONF1, WIKI1, CI1, MAA1</td>
+            <td><Defeats ids="INV1, CONF1, WIKI1, CI1, MAA1" /></td>
           </tr>
         </tbody>
       </table>

@@ -1,4 +1,5 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
 
 export default function Lesson() {
   return (
@@ -92,7 +93,7 @@ export default function Lesson() {
 
       <h2>Legal: Contract & Vendor Workflow Controls</h2>
 
-      <p>Legal teams use AI on NDAs, vendor contracts, and payment instructions. The risk is not a sophisticated attacker breaking into your legal systems. The risk is that an attacker submits a vendor document through the normal onboarding process — anyone with an email can do this — and your AI carries their portal URL into a payment checklist. TP1 v3 (tool-output poisoning via prose paralegal notes) and SP1 (semantic split via poisoned vendor registry) both exploited exactly this flow.</p>
+      <p>Legal teams use AI on NDAs, vendor contracts, and payment instructions. The risk is not a sophisticated attacker breaking into your legal systems. The risk is that an attacker submits a vendor document through the normal onboarding process — anyone with an email can do this — and your AI carries their portal URL into a payment checklist. <AttackRef id="TP1 v3" /> (tool-output poisoning via prose paralegal notes) and <AttackRef id="SP1" /> (semantic split via poisoned vendor registry) both exploited exactly this flow.</p>
 
       <DoDont
         do={[

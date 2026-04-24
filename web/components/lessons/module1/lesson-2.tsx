@@ -1,4 +1,5 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
 
 export default function Lesson() {
   return (
@@ -44,16 +45,16 @@ export default function Lesson() {
       <p>Every source below was used in a confirmed attack in our research:</p>
 
       <ul>
-        <li><strong>Vendor documents</strong> — NDAs, invoices, onboarding packets (SP1, WIKI1)</li>
-        <li><strong>Build pipeline logs</strong> — deployment step output, test runner results (CI1)</li>
-        <li><strong>Error logs</strong> — critical entries with system URLs, IDP, the login system, fallback config (EL1)</li>
-        <li><strong>Git commit history</strong> — commit notes, dependency changelogs (GIT1)</li>
-        <li><strong>Helpdesk tickets</strong> — system-filled fields like <code>auto_linked_kb</code> (ITS1)</li>
-        <li><strong>Slack community exports</strong> — messages, reactions, doc links (SL1)</li>
-        <li><strong>Survey responses</strong> — free-text customer feedback with embedded links (SURV1)</li>
-        <li><strong>Config files</strong> — <code>.env.example</code>, environment variable defaults (CONF1)</li>
-        <li><strong>Chat history</strong> — facts dropped casually in earlier messages (AI1)</li>
-        <li><strong>Tool output details</strong> — page names returned by tools like Notion fetch (TP1 v3)</li>
+        <li><strong>Vendor documents</strong> — NDAs, invoices, onboarding packets (<AttackRef id="SP1" />, <AttackRef id="WIKI1" />)</li>
+        <li><strong>Build pipeline logs</strong> — deployment step output, test runner results (<AttackRef id="CI1" />)</li>
+        <li><strong>Error logs</strong> — critical entries with system URLs, IDP, the login system, fallback config (<AttackRef id="EL1" />)</li>
+        <li><strong>Git commit history</strong> — commit notes, dependency changelogs (<AttackRef id="GIT1" />)</li>
+        <li><strong>Helpdesk tickets</strong> — system-filled fields like <code>auto_linked_kb</code> (<AttackRef id="ITS1" />)</li>
+        <li><strong>Slack community exports</strong> — messages, reactions, doc links (<AttackRef id="SL1" />)</li>
+        <li><strong>Survey responses</strong> — free-text customer feedback with embedded links (<AttackRef id="SURV1" />)</li>
+        <li><strong>Config files</strong> — <code>.env.example</code>, environment variable defaults (<AttackRef id="CONF1" />)</li>
+        <li><strong>Chat history</strong> — facts dropped casually in earlier messages (<AttackRef id="AI1" />)</li>
+        <li><strong>Tool output details</strong> — page names returned by tools like Notion fetch (<AttackRef id="TP1" />)</li>
       </ul>
 
       <h2>The "Confused Deputy" Problem</h2>

@@ -1,4 +1,6 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
+import { Defeats } from "@/components/Defeats";
 
 export default function Lesson() {
   return (
@@ -107,17 +109,17 @@ export default function Lesson() {
           <tr>
             <td>1</td>
             <td>Helper AI writes to shared lists require human review before the main AI reads them</td>
-            <td>MAA1, CONF1-MAA1-v2</td>
+            <td><Defeats ids="MAA1, CONF1" /></td>
           </tr>
           <tr>
             <td>2</td>
             <td>No blanket link-inclusion phrases in the instructions given to the AI</td>
-            <td>EL1, CI1, GIT1, TP1, SL1, SURV1</td>
+            <td><Defeats ids="EL1, CI1, GIT1, TP1, SL1, SURV1" /></td>
           </tr>
           <tr>
             <td>3</td>
             <td>All AI-generated documents must record which AI, which inputs, and which actions were used</td>
-            <td>SP1-FC worm propagation</td>
+            <td><AttackRef id="SP1" /> worm propagation</td>
           </tr>
           <tr>
             <td>4</td>

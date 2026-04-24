@@ -12,6 +12,8 @@ import { DocInjectDiagram } from "@/components/DocInjectDiagram";
 import { RegistryPoisonDiagram } from "@/components/RegistryPoisonDiagram";
 import { MultiAgentDiagram } from "@/components/MultiAgentDiagram";
 import { ClaudeSponsorBadge } from "@/components/ClaudeSponsor";
+import { Defeats } from "@/components/Defeats";
+import { AttackRef } from "@/components/AttackRef";
 
 /* ─── Static data ─────────────────────────────────────── */
 type ModuleIconKey = "globe" | "taxonomy" | "microscope" | "shield" | "cog" | "clipboard" | "puzzle";
@@ -476,7 +478,7 @@ const FAQS = [
   },
   {
     q: "What is this based on?",
-    a: "21 real attacks run against Claude Haiku, Sonnet, and Opus in a controlled test environment — 16+ confirmed bypasses on Sonnet and 5 on Opus, all using ordinary public inputs. No exploit code, no credential theft, no hacking. Every bypass started with something any outside party could submit: a vendor form, a pull request, a support ticket, a Slack post, an HTTP request. Every module references specific attack IDs (SP1, MAA1, CI1, EL1, SL1, CONF1, and more). These are not hypothetical scenarios — they are techniques that worked against production-grade AI models, and the defenses come directly from analyzing what stopped them.",
+    a: <>21 real attacks run against Claude Haiku, Sonnet, and Opus in a controlled test environment — 16+ confirmed bypasses on Sonnet and 5 on Opus, all using ordinary public inputs. No exploit code, no credential theft, no hacking. Every bypass started with something any outside party could submit: a vendor form, a pull request, a support ticket, a Slack post, an HTTP request. Every module references specific attack IDs (<AttackRef id="SP1" />, <AttackRef id="MAA1" />, <AttackRef id="CI1" />, <AttackRef id="EL1" />, <AttackRef id="SL1" />, <AttackRef id="CONF1" />, and more). These are not hypothetical scenarios — they are techniques that worked against production-grade AI models, and the defenses come directly from analyzing what stopped them.</>,
   },
 ];
 
@@ -624,7 +626,7 @@ export default function Home() {
                   <div className="glass rounded-xl p-5 h-full flex flex-col gap-3 hover:border-cyan-700/40 transition-colors duration-200">
                     <div className="flex items-center gap-3">
                       <span className="flex-shrink-0" aria-hidden="true">{t.icon}</span>
-                      <span className="badge-attack text-xs">{t.ids}</span>
+                      <span className="flex flex-wrap gap-1"><Defeats ids={t.ids} /></span>
                     </div>
                     <h4 className="text-white font-semibold text-sm leading-snug">{t.name}</h4>
                     <p className="text-slate-400 text-sm leading-relaxed flex-1">{t.desc}</p>

@@ -1,4 +1,5 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
 
 export default function Lesson() {
   return (
@@ -59,7 +60,7 @@ if __name__ == "__main__":
 
       <h2>The Provenance Tagger Skill</h2>
 
-      <p>A second useful skill wraps any write action with source metadata. Before the agent writes to Notion or Confluence, the provenance tagger appends a footer that records the model used, inputs consumed, and any external URLs in the artifact. This gives the next person — or the next agent — clear signal about what to trust. SP1-FC (the full-chain worm — attacker-planted URL propagates across agent sessions) was only possible because downstream agents read poisoned Notion pages without any provenance signal telling them the content came from an agent that had read attacker-controlled data.</p>
+      <p>A second useful skill wraps any write action with source metadata. Before the agent writes to Notion or Confluence, the provenance tagger appends a footer that records the model used, inputs consumed, and any external URLs in the artifact. This gives the next person — or the next agent — clear signal about what to trust. <AttackRef id="SP1-FC" /> (the full-chain worm — attacker-planted URL propagates across agent sessions) was only possible because downstream agents read poisoned Notion pages without any provenance signal telling them the content came from an agent that had read attacker-controlled data.</p>
 
       <h2>Anti-Patterns to Avoid</h2>
 

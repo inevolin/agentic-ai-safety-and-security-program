@@ -1,4 +1,5 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
 
 export default function Lesson() {
   return (
@@ -10,7 +11,7 @@ export default function Lesson() {
       <h2>Attack Categories</h2>
 
       <Callout type="danger" title="Prompt Injection">
-        Malicious instructions hidden inside data the agent reads — documents, tool outputs, web pages, log files. The AI cannot tell the difference between real instructions given to the AI and an attacker's payload submitted through a public form. This is the most common attack in real deployments. Entry points: vendor registration forms, support tickets, Slack community posts, public GitHub PRs. Examples: SP1, EL1, CI1, GIT1.
+        Malicious instructions hidden inside data the agent reads — documents, tool outputs, web pages, log files. The AI cannot tell the difference between real instructions given to the AI and an attacker's payload submitted through a public form. This is the most common attack in real deployments. Entry points: vendor registration forms, support tickets, Slack community posts, public GitHub PRs. Examples: <AttackRef id="SP1" />, <AttackRef id="EL1" />, <AttackRef id="CI1" />, <AttackRef id="GIT1" />.
       </Callout>
 
       <Callout type="danger" title="Jailbreaking">
@@ -18,7 +19,7 @@ export default function Lesson() {
       </Callout>
 
       <Callout type="danger" title="Agent Attacks">
-        Attacks that exploit the fact that AI agents take many steps and use many tools. A less capable model (Haiku) poisons a data source through a normal public surface. A more capable model (Opus) reads it later and trusts it without question. The chain makes the damage much worse. Example: MAA1 (an attack where one AI agent poisons the input for another).
+        Attacks that exploit the fact that AI agents take many steps and use many tools. A less capable model (Haiku) poisons a data source through a normal public surface. A more capable model (Opus) reads it later and trusts it without question. The chain makes the damage much worse. Example: <AttackRef id="MAA1" /> (an attack where one AI agent poisons the input for another).
       </Callout>
 
       <Callout type="danger" title="Multimodal Attacks">
@@ -38,7 +39,7 @@ export default function Lesson() {
       </Callout>
 
       <Callout type="danger" title="Influence Operations">
-        AI-generated disinformation at scale — fake content farms, false narratives pushed across public social channels, and conversational fact-planting like AI1 (an attack that plants false facts in chat) extended to mass audiences. The public surface is the attack surface.
+        AI-generated disinformation at scale — fake content farms, false narratives pushed across public social channels, and conversational fact-planting like <AttackRef id="AI1" /> (an attack that plants false facts in chat) extended to mass audiences. The public surface is the attack surface.
       </Callout>
 
       <h2>Defense &amp; Measurement Categories</h2>

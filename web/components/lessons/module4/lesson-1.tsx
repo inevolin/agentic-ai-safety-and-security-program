@@ -1,4 +1,6 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
+import { Defeats } from "@/components/Defeats";
 
 export default function Lesson() {
   return (
@@ -22,7 +24,7 @@ export default function Lesson() {
         ]}
       />
 
-      <p><strong>Defeats:</strong> CI1 v2, GIT1 v3, EL1 v2, TP1 v3, SL1 v5, SURV1 v2, ITS1 v2 — any injection that arrives through a data channel.</p>
+      <p><strong>Defeats:</strong> <Defeats ids="CI1 v2, GIT1 v3, EL1 v2, TP1 v3, SL1 v5, SURV1 v2, ITS1 v2" /> — any injection that arrives through a data channel.</p>
 
       <hr />
 
@@ -50,7 +52,7 @@ export default function Lesson() {
   caption="Tool poisoning — one changed description silently leaks every conversation that calls the tool"
 />
 
-      <p><strong>Defeats:</strong> tool poisoning (SC1), malicious skill-file injection (SC2), plugin supply-chain attacks.</p>
+      <p><strong>Defeats:</strong> tool poisoning (<AttackRef id="SC1" />), malicious skill-file injection (<AttackRef id="SC2" />), plugin supply-chain attacks.</p>
 
       <hr />
 
@@ -77,7 +79,7 @@ export default function Lesson() {
         ]}
       />
 
-      <p><strong>Defeats:</strong> MAA1, SP1-FC, INV1, CI1 v2, GIT1 v3, EL1 v2, CONF1-MAA1-v2.</p>
+      <p><strong>Defeats:</strong> <Defeats ids="MAA1, SP1, INV1, CI1 v2, GIT1 v3, EL1 v2, CONF1" />.</p>
 
       <hr />
 
@@ -96,7 +98,7 @@ export default function Lesson() {
         ]}
       />
 
-      <p><strong>Defeats:</strong> SP1, AI1, TP1 v3, SL1 v5, SURV1 v2, ITS1 v2, WIKI1 v4.</p>
+      <p><strong>Defeats:</strong> <Defeats ids="SP1, AI1, TP1 v3, SL1 v5, SURV1 v2, ITS1 v2, WIKI1 v4" />.</p>
 
       <KeyPoint>
         Primitives 1 and 4 together close the biggest single attack class: injections that arrive through ordinary public inputs and end up as links that humans click. Build these two first. Every attack in Module 3 that ends with a URL in a runbook or checklist is stopped by these two guardrails.

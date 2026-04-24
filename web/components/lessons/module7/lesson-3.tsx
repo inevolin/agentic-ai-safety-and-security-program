@@ -1,4 +1,5 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
 
 export default function Lesson() {
   return (
@@ -34,7 +35,7 @@ export default function Lesson() {
 
       <h2>SC2 — Malicious Public Skill</h2>
 
-      <p>SC2 (attacker publishes a helpful-looking skill to a public registry with a hidden directive that redirects agent behavior) follows exactly the same public-surface model as the rest of the attacks in this course. The attacker does not break into your skill repository. They submit a skill that looks useful.</p>
+      <p><AttackRef id="SC2" /> (attacker publishes a helpful-looking skill to a public registry with a hidden directive that redirects agent behavior) follows exactly the same public-surface model as the rest of the attacks in this course. The attacker does not break into your skill repository. They submit a skill that looks useful.</p>
 
       <AttackCard
         id="SC2"
@@ -46,7 +47,7 @@ export default function Lesson() {
 
       <h2>SS1 — Skill Worm</h2>
 
-      <p>SS1 (a skill causes the agent to install a second attacker-controlled skill, propagating attacker behavior to new agent contexts) is the skill-layer equivalent of the SP1-FC worm. The attacker's skill reproduces itself.</p>
+      <p><AttackRef id="SS1" /> (a skill causes the agent to install a second attacker-controlled skill, propagating attacker behavior to new agent contexts) is the skill-layer equivalent of the <AttackRef id="SP1" />-FC worm. The attacker's skill reproduces itself.</p>
 
       <AttackCard
         id="SS1"

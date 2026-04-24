@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 interface FAQItem {
   q: string;
-  a: string;
+  a: ReactNode;
 }
 
 export function FAQPanel({ items }: { items: FAQItem[] }) {

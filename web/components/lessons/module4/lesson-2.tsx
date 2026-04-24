@@ -1,4 +1,6 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
+import { Defeats } from "@/components/Defeats";
 
 export default function Lesson() {
   return (
@@ -30,13 +32,13 @@ export default function Lesson() {
         ]}
       />
 
-      <p><strong>What counts as high-impact:</strong> payments, vendor record edits, messages to more than 50 recipients, access control changes, security runbook edits, approved-service list edits, public publication. <strong>Defeats:</strong> INV1, CONF1 v3, WIKI1 v4, CI1 v2, MAA1. If an attacker can trigger these actions by submitting a normal public form, you need this gate.</p>
+      <p><strong>What counts as high-impact:</strong> payments, vendor record edits, messages to more than 50 recipients, access control changes, security runbook edits, approved-service list edits, public publication. <strong>Defeats:</strong> <Defeats ids="INV1, CONF1, WIKI1, CI1 v2, MAA1" />. If an attacker can trigger these actions by submitting a normal public form, you need this gate.</p>
 
       <hr />
 
       <h2>Primitive 6 — Anomaly-Aware Retrieval</h2>
 
-      <p>Screen every chunk of retrieved content before the AI acts on it. Look for: commanding language in descriptive fields, URLs in fields that should not have links, claims that override normal authority. Flagged chunks get set aside — not acted on, not summarized into recommendations. This guardrail is cheap to add and catches the ITS1 attack class entirely.</p>
+      <p>Screen every chunk of retrieved content before the AI acts on it. Look for: commanding language in descriptive fields, URLs in fields that should not have links, claims that override normal authority. Flagged chunks get set aside — not acted on, not summarized into recommendations. This guardrail is cheap to add and catches the <AttackRef id="ITS1" /> attack class entirely.</p>
 
       <UseCase
         scenario="ITS1 v2 (a helpdesk ticket field injection attack): The attacker submits a support ticket through the public helpdesk portal. The ticket payload puts their URL in a field that is normally auto-filled by the system — not entered by users. Anyone with an email can submit a support ticket."
@@ -69,7 +71,7 @@ export default function Lesson() {
         ]}
       />
 
-      <p><strong>Defeats:</strong> SURV1 v2, ITS1 v2; secondary for TP1 v3.</p>
+      <p><strong>Defeats:</strong> <Defeats ids="SURV1 v2, ITS1 v2" />; secondary for <AttackRef id="TP1" />.</p>
 
       <hr />
 
@@ -92,7 +94,7 @@ export default function Lesson() {
         ]}
       />
 
-      <p><strong>Defeats:</strong> INV1, EMAIL1, SP1, MAA1.</p>
+      <p><strong>Defeats:</strong> <Defeats ids="INV1, EMAIL1, SP1, MAA1" />.</p>
 
       <KeyPoint>
         Primitives 5, 6, and 7 are your second line of defense. Primitives 1–4 stop most injections at entry. These three catch what slips through — pausing high-impact writes for human review, setting aside suspicious retrieval, and requiring an independent confirmation before the highest-stakes actions run.

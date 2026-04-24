@@ -1,4 +1,5 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
 
 export default function Lesson() {
   return (
@@ -43,7 +44,7 @@ export default function Lesson() {
       />
 
       <Callout type="warn" title="What stopped the first attempt">
-        The first AI1 attempt had a trailing <code>?ref=</code> parameter on the link. Sonnet flagged it as a phishing signal and dropped the URL. The second attempt removed the parameter — and the attack succeeded. The check was pattern-based, not logical. One character was the difference between blocked and compromised.
+        The first <AttackRef id="AI1" /> attempt had a trailing <code>?ref=</code> parameter on the link. Sonnet flagged it as a phishing signal and dropped the URL. The second attempt removed the parameter — and the attack succeeded. The check was pattern-based, not logical. One character was the difference between blocked and compromised.
       </Callout>
 
       <h2>Indirect: Table Poisoning (SP1)</h2>

@@ -1,4 +1,5 @@
 import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram, AttackDiagram } from "@/components/mdx";
+import { AttackRef } from "@/components/AttackRef";
 
 export default function Lesson() {
   return (
@@ -36,7 +37,7 @@ export default function Lesson() {
 
       <h2>Concrete Example: Deployment Log Agent</h2>
 
-      <p>CI1 v2 (pipeline log injection) succeeded because the AI had write access to the live deployment guide and its instructions said "include pre-deployment checklist items exactly as they appear in the log." Two mistakes. One bypass. The attacker entered through the CI/CD pipeline — just an HTTP request to trigger a build. No hacking needed.</p>
+      <p><AttackRef id="CI1 v2" /> (pipeline log injection) succeeded because the AI had write access to the live deployment guide and its instructions said "include pre-deployment checklist items exactly as they appear in the log." Two mistakes. One bypass. The attacker entered through the CI/CD pipeline — just an HTTP request to trigger a build. No hacking needed.</p>
 
       <UseCase
         scenario="CI1 v2 (pipeline log injection — confirmed bypass): AI reads deployment pipeline logs and writes a checklist to an internal deployment guide."
@@ -87,12 +88,12 @@ export default function Lesson() {
 
       <p><strong>Rule 1 — The helper AI (Haiku) may read external documents freely.</strong> It is fine for reading and summarizing when its output is a draft that a human or more capable AI reviews before any further action.</p>
 
-      <p><strong>Rule 2 — The helper AI (Haiku) may NOT write to any source that the main AI (Sonnet or Opus) will later read as authoritative.</strong> This is the MAA1 failure condition. Haiku wrote an attacker URL to the Approved Vendor Registry. Sonnet read the registry as trusted internal data and copied the URL as policy-compliant. Neither AI was wrong in isolation. The system design was the flaw.</p>
+      <p><strong>Rule 2 — The helper AI (Haiku) may NOT write to any source that the main AI (Sonnet or Opus) will later read as authoritative.</strong> This is the <AttackRef id="MAA1" /> failure condition. Haiku wrote an attacker URL to the Approved Vendor Registry. Sonnet read the registry as trusted internal data and copied the URL as policy-compliant. Neither AI was wrong in isolation. The system design was the flaw.</p>
 
       <p><strong>Rule 3 — When the helper AI feeds the main AI, a human must review what the helper AI wrote before the main AI reads it.</strong> No exceptions for vendor lists, service catalogs, deployment guides, or security checklists.</p>
 
       <Callout type="danger" title="A more capable model is not a substitute for good architecture">
-        Even the most capable model (Opus) was bypassed when the attacker used a domain name with no obvious connection to the app name (MAA1+CONF1 v2). Draft buffers, human review steps, and narrow permissions are not optional just because you are running a smarter model.
+        Even the most capable model (Opus) was bypassed when the attacker used a domain name with no obvious connection to the app name (<AttackRef id="MAA1" />+<AttackRef id="CONF1" /> v2). Draft buffers, human review steps, and narrow permissions are not optional just because you are running a smarter model.
       </Callout>
 
       <KeyPoint>
