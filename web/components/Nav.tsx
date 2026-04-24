@@ -7,12 +7,13 @@ import { animate, stagger } from "animejs";
 import { useTheme } from "@/components/ThemeProvider";
 
 const NAV_LINKS = [
+  { href: "/", label: "Home" },
   { href: "/learn", label: "Modules" },
   { href: "/exam", label: "Exam" },
   { href: "/verify/demo", label: "Verify" },
 ];
 
-const ALL_LINKS = [{ href: "/", label: "Home" }, ...NAV_LINKS];
+const ALL_LINKS = NAV_LINKS;
 
 function SunIcon() {
   return (
