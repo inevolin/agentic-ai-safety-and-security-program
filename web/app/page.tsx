@@ -507,7 +507,7 @@ export default function Home() {
               </div>
 
               <SplitHeading
-                text="The AI Security Course Every Team Should Take"
+                text="The AI Safety & Security Course Everyone Should Take"
                 as="h1"
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white"
                 delay={200}
