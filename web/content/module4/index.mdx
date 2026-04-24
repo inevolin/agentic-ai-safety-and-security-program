@@ -7,6 +7,12 @@ duration: "35 min"
 
 # Module 4: The 10 Defensive Primitives
 
+None of the attacks in Module 3 required a single line of advanced exploit code. The attacker filled out a form. Sent an HTTP request. Posted in Slack. Opened a PR.
+
+Every one of those attacks succeeds because the enterprise wired up an AI agent without basic guardrails. That is noob-level AI integration. The controls in this module are not advanced security research — they are the minimum a responsible team should ship before connecting an AI agent to real systems.
+
+Each primitive is framed as: what it is, what it blocks, and why any production AI integration should have it from day one.
+
 ## Learning Objectives
 
 1. Match each of the 10 primitives to the attack classes it primarily blocks.
@@ -15,6 +21,6 @@ duration: "35 min"
 
 ## Lessons
 
-- **Lesson 1:** Primitives 1–4 (Provenance, Tool Integrity, Write-Scope, Link Allowlisting)
-- **Lesson 2:** Primitives 5–7 (HITL Gates, Anomaly Retrieval, Cross-Channel)
-- **Lesson 3:** Primitives 8–10 (Output Provenance, Cross-Modal, Session Auth) + Coverage Matrix
+- **Lesson 1:** Primitives 1–4 — Provenance, Tool Integrity, Write-Scope, Link Allowlisting
+- **Lesson 2:** Primitives 5–7 — HITL Gates, Anomaly Retrieval, Cross-Channel Checks
+- **Lesson 3:** Primitives 8–10 — Output Provenance, Cross-Modal, Session Auth + Coverage Matrix

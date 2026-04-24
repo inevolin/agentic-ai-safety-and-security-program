@@ -4,43 +4,54 @@ moduleId: 1
 lessonId: 1
 ---
 
+import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram } from '@/components/mdx';
+
 # How AI Agents Differ from Traditional Software
 
-Traditional software has a fixed control flow — it does exactly what its code says.
-An AI agent is different in three critical ways that create an entirely new attack surface.
+Traditional software does exactly what its code says. An AI agent reasons, decides, and acts — across systems it has permission to write to. That changes everything about the attack model. And here is the key point: exploiting an AI agent does not require hacking. An attacker fills out a public vendor-registration form, opens a PR on a public GitHub repo, or posts in a customer Slack channel — and waits for the enterprise AI agent to read that data and act on it. No hacking needed. Just an ordinary public surface.
 
-## The Three Structural Properties
+## Traditional Software vs. AI Agent
 
-### 1. Tool Access
-AI agents don't just generate text — they call tools. A legal AI agent reads NDAs
-*and* writes to Notion. A DevOps agent reads CI/CD logs *and* writes deployment runbooks.
-A finance agent reads invoices *and* updates accounts-payable tracking systems.
+<Comparison
+  left={{
+    title: "Traditional Software",
+    points: [
+      "Fixed control flow — no runtime judgment",
+      "Input comes only from the user or a trusted API",
+      "Writes to one system within a single defined scope",
+      "Attacker must control user input to influence output",
+      "Blast radius is bounded by the application's own permissions"
+    ]
+  }}
+  right={{
+    title: "AI Agent",
+    points: [
+      "Reasoning across multiple steps — each step can be redirected",
+      "Input includes external documents, logs, registries, Slack, git, helpdesk tickets",
+      "OAuth tokens span email, Notion, CRM, CI systems simultaneously",
+      "Attacker controls any data the agent reads — never touches user input",
+      "Blast radius: every system the agent can write to"
+    ]
+  }}
+/>
 
-This means a compromise of what the agent *reads* can affect what the agent *writes*.
+## Three Properties That Create the New Surface
 
-### 2. Multi-Step Autonomy
-Traditional software executes a single deterministic function. An AI agent reasons
-across multiple steps, making judgment calls at each step based on everything it has
-read so far. An attacker who can influence the agent's context early in the chain
-can shape every subsequent decision.
+**Tool access.** Agents don't just generate text — they call tools. A legal agent reads NDAs *and* writes to Notion. A DevOps agent reads CI logs *and* writes deployment runbooks. Compromise what an agent *reads* and you control what it *writes*. And what it reads almost always includes inputs that come from public surfaces — vendor forms, support tickets, community posts.
 
-### 3. Cross-System Write Scope
-Most enterprise AI agents have OAuth permissions spanning multiple systems.
-A single agent might read from email, read from Slack, read from GitHub — and write
-to Notion, write to Jira, write to a vendor registry. This blast radius is far larger
-than any single traditional application.
+**Multi-step autonomy.** An agent makes judgment calls at each step based on everything it has read so far. Slip bad data in early — through a normal public form — and you shape every downstream decision without ever touching the user's keyboard.
 
-## Why This Matters for Security
+**Cross-system write scope.** A single enterprise agent may read from email, Slack, and GitHub while writing to Notion, Jira, and a vendor registry. That blast radius exceeds any single traditional application. The entry point can be as simple as one Slack message or one HTTP request that gets logged.
 
-In traditional software, a SQL injection attack requires the attacker to control
-user input. In an AI agent workflow, the attacker may control a PDF the agent reads,
-a Slack message the agent processes, a CI/CD log the agent analyzes, or a git commit
-the agent summarizes. The attacker never touches the user's input at all.
+## Real Attack: SP1 — Poisoned Vendor Registry
 
-**This is the indirect prompt injection threat model:** the attack surface is every
-piece of external data the agent reads, not just what the user types.
+<UseCase
+  scenario="Legal AI agent processes NDA workflows. It is instructed to trust vendor portal URLs only from IT's Approved Vendor Registry. The registry is an editable table that vendors populate through the public onboarding process."
+  attacker="SP1 (an attack where a vendor table is quietly altered via the normal registration process): Attacker fills out the public vendor-registration form and plants a malicious portal URL in the registry CSV as a clean subdomain entry (portal.acmecorp.com), last_verified = today. Agent reads registry, outputs attacker URL as authoritative. No suspicious indicators — it is in the 'trusted' registry. No hacking needed. Just a normal public form."
+  impact="Agent writes attacker-controlled portal URL to legal workflow checklist. Paralegal follows it to initiate contract execution. Potential for credential harvest or payment redirect."
+  defense="This is a noob-level AI integration mistake: no input validation on vendor form entries, no URL allow-listing, no human approval gate. Treat registries as untrusted input — the 'trust the registry' instruction is exactly what SP1 weaponizes. These are basic guardrails any enterprise should have before wiring an AI agent to an editable vendor table."
+/>
 
-## Key Takeaway
-
-The question to ask about any AI agent deployment is not "is the model safe?"
-It is: **"what data does this agent read, and can an attacker control any of it?"**
+<KeyPoint>
+  The question to ask about any AI agent is not "is the model safe?" It is: **what data does this agent read, and can an attacker submit something there through a public form, a PR, a support ticket, or a Slack message?** In most enterprises today, the answer is yes — because basic guardrails were skipped.
+</KeyPoint>

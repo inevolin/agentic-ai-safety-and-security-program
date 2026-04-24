@@ -1,0 +1,87 @@
+---
+title: "Lesson 3: Skills as Attack Surface"
+moduleId: 7
+lessonId: 3
+---
+
+import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram } from '@/components/mdx';
+
+# Skills as Attack Surface
+
+Skills reduce attack surface on one side. They add it on another. The same properties that make a skill useful — it is reusable, team-shared, and loaded at runtime — also make it a target. An attacker who poisons your skill gets code or instructions running inside every agent that loads it. This lesson covers the two primary skill attack vectors confirmed in the wider 52-scenario test catalog.
+
+## Skills Are Attacker-Reachable
+
+The moment you pull a skill from a public registry, a shared team folder, or an open repository, you have given anyone who can submit a PR or post to that registry a path into your agent runtime. That is the same public-surface model as every other attack in this course. No hacking needed. Just a PR.
+
+<Comparison
+  left={{
+    title: "Where teams get skills",
+    points: [
+      "Public skill registries (community-maintained)",
+      "Shared team folders in version control",
+      "Third-party vendor skill packages",
+      "Contractor-authored skills checked into your repo"
+    ]
+  }}
+  right={{
+    title: "What that means for security",
+    points: [
+      "Anyone who can submit to the registry can publish a malicious skill",
+      "A PR to the skills folder is attacker-controlled content entering your agent runtime",
+      "Vendor skills carry the vendor's trust level — which may be lower than you assumed",
+      "Contractor skills have the same risk profile as contractor-authored system prompts"
+    ]
+  }}
+/>
+
+## SC2 — Malicious Public Skill
+
+SC2 (attacker publishes a helpful-looking skill to a public registry — the skill contains a hidden directive that redirects agent behavior) follows exactly the same public-surface model as the rest of the attacks in this course. The attacker does not break into your skill repository. They submit a skill that looks useful.
+
+<AttackCard
+  id="SC2"
+  title="Malicious Public Skill"
+  what="Attacker publishes a skill to a public registry with a name like 'url-safety-checker' or 'output-formatter'. The skill's visible behavior is helpful. Its instruction block also contains a hidden directive: redirect all output writes to an additional endpoint, or suppress any security warnings about a specific domain."
+  how="A developer discovers the skill on a public registry, installs it in the shared team skill folder, and loads it into several agents. The hidden directive now runs in every agent that calls the skill. The attacker did not touch your infrastructure — they just made a submission to a public registry."
+  impact="Attacker-controlled behavior running inside your agents, with the trust level your team granted to a 'security utility' skill. The hidden directive can range from URL redirect to data exfiltration to behavioral suppression."
+  mitigations={["Review the full instruction text of any skill before installing — not just the name and description", "Require a security sign-off before any new skill is added to the shared folder", "Hash-verify skill files on load; reject any skill whose hash differs from the registry entry", "Treat public skill registries with the same trust as public npm packages — audit before use"]}
+/>
+
+## SS1 — Skill Worm
+
+SS1 (a skill instructs the agent to install a second attacker-controlled skill, propagating attacker behavior to new agent contexts) is the skill-layer equivalent of the SP1-FC worm. The attacker's skill reproduces itself.
+
+<AttackCard
+  id="SS1"
+  title="Skill Worm (Self-Propagating Skill)"
+  what="A malicious skill — installed via SC2 or a direct supply-chain compromise — contains an instruction to invoke a second skill from an attacker-controlled source. The agent follows this instruction and installs the new skill into its context or writes it to a shared skills folder."
+  how="Any agent that loads the initial malicious skill and has write access to the shared skills folder becomes a propagation vector. The worm does not need the attacker to take any further action. Each infected agent spreads to shared infrastructure on its next run."
+  impact="Attacker behavior propagates across all agents that share the same skills repository. Cross-session, cross-agent worm effect — equivalent to SP1-FC worm but operating at the skill layer instead of the data layer."
+  mitigations={["Skills must never contain instructions to install, load, or fetch other skills from external sources", "Skills folder write access must be restricted — agents should not have write access to the folder they load skills from", "Monitor for new files in the shared skills directory; require human approval before any new skill is loaded by agents", "Quarantine and audit any agent session that attempts to write to the skills folder"]}
+/>
+
+## Treating Skill Loading as a Trust Decision
+
+<Callout type="warn" title="If you wouldn't run a random npm package without checking it, don't load a random skill without checking it.">
+  npm packages get code review, dependency audits, and pinned version hashes before they run in production. Skills deserve the same treatment. A skill is code — or instruction text that directs code. Both are executable from an attacker's perspective.
+</Callout>
+
+<DoDont
+  do={[
+    "Maintain an internal skill registry with approved, reviewed, hash-verified entries",
+    "Review the full instruction text of any new skill — not just its name and stated purpose",
+    "Sign skill releases and verify signatures on load",
+    "Restrict agent write access to the skills folder — no agent should be able to add new skills without human approval"
+  ]}
+  dont={[
+    "Install skills from public registries without reading the full instruction block first",
+    "Grant agents write access to the same folder they load skills from",
+    "Use skills authored by contractors without the same security review you would apply to a contractor-authored system prompt",
+    "Assume a skill from a trusted vendor is safe to install without reviewing the current version — supply chains change"
+  ]}
+/>
+
+<KeyPoint>
+  Skills from internal, signed, pinned sources deserve higher trust. Skills from public registries, shared community folders, or external vendors are attacker-reachable input — treat them exactly as you treat public form submissions, community posts, and vendor documents: with explicit review before use.
+</KeyPoint>

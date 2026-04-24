@@ -7,19 +7,23 @@ duration: "45 min"
 
 # Module 3: Attack Anatomy
 
-This module uses real attack data from our controlled test battery.
-Every attack described here was run against production Claude models.
-Every detection signal is real. Every bypass is confirmed.
+None of the attacks in this module required hacking. No zero-days. No insider access. Every attacker started from the same public surfaces any customer or vendor uses: a signup form, a support ticket, a public GitHub PR, a Slack community post, an HTTP request to a login page.
+
+Those inputs got logged, captured, or registered. Then an AI agent wired up to analyze that data read them — and did exactly what the attacker wanted.
+
+**The root cause is not clever attackers. It is weak AI integration.** Enterprises rushed AI agents into production without basic guardrails. Every attack in this module exploited that gap.
+
+Every bypass in this module is confirmed on production Claude models. Every detection signal is real.
 
 ## Learning Objectives
 
-1. Describe the mechanism of each of the 4 attack families covered.
+1. Describe the public entry point for each of the 4 attack families.
 2. Explain why Opus is paradoxically more vulnerable to MAA1 than Sonnet.
-3. Identify the 3 most common types of detection signals that successful bypasses neutralized.
+3. Identify the 3 most common detection signals that successful bypasses neutralized.
 
 ## Lessons
 
-- **Lesson 1:** Registry and Data-Layer Attacks
-- **Lesson 2:** Structured-Data Channel Attacks
-- **Lesson 3:** Community and Conversational Attacks
-- **Lesson 4:** Multi-Agent Amplification
+- **Lesson 1:** Document & Tool-Output Injection
+- **Lesson 2:** Registry & Catalog Poisoning
+- **Lesson 3:** Log, CI/CD & Commit Injection
+- **Lesson 4:** Multi-Agent Transitive Poisoning

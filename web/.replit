@@ -1,11 +1,11 @@
-run = "npm run start"
+run = "pnpm run start"
 entrypoint = "app/page.tsx"
 
 [nix]
 channel = "stable-23_11"
 
 [deployment]
-run = ["sh", "-c", "npm run build && npm run start"]
+run = ["sh", "-c", "pnpm install --frozen-lockfile && pnpm run build && pnpm run start"]
 deploymentTarget = "cloudrun"
 
 [[ports]]

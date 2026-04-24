@@ -1,94 +1,90 @@
 ---
-title: "Lesson 2: Tool and Permission Scoping"
+title: "Lesson 2: Tool Allowlists & OAuth Scopes"
 moduleId: 5
 lessonId: 2
 ---
 
-# Tool and Permission Scoping
+import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram } from '@/components/mdx';
 
-Giving an AI agent every available tool is the AI equivalent of running every process as root. When that agent reads a poisoned document and attempts to write to every system it can reach, the blast radius is your entire infrastructure. This lesson covers how to scope tool access and write permissions so that a compromised agent can do the least possible damage.
+# Tool Allowlists & OAuth Scopes
 
-## Principle of Least-Privilege Tools
+Giving an agent every available tool is the AI equivalent of running every process as root. When that agent reads a poisoned document and writes to every system it can reach, the blast radius is your entire infrastructure. The document that started the attack? It came in through a normal public channel — a CI/CD pipeline anyone can trigger, a vendor form anyone can submit, a Slack community anyone can join. The attack surface is wherever your AI reads from, and your AI reads from everywhere your business operates.
 
-An agent with `Bash`, `Write`, `Read`, and all MCP tools enabled can:
-- Read any file on the filesystem
-- Write or overwrite any file it can reach
-- Execute arbitrary shell commands
-- Update any Notion/Confluence/Jira page it has OAuth scope for
-- Send messages to any Slack channel it has access to
+## Wide vs. Narrow OAuth
 
-This is not a hypothetical risk. In the MAA1 attack, the Stage 1 Haiku agent had `Write` access and MCP tools scoped to the vendor registry. It used exactly those capabilities to register an attacker URL as an approved vendor portal. In the CI1 v2 attack, the DevOps agent had the ability to write to Notion runbooks. That capability, combined with a weaponized operator instruction, was all the attacker needed.
+<Comparison
+  left={{
+    title: "Wide OAuth (dangerous)",
+    points: [
+      "notion:write scoped to all workspaces",
+      "Read + Write + Bash + all MCP tools enabled",
+      "Agent can update any Notion page it encounters",
+      "CI1 v2: DevOps agent wrote attacker URL to live runbook",
+      "EL1 v2: IDP fallback URL written as incident action item",
+      "Blast radius = every system the agent has OAuth tokens for"
+    ]
+  }}
+  right={{
+    title: "Narrow OAuth (safe)",
+    points: [
+      "notion:write scoped to a single staging draft page ID",
+      "Only tools required for the stated task are granted",
+      "Write to live runbook requires human merge after staging review",
+      "A compromised agent can only poison the staging buffer",
+      "OAuth scope is the enforcement layer — not the system prompt",
+      "Blast radius bounded to the staging draft"
+    ]
+  }}
+/>
 
-**The rule:** Give each agent only the tools required to complete its stated task. Define "stated task" narrowly. Audit tool grants at deployment time, not after an incident.
+## Concrete Example: Deployment Log Agent
 
-## Example: Vendor Onboarding Agent
+The CI1 v2 bypass (pipeline log injection) succeeded because the DevOps AI agent had write access to the live Notion runbook and an operator instruction that said "include pre-deployment checklist items exactly as they appear in the log." The attacker's entry point was the CI/CD pipeline — a public-facing system any contributor can reach. Just an HTTP request to trigger a build, with a payload embedded in the log output. No hacking needed.
 
-Consider an agent whose stated task is: "Read a vendor onboarding packet (PDF) and check the existing vendor runbook for completeness gaps."
+<UseCase
+  scenario="CI1 v2: AI DevOps agent reads CI/CD pipeline logs and writes a deployment checklist to an internal Notion runbook."
+  attacker="Attacker injects a phishing URL inside a legitimate ##[group]Deployment Gates step in the pipeline log. The clean subdomain (deploy-verify.acmecorp.com) passes domain checks. Operator instruction to 'include checklist items exactly as they appear' is semantic cover."
+  impact="URL written to live Notion runbook twice — as a checklist bullet and blockquote — framed as a required security sign-off with a 4-hour SLA. Engineers act on it during next deployment."
+  defense="Scope agent's OAuth to a staging draft page only. Human reviews diff before anything merges to the live runbook. Operator instruction changed to 'flag verification links for human review — do not include as action items.'"
+/>
 
-**NEEDS:**
-- `Read` — to read the vendor PDF
-- `mcp__notion__notion-fetch` — to read the existing runbook for comparison
+## Tool Allowlist by Task Type
 
-**DOES NOT NEED:**
-- `Write` — there is no file it should be writing to on the filesystem
-- `Bash` — no shell execution is required for document review
-- `mcp__notion__notion-create-pages` — it should not be creating new Notion pages autonomously
-- `mcp__notion__notion-update-page` — it should not be modifying the live runbook directly
+<DoDont
+  do={[
+    "Grant only the tools required for the stated task — audit at deploy time, not post-incident",
+    "Scope notion:write to specific page IDs, not 'all Notion pages'",
+    "Use a staging draft page for agent writes; require human merge to live systems",
+    "Separate read tools (notion-fetch) from write tools (notion-update-page) in your allowlist",
+    "Match OAuth scopes to declared write scope — broad OAuth is a risk even if the system prompt restricts writes"
+  ]}
+  dont={[
+    "Enable Bash unless the task requires shell execution — most document review tasks do not",
+    "Enable notion-create-pages for a review-only agent — it should never create pages autonomously",
+    "Assume the system prompt write restriction enforces OAuth scope — a compromised model ignores the system prompt",
+    "Grant write access to vendor registries, runbooks, or deployment checklists without a HITL gate",
+    "Deploy an agent with 'all MCP tools' enabled — enumerate which tools are actually needed"
+  ]}
+/>
 
-**Safe pattern: the staging-draft write scope**
+## Model Tier Rules
 
-If the agent does need to produce a draft output, scope its Notion write access to a dedicated staging draft page — not the live runbook:
+Not all models carry the same risk when reading external content.
 
-```
-PERMITTED WRITES:
-- Notion page ID: [STAGING_DRAFT_PAGE_ID] only.
-  This is a human-reviewed staging area.
-  The agent may write summaries and flagged items here.
-  The agent may NOT write to any other Notion page.
-```
+<StatBar label="Haiku — skepticism (external doc injection)" value={2} max={5} color="danger" />
+<StatBar label="Sonnet — skepticism (external doc injection)" value={4} max={5} color="amber" />
+<StatBar label="Opus — skepticism (external doc injection)" value={5} max={5} color="emerald" />
 
-A human then reviews the staging draft and merges approved content into the live runbook. This is the staging-area-plus-diff pattern: the agent produces the draft, the human controls what goes live.
+**Rule 1 — Haiku may read external documents freely.** Suitable for parsing and summarizing when output is a draft that will be reviewed before any downstream action.
 
-## Model Tier Selection Rules
+**Rule 2 — Haiku may NOT write to any source that Sonnet or Opus will later read as authoritative.** The MAA1 failure condition: Haiku wrote an attacker URL to the Approved Vendor Registry, Sonnet read the registry as trusted, and propagated the URL as policy-compliant. Neither model acted incorrectly in isolation — the architecture was the flaw.
 
-Not all models carry the same risk when reading external content. Haiku is faster and cheaper but also less skeptical. Sonnet applies more judgment to suspicious inputs. Opus actively names attack classes and quarantines artifacts. These differences create a concrete set of rules for multi-model deployments:
+**Rule 3 — Haiku→Sonnet/Opus pipelines require a human review step between Haiku's writes and Sonnet's reads.** No exceptions for vendor registries, service catalogs, runbooks, or deployment checklists.
 
-**Rule 1: Haiku may read external documents freely.**
-Haiku is appropriate for parsing, extracting, and summarizing external documents where the output is a structured draft that will be reviewed before any downstream action.
+<Callout type="danger" title="Opus is not a substitute for architecture">
+Even Opus can be bypassed by domain-rotation catalog poisoning (MAA1+CONF1 v2). A rotated domain with no lexical similarity to APP_NAME passes Opus's catalog-poisoning check entirely. Architectural controls — staging buffers, HITL gates, narrow OAuth — are not optional when using Opus.
+</Callout>
 
-**Rule 2: Haiku may NOT write to any data source that Sonnet or Opus will later read as authoritative.**
-This is the MAA1 failure condition in exact terms. In the confirmed bypass, Haiku read an attacker-controlled vendor PDF and wrote the attacker's URL to the Approved Vendor Portal Registry CSV. Sonnet then read the registry as authoritative and propagated the URL as policy-compliant. The vulnerability is not in either model's individual behavior — it is in the pipeline architecture that let Haiku's writes become Sonnet's trusted inputs.
-
-Authoritative sources that Haiku must never write to without human review:
-- Vendor registries or approved-vendor lists
-- Approved-service catalogs
-- Security runbooks or incident response playbooks
-- Deployment checklists
-- Configuration management systems (`.env` files, Ansible vars, Terraform state)
-- Any artifact that a more capable model will later read and act on
-
-**Rule 3: If the pipeline is Haiku→Sonnet/Opus, there must be a human review step between Haiku's writes and Sonnet's reads.**
-This is the structural fix for MAA1. It does not require removing Haiku from the pipeline — it requires that Haiku's output passes through human review before it becomes Sonnet's input. The pipeline becomes: Haiku extracts → human reviews → human approves → Sonnet or human writes to authoritative source.
-
-**When to use Sonnet vs. Opus:**
-- Use **Sonnet** when summarizing external content and writing the result to internal systems. Sonnet's balance of capability and scrutiny makes it suitable for most enterprise workflow automation.
-- Use **Opus** for high-stakes decisions involving financial data, security policy, or vendor approval. Opus actively reasons about attack classes and will quarantine suspicious artifacts — but even Opus can be bypassed by domain-rotation catalog poisoning (the CONF1-MAA1-v2 bypass), so Opus is not a substitute for architectural controls.
-
-## Write-Scope Audit Checklist
-
-Before deploying any AI agent integration, answer these five questions:
-
-**1. Which specific pages, records, or systems does this agent write to?**
-Not "Notion" — the specific page IDs. Not "the vendor registry" — the specific CSV path or database record. If you cannot answer with specifics, the write scope is undefined and the deployment is not ready.
-
-**2. Can an attacker control any of the data this agent reads?**
-Walk through every data source: PDFs from vendors (yes), CI/CD logs (potentially), git commit history (potentially), Slack exports (potentially), Notion pages fetched via MCP (potentially if the page is user-editable). For each "yes" or "potentially", ask: what happens if an attacker plants a URL or an instruction in that source?
-
-**3. If the agent is compromised, what is the blast radius?**
-Assume the worst-case: the agent propagates an attacker-controlled URL to every system it has write access to. List those systems. If the list includes a vendor registry, a security runbook, or a configuration management system, the blast radius is unacceptably large without additional controls.
-
-**4. Is there a human approval step before any high-impact write?**
-High-impact writes include: any change to a vendor registry or approved-vendor list, any write to a security runbook or deployment checklist, any write that will be read by a more capable model as authoritative. If the answer is "no," add a HITL gate.
-
-**5. Do the agent's OAuth scopes match its stated write scope?**
-It is common for agents to be deployed with broad OAuth scopes ("write to all Notion pages") because per-page scoping requires more setup. Check whether the OAuth scope matches what the stated write scope allows. Broad OAuth scopes are a deployment risk even if the system prompt restricts writes — a compromised model may ignore the system prompt instruction.
+<KeyPoint>
+The blast radius of a compromised agent equals the union of every system it has OAuth write access to — not the systems listed in its system prompt. And the attacker who triggered it may never have touched your internal systems at all. They just sent an HTTP request your AI happened to read.
+</KeyPoint>

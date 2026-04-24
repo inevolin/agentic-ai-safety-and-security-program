@@ -1,0 +1,24 @@
+---
+title: "Module 7: Claude Skills as Guardrails"
+description: "When Claude Skills help defend AI agents, when they don't, and how they themselves become attack surface."
+lessons: 4
+duration: "35 min"
+---
+
+# Module 7: Claude Skills as Guardrails
+
+Skills are reusable instructions — and optionally code — that you can load into a Claude agent at runtime. They sound like a natural place to put security logic: write a skill that enforces your URL allowlist, load it into every agent, done. That instinct is right, but only halfway. Skills that call real code are a genuine defensive layer. Skills that are pure prose are just more text the attacker can talk the model out of following. And skills themselves have a supply chain — which means they can also be the injection vector.
+
+## Learning Objectives
+
+1. Explain what a Claude Skill is and how it differs from a system prompt.
+2. Apply four defensive skill patterns: code wrapper, policy baseline, checklist gate, and allowlist enforcer.
+3. Identify the two primary attack vectors against skills: skill registry poisoning (SC2) and skill worm propagation (SS1).
+4. Design skills that bundle deterministic code rather than prose directives.
+
+## Lessons
+
+- **Lesson 1:** What Skills Are, and Why They Matter for Security
+- **Lesson 2:** Skills as Defensive Primitives (When They Work)
+- **Lesson 3:** Skills as Attack Surface
+- **Lesson 4:** Building Defensive Skills — Patterns and Anti-Patterns

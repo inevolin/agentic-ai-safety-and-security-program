@@ -1,22 +1,24 @@
 ---
 title: "Module 5: Deployment Best Practices"
-description: "System prompt hardening, tool permission scoping, safe multi-agent pipeline design, and incident response for developers and IT admins."
+description: "System prompt hygiene, tool permission scoping, safe multi-agent pipeline design, and incident response for developers and IT admins."
 lessons: 4
 duration: "40 min"
 ---
 
 # Module 5: Deployment Best Practices
 
+Your AI agent reads whatever your company ingests through normal business channels — support tickets, vendor forms, pipeline logs, Slack exports, git history. Attackers do not need to hack your systems. They fill out a public form, send an HTTP request, or open a pull request, and wait for the AI to carry their content inside. Every architectural pattern in this module is a guardrail that sits between that public input surface and the AI's next write action.
+
 ## Learning Objectives
 
-1. Write a hardened system prompt for a given agent use case using the provenance-tagging template.
-2. Define correct tool permissions and write-scope for 3 example agent scenarios.
-3. Describe a safe Haiku→Sonnet pipeline for vendor document processing.
-4. Explain the incident response steps when an AI agent writes suspicious content to an internal system.
+1. Write a hardened system prompt using the provenance-tagging template.
+2. Scope tool permissions and OAuth grants for 3 example agent scenarios.
+3. Design a safe Haiku→Sonnet pipeline with a human review gate.
+4. Execute incident response when an agent writes suspicious content.
 
 ## Lessons
 
-- **Lesson 1:** System Prompt Hardening (annotated templates)
-- **Lesson 2:** Tool and Permission Scoping
-- **Lesson 3:** Safe Multi-Agent Pipeline Design
-- **Lesson 4:** Incident Response
+- **Lesson 1:** System Prompt Hygiene
+- **Lesson 2:** Tool Allowlists & OAuth Scopes
+- **Lesson 3:** Registry & Catalog Handling
+- **Lesson 4:** Monitoring & Output-Side Defenses

@@ -3,7 +3,720 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
+    scroll-behavior: smooth;
+    /* Theme tokens — dark by default */
+    --t-bg: #020617;
+    --t-text: #f1f5f9;
+    --t-surface: rgba(15,23,42,0.6);
+    --t-surface-solid: #0f172a;
+    --t-border: rgba(51,65,85,0.6);
+    --t-dot: rgba(59,130,246,0.08);
+    --t-nav: rgba(2,6,23,0.9);
+    --t-nav-border: rgba(30,41,59,0.8);
+    --t-muted: #94a3b8;
+    --t-code-bg: rgba(15,23,42,0.7);
+  }
+
+  html.light {
+    --t-bg: #f8fafc;
+    --t-text: #0f172a;
+    --t-surface: rgba(255,255,255,0.85);
+    --t-surface-solid: #ffffff;
+    --t-border: rgba(148,163,184,0.35);
+    --t-dot: rgba(59,130,246,0.04);
+    --t-nav: rgba(248,250,252,0.92);
+    --t-nav-border: rgba(203,213,225,0.7);
+    --t-muted: #475569;
+    --t-code-bg: rgba(241,245,249,0.9);
+    color-scheme: light;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  html { @apply antialiased; }
+
   body {
-    @apply bg-gray-50 text-gray-900;
+    background-color: var(--t-bg);
+    color: var(--t-text);
+    background-image: radial-gradient(circle, var(--t-dot) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-attachment: fixed;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* ─── Light mode text/bg overrides ─── */
+  html.light .text-white { color: #0f172a; }
+  html.light .text-slate-100 { color: #1e293b; }
+  html.light .text-slate-200 { color: #334155; }
+  html.light .text-slate-300 { color: #475569; }
+  html.light .text-slate-400 { color: #64748b; }
+  html.light .text-slate-500 { color: #94a3b8; }
+
+  html.light .bg-slate-950 { background-color: #f1f5f9; }
+  html.light .bg-slate-900 { background-color: #f8fafc; }
+  html.light .bg-slate-900\/60 { background-color: rgba(248,250,252,0.85); }
+  html.light .bg-slate-900\/80 { background-color: rgba(248,250,252,0.92); }
+  html.light .bg-slate-800 { background-color: #e2e8f0; }
+  html.light .bg-slate-800\/60 { background-color: rgba(226,232,240,0.7); }
+  html.light .bg-slate-800\/70 { background-color: rgba(226,232,240,0.8); }
+
+  html.light .border-slate-700 { border-color: #94a3b8; }
+  html.light .border-slate-700\/60 { border-color: rgba(148,163,184,0.4); }
+  html.light .border-slate-700\/50 { border-color: rgba(148,163,184,0.35); }
+  html.light .border-slate-800 { border-color: #cbd5e1; }
+  html.light .border-slate-800\/60 { border-color: rgba(203,213,225,0.5); }
+
+  /* ─── AttackDiagram light mode overrides ─── */
+  html.light .bg-slate-900\/40  { background-color: rgba(248,250,252,0.7); }
+  html.light .bg-slate-800\/50  { background-color: rgba(226,232,240,0.6); }
+  html.light .border-white\/5   { border-color: rgba(148,163,184,0.2); }
+  html.light .border-slate-700\/50 { border-color: rgba(148,163,184,0.35); }
+
+  html.light .bg-danger-950\/50    { background-color: rgba(255,241,242,0.7); }
+  html.light .border-danger-800\/50 { border-color: rgba(225,29,72,0.25); }
+  html.light .text-danger-200      { color: #9f1239; }
+  html.light .text-danger-400\/80  { color: rgba(159,18,57,0.75); }
+
+  html.light .bg-warn-950\/50      { background-color: rgba(255,251,235,0.7); }
+  html.light .border-warn-800\/50  { border-color: rgba(217,119,6,0.3); }
+  html.light .text-warn-200        { color: #92400e; }
+  html.light .text-warn-400\/80    { color: rgba(146,64,14,0.75); }
+
+  html.light .bg-cyan-950\/50      { background-color: rgba(236,254,255,0.7); }
+  html.light .border-cyan-800\/50  { border-color: rgba(8,145,178,0.3); }
+  html.light .text-cyan-200        { color: #155e75; }
+  html.light .text-cyan-400\/80    { color: rgba(21,94,117,0.75); }
+
+  html.light .bg-orange-950\/50    { background-color: rgba(255,247,237,0.7); }
+  html.light .border-orange-800\/50 { border-color: rgba(234,88,12,0.3); }
+  html.light .text-orange-200      { color: #7c2d12; }
+  html.light .text-orange-400\/80  { color: rgba(124,45,18,0.75); }
+
+  html.light .text-slate-400\/80   { color: rgba(100,116,139,0.8); }
+
+  /* ─── Module badge — solid in light mode (prevent dot-grid bleed) ─── */
+  html.light .module-badge.bg-brand-800,
+  html.light .module-badge.bg-brand-800\/60    { background-color: #bfdbfe; }
+  html.light .module-badge.bg-danger-900\/60   { background-color: #fecaca; }
+  html.light .module-badge.bg-warn-900\/60     { background-color: #fde68a; }
+  html.light .module-badge.bg-cyan-900\/60     { background-color: #a5f3fc; }
+  html.light .module-badge.bg-slate-800\/60    { background-color: #cbd5e1; }
+  html.light .module-badge.bg-indigo-900\/60   { background-color: #c7d2fe; }
+
+  html.light .module-badge.border-brand-600\/50  { border-color: #60a5fa; }
+  html.light .module-badge.border-brand-700\/50  { border-color: #60a5fa; }
+  html.light .module-badge.border-danger-800\/50 { border-color: #f87171; }
+  html.light .module-badge.border-warn-800\/50   { border-color: #f59e0b; }
+  html.light .module-badge.border-cyan-800\/50   { border-color: #22d3ee; }
+  html.light .module-badge.border-slate-700\/50  { border-color: #94a3b8; }
+  html.light .module-badge.border-indigo-800\/50 { border-color: #818cf8; }
+
+  html.light .module-badge.text-indigo-300 { color: #3730a3; }
+  html.light .group:hover .module-badge.group-hover\:bg-brand-700 { background-color: #93c5fd; }
+
+  /* ─── Accent backgrounds (brand = blue) ─── */
+  html.light .bg-brand-500        { background-color: #3b82f6; }
+  html.light .bg-brand-600        { background-color: #2563eb; }
+  html.light .bg-brand-700        { background-color: #1d4ed8; }
+  html.light .bg-brand-800        { background-color: #dbeafe; }
+  html.light .bg-brand-800\/60    { background-color: rgba(219,234,254,0.7); }
+  html.light .bg-brand-900        { background-color: #eff6ff; }
+  html.light .bg-brand-900\/60    { background-color: rgba(239,246,255,0.85); }
+  html.light .bg-brand-900\/40    { background-color: rgba(239,246,255,0.6); }
+  html.light .bg-brand-950        { background-color: #eff6ff; }
+  html.light .bg-brand-950\/40    { background-color: rgba(239,246,255,0.6); }
+  html.light .bg-brand-950\/20    { background-color: rgba(239,246,255,0.5); }
+
+  html.light .border-brand-500        { border-color: #60a5fa; }
+  html.light .border-brand-600        { border-color: #3b82f6; }
+  html.light .border-brand-600\/60    { border-color: rgba(59,130,246,0.5); }
+  html.light .border-brand-600\/70    { border-color: rgba(59,130,246,0.55); }
+  html.light .border-brand-700        { border-color: #93c5fd; }
+  html.light .border-brand-700\/60    { border-color: rgba(147,197,253,0.6); }
+  html.light .border-brand-700\/40    { border-color: rgba(147,197,253,0.5); }
+  html.light .border-brand-800        { border-color: #bfdbfe; }
+  html.light .border-brand-600\/50    { border-color: rgba(59,130,246,0.45); }
+
+  html.light .text-brand-300     { color: #1d4ed8; }
+  html.light .text-brand-400     { color: #2563eb; }
+  html.light .text-brand-500     { color: #1d4ed8; }
+  html.light .text-brand-700     { color: #1e40af; }
+  html.light .text-brand-800     { color: #1e3a8a; }
+
+  /* ─── Cyan accents ─── */
+  html.light .bg-cyan-400        { background-color: #0891b2; }
+  html.light .bg-cyan-500        { background-color: #0891b2; }
+  html.light .bg-cyan-600        { background-color: #0e7490; }
+  html.light .bg-cyan-700        { background-color: #155e75; }
+  html.light .bg-cyan-950        { background-color: #ecfeff; }
+  html.light .bg-cyan-950\/50    { background-color: rgba(236,254,255,0.7); }
+
+  html.light .border-cyan-500        { border-color: #0891b2; }
+  html.light .border-cyan-700        { border-color: #67e8f9; }
+  html.light .border-cyan-700\/60    { border-color: rgba(103,232,249,0.7); }
+  html.light .border-cyan-700\/40    { border-color: rgba(103,232,249,0.5); }
+  html.light .border-cyan-800        { border-color: #a5f3fc; }
+
+  html.light .text-cyan-100      { color: #164e63; }
+  html.light .text-cyan-200      { color: #155e75; }
+  html.light .text-cyan-300      { color: #0e7490; }
+  html.light .text-cyan-400      { color: #0891b2; }
+  html.light .text-cyan-500      { color: #0e7490; }
+
+  /* ─── Danger (red) accents ─── */
+  html.light .bg-danger-500      { background-color: #f43f5e; }
+  html.light .bg-danger-900      { background-color: #fee2e2; }
+  html.light .bg-danger-900\/60  { background-color: rgba(254,226,226,0.85); }
+  html.light .bg-danger-900\/30  { background-color: rgba(254,226,226,0.5); }
+  html.light .bg-danger-900\/20  { background-color: rgba(254,226,226,0.4); }
+  html.light .bg-danger-950      { background-color: #fff1f2; }
+  html.light .bg-danger-950\/40  { background-color: rgba(255,241,242,0.6); }
+
+  html.light .border-danger-500      { border-color: #e11d48; }
+  html.light .border-danger-600      { border-color: #e11d48; }
+  html.light .border-danger-600\/60  { border-color: rgba(225,29,72,0.5); }
+  html.light .border-danger-700      { border-color: #fda4af; }
+  html.light .border-danger-700\/60  { border-color: rgba(253,164,175,0.7); }
+  html.light .border-danger-700\/40  { border-color: rgba(253,164,175,0.5); }
+  html.light .border-danger-800      { border-color: #fecdd3; }
+
+  html.light .text-danger-100     { color: #881337; }
+  html.light .text-danger-200     { color: #9f1239; }
+  html.light .text-danger-300     { color: #be123c; }
+  html.light .text-danger-400     { color: #be123c; }
+  html.light .text-danger-500     { color: #9f1239; }
+
+  /* ─── Warn (amber) accents ─── */
+  html.light .bg-warn-500         { background-color: #f59e0b; }
+  html.light .bg-warn-900         { background-color: #fef3c7; }
+  html.light .bg-warn-900\/60     { background-color: rgba(254,243,199,0.85); }
+  html.light .bg-warn-900\/20     { background-color: rgba(254,243,199,0.5); }
+  html.light .bg-warn-950         { background-color: #fffbeb; }
+
+  html.light .border-warn-500         { border-color: #d97706; }
+  html.light .border-warn-600         { border-color: #d97706; }
+  html.light .border-warn-600\/60     { border-color: rgba(217,119,6,0.5); }
+  html.light .border-warn-700         { border-color: #fcd34d; }
+  html.light .border-warn-800         { border-color: #fde68a; }
+  html.light .border-warn-900         { border-color: #fef3c7; }
+
+  html.light .text-warn-100     { color: #78350f; }
+  html.light .text-warn-200     { color: #92400e; }
+  html.light .text-warn-300     { color: #b45309; }
+  html.light .text-warn-400     { color: #d97706; }
+  html.light .text-warn-500     { color: #b45309; }
+
+  /* ─── Emerald / green ─── */
+  html.light .bg-emerald-950       { background-color: #ecfdf5; }
+  html.light .bg-emerald-950\/50   { background-color: rgba(236,253,245,0.7); }
+  html.light .text-emerald-300     { color: #047857; }
+  html.light .text-emerald-400     { color: #059669; }
+  html.light .text-emerald-500     { color: #047857; }
+  html.light .text-green-400       { color: #16a34a; }
+  html.light .border-emerald-800   { border-color: #a7f3d0; }
+
+  /* ─── Orange ─── */
+  html.light .bg-orange-950       { background-color: #fff7ed; }
+  html.light .text-orange-100     { color: #7c2d12; }
+  html.light .text-orange-400     { color: #c2410c; }
+
+  /* ─── Blue (raw tailwind) ─── */
+  html.light .bg-blue-50          { background-color: #eff6ff; }
+  html.light .text-blue-200       { color: #1e40af; }
+
+  /* ─── Shadows — swap black-heavy shadows for subtle light shadows ─── */
+  html.light .shadow-xl,
+  html.light .shadow-lg {
+    box-shadow: 0 10px 25px -5px rgba(15,23,42,0.08), 0 8px 10px -6px rgba(15,23,42,0.04);
+  }
+  html.light .shadow-black\/20 { --tw-shadow-color: rgba(15,23,42,0.08); }
+  html.light .shadow-brand-900\/40 { --tw-shadow-color: rgba(59,130,246,0.15); }
+  html.light .shadow-brand-600\/30 { --tw-shadow-color: rgba(37,99,235,0.2); }
+  html.light .shadow-danger-900\/30 { --tw-shadow-color: rgba(225,29,72,0.12); }
+  html.light .shadow-warn-900\/30 { --tw-shadow-color: rgba(217,119,6,0.12); }
+
+  /* ─── Hero decorative blobs: hide on light bg to avoid colored smudges ─── */
+  html.light .bg-brand-700\/20,
+  html.light .bg-brand-600\/10,
+  html.light .bg-cyan-700\/15 {
+    opacity: 0.15;
+  }
+
+  /* ─── Sticky lesson toolbar (LearnControls) ─── */
+  html.light .bg-slate-950\/90 { background-color: rgba(248,250,252,0.92); }
+  html.light .bg-slate-950\/95 { background-color: rgba(248,250,252,0.97); }
+  html.light .border-slate-800\/80 { border-color: rgba(203,213,225,0.7); }
+
+  /* ─── Missing slate opacity variants ─── */
+  html.light .bg-slate-900\/30 { background-color: rgba(248,250,252,0.5); }
+  html.light .bg-slate-900\/50 { background-color: rgba(248,250,252,0.75); }
+  html.light .bg-slate-900\/70 { background-color: rgba(248,250,252,0.88); }
+  html.light .bg-slate-800\/30 { background-color: rgba(226,232,240,0.4); }
+  html.light .bg-slate-800\/40 { background-color: rgba(226,232,240,0.5); }
+  /* bg-slate-800/50 already covered in AttackDiagram block above */
+  html.light .bg-slate-700 { background-color: #cbd5e1; }
+  html.light .bg-slate-700\/50 { background-color: rgba(203,213,225,0.5); }
+  html.light .border-slate-800\/50 { border-color: rgba(203,213,225,0.45); }
+  html.light .border-slate-700\/40 { border-color: rgba(148,163,184,0.3); }
+
+  /* ─── Module header gradients (ModuleSection) ─── */
+  /* The .module-header class is added to the header div; combined with the from-* class
+     we can reliably override the gradient and foreground colors per-variant.
+     Each rule matches elements that have BOTH the module-header class AND the from-* class. */
+  html.light .module-header { background-image: none !important; background-color: rgba(248,250,252,0.9); }
+  html.light .module-header.from-brand-950\/80 { background-color: rgba(239,246,255,0.9); }
+  html.light .module-header.from-danger-950\/80 { background-color: rgba(255,241,242,0.9); }
+  html.light .module-header.from-warn-950\/80 { background-color: rgba(255,251,235,0.9); }
+  html.light .module-header.from-cyan-950\/80 { background-color: rgba(236,254,255,0.9); }
+  html.light .module-header.from-slate-900\/80 { background-color: rgba(241,245,249,0.9); }
+  /* Module header text color — keep headings dark in light mode */
+  html.light .module-header h2 { color: #0f172a; }
+  html.light .module-header .text-slate-500 { color: #64748b; }
+
+  /* ─── Lesson callout backgrounds ─── */
+  html.light .bg-brand-900\/30 { background-color: rgba(239,246,255,0.5); }
+  html.light .bg-brand-900\/50 { background-color: rgba(239,246,255,0.75); }
+  html.light .bg-danger-900\/40 { background-color: rgba(254,226,226,0.6); }
+  html.light .bg-danger-950\/30 { background-color: rgba(255,241,242,0.5); }
+  html.light .bg-warn-900\/20 { background-color: rgba(254,243,199,0.4); }
+  html.light .bg-warn-900\/30 { background-color: rgba(254,243,199,0.5); }
+  html.light .bg-cyan-950\/30 { background-color: rgba(236,254,255,0.5); }
+
+  /* ─── DoDont component: emerald DO box ─── */
+  html.light .bg-emerald-950\/30 { background-color: rgba(236,253,245,0.5); }
+  html.light .bg-emerald-950\/40 { background-color: rgba(236,253,245,0.6); }
+  html.light .border-emerald-500 { border-color: #10b981; }
+  html.light .border-emerald-800\/40 { border-color: rgba(110,231,183,0.4); }
+
+  /* ─── UseCase component: tinted quadrant backgrounds ─── */
+  html.light .bg-danger-950\/20  { background-color: rgba(255,241,242,0.4); }
+  html.light .bg-emerald-950\/20 { background-color: rgba(236,253,245,0.4); }
+
+  /* ─── Orange opacity variant (victim panel in AttackDiagram) ─── */
+  html.light .bg-orange-950\/50 { background-color: rgba(255,247,237,0.7); }
+  html.light .border-orange-800\/50 { border-color: rgba(234,88,12,0.3); }
+  html.light .text-orange-200 { color: #7c2d12; }
+
+  /* ─── Warn-800 opacity variant (source panel in AttackDiagram) ─── */
+  html.light .bg-warn-800\/80 { background-color: rgba(254,243,199,0.8); }
+  html.light .border-warn-800\/50 { border-color: rgba(217,119,6,0.3); }
+
+  /* ─── Additional danger/warn/brand variants used in mdx components ─── */
+  html.light .bg-danger-800 { background-color: #fecdd3; }
+  html.light .bg-danger-950\/60 { background-color: rgba(255,241,242,0.8); }
+  html.light .border-danger-800\/40 { border-color: rgba(253,164,175,0.45); }
+  html.light .bg-brand-900\/50 { background-color: rgba(239,246,255,0.75); }
+  /* Warn-700 border for callout boxes */
+  html.light .border-warn-700\/50 { border-color: rgba(253,211,77,0.4); }
+
+  /* ─── Scrollbar — light variant ─── */
+  html.light ::-webkit-scrollbar-track { background-color: #e2e8f0; }
+  html.light ::-webkit-scrollbar-thumb { background-color: #94a3b8; }
+  html.light ::-webkit-scrollbar-thumb:hover { background-color: #64748b; }
+
+  /* ─── Focus ring offset on light bg ─── */
+  html.light :focus-visible {
+    --tw-ring-offset-color: #f8fafc;
+  }
+
+  /* ─── Diagram SVG node fills (theme-aware via class) ─── */
+  .diag-node-in   { fill: #1c1917; }
+  .diag-node-out  { fill: #1c0a00; }
+  .diag-label-in  { fill: #fca5a5; }
+  .diag-label-out { fill: #fbbf24; }
+
+  html.light .diag-node-in   { fill: #fef2f2; }
+  html.light .diag-node-out  { fill: #fffbeb; }
+  html.light .diag-label-in  { fill: #9f1239; }
+  html.light .diag-label-out { fill: #92400e; }
+
+  /* ─── Smaller diagram SVG overrides (attribute-selector based) ─── */
+  /* Dark container fills → soft tinted surfaces in light mode */
+  html.light svg [fill="#1c1917"]      { fill: #fef2f2; }       /* red-ish dark */
+  html.light svg [fill="#1c0a00"]      { fill: #fffbeb; }       /* amber dark */
+  html.light svg [fill="#0f172a"]      { fill: #f8fafc; }       /* slate-950 */
+  html.light svg [fill="#1e293b"]      { fill: #e2e8f0; }       /* slate-800 */
+  html.light svg [fill="#0c1a2e"]      { fill: #eff6ff; }       /* deep navy */
+  html.light svg [fill="#1e3a5f"]      { fill: #dbeafe; }       /* brand-900 box */
+  html.light svg [fill="#0f2a1a"]      { fill: #d1fae5; }       /* emerald dark */
+  html.light svg [fill="#1a1a2e"]      { fill: #e0e7ff; }       /* indigo dark */
+  html.light svg [fill="#450a0a"]      { fill: #fee2e2; }       /* red-950 */
+  html.light svg [fill="#7f1d1d"]      { fill: #fecaca; }       /* red-900 injection row */
+  html.light svg [fill="#991b1b"]      { fill: #ef4444; }       /* red-800 badge */
+  html.light svg [fill="#1d4ed8"]      { fill: #93c5fd; }       /* brand-700 inner dot */
+  html.light svg [fill="#065f46"]      { fill: #34d399; }       /* emerald-800 dot */
+  html.light svg [fill="#064e3b"]      { fill: #d1fae5; }       /* emerald-950 box */
+  html.light svg [fill="#292524"]      { fill: #f5f5f4; }       /* stone-800 box */
+  html.light svg [fill="#1e40af"]      { fill: #dbeafe; }       /* brand-800 box */
+  html.light svg [fill="#451a03"]      { fill: #fff7ed; }       /* orange-950 box */
+  html.light svg [fill="#7c2d12"]      { fill: #ffedd5; }       /* orange-900 box */
+
+  /* Stroke colors — keep most, but soften container strokes */
+  html.light svg [stroke="#57534e"]    { stroke: #cbd5e1; }
+  html.light svg [stroke="#334155"]    { stroke: #cbd5e1; }
+  html.light svg [stroke="#1e293b"]    { stroke: #e2e8f0; }
+  html.light svg [stroke="#3730a3"]    { stroke: #a5b4fc; }
+
+  /* Text on now-light boxes needs darker ink */
+  html.light svg [fill="#a8a29e"]      { fill: #57534e; }       /* stone-400 label */
+  html.light svg [fill="#fecaca"]      { fill: #ffffff; }       /* keep white on red badge */
+  html.light svg [fill="#93c5fd"]      { fill: #1e40af; }       /* blue text on now-light box */
+  html.light svg [fill="#6ee7b7"]      { fill: #047857; }       /* emerald text */
+  html.light svg [fill="#818cf8"]      { fill: #3730a3; }       /* indigo text */
+  html.light svg [fill="#fca5a5"]      { fill: #be123c; }
+  html.light svg [fill="#94a3b8"]      { fill: #475569; }       /* slate-400 */
+  html.light svg [fill="#64748b"]      { fill: #334155; }       /* slate-500 header */
+  html.light svg [fill="#3b82f6"]      { fill: #2563eb; }
+  html.light svg [fill="#f59e0b"]      { fill: #b45309; }
+  html.light svg [fill="#ef4444"]      { fill: #dc2626; }
+  html.light svg [fill="#fbbf24"]      { fill: #b45309; }
+  html.light svg [fill="#fff"]         { fill: #ffffff; }       /* keep white on dark circles */
+
+  /* Light-colored text that sat on now-light boxes needs ink-darkening */
+  html.light svg [fill="#bfdbfe"]      { fill: #1e40af; }       /* blue-200 → blue-800 */
+  html.light svg [fill="#fde68a"]      { fill: #92400e; }       /* amber-200 */
+  html.light svg [fill="#fcd34d"]      { fill: #b45309; }       /* amber-300 */
+  html.light svg [fill="#fecaca"]      { fill: #9f1239; }       /* red-200 on what was dark red */
+  html.light svg [fill="#f87171"]      { fill: #b91c1c; }       /* red-400 */
+  html.light svg [fill="#d6d3d1"]      { fill: #57534e; }       /* stone-300 text on now-light stone box */
+  html.light svg [fill="#e7e5e4"]      { fill: #44403c; }       /* stone-200 text */
+  html.light svg [fill="#cbd5e1"]      { fill: #334155; }       /* slate-300 text */
+  html.light svg [fill="#34d399"]      { fill: #059669; }       /* emerald-400 text */
+
+  /* Keep AttackFlow center agent text LIGHT — it sits on a dark red gradient that does not change in light mode */
+  html.light svg #br-agent [fill="#fca5a5"] { fill: #fca5a5; }
+  html.light svg #br-agent [fill="#fff"]    { fill: #ffffff; }
+
+  /* ─── White-overlay utilities become dark-overlays on light bg ─── */
+  html.light .bg-white\/10       { background-color: rgba(15,23,42,0.06); }
+  html.light .bg-white\/5        { background-color: rgba(15,23,42,0.04); }
+  html.light .border-white\/10   { border-color: rgba(15,23,42,0.1); }
+  html.light .border-white\/5    { border-color: rgba(15,23,42,0.06); }
+  html.light .border-white\/40   { border-color: rgba(15,23,42,0.2); }
+
+  /* Selection */
+  ::selection {
+    @apply bg-brand-600 text-white;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-slate-900; }
+  ::-webkit-scrollbar-thumb { @apply bg-slate-700 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-slate-500; }
+
+  /* Focus ring */
+  :focus-visible {
+    @apply outline-none ring-2 ring-cyan-400 ring-offset-2 ring-offset-slate-950;
+  }
+
+  a {
+    @apply transition-colors duration-150;
   }
 }
+
+/* ─── Prose overrides ────────────────────────────────────── */
+@layer components {
+  .prose-lesson {
+    @apply prose prose-invert max-w-none
+      prose-headings:font-semibold prose-headings:tracking-tight
+      prose-h1:hidden
+      prose-h2:text-base prose-h2:text-slate-100 prose-h2:mt-8 prose-h2:mb-2
+      prose-h3:text-sm prose-h3:text-slate-300 prose-h3:font-semibold prose-h3:uppercase prose-h3:tracking-wider
+      prose-p:text-slate-400 prose-p:leading-relaxed prose-p:text-sm
+      prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-slate-200 prose-strong:font-semibold
+      prose-em:text-slate-300
+      prose-code:font-mono prose-code:text-cyan-300 prose-code:bg-slate-800/70 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:before:content-none prose-code:after:content-none
+      prose-pre:bg-slate-900/80 prose-pre:border prose-pre:border-slate-700/50 prose-pre:rounded-lg prose-pre:text-xs
+      prose-blockquote:border-l-2 prose-blockquote:border-brand-600 prose-blockquote:bg-brand-950/20 prose-blockquote:text-slate-400 prose-blockquote:rounded-r-md prose-blockquote:not-italic prose-blockquote:text-sm
+      prose-table:text-xs prose-thead:border-b prose-thead:border-slate-700/60 prose-th:text-slate-300 prose-th:font-semibold prose-td:text-slate-400 prose-td:border-b prose-td:border-slate-800/60
+      prose-li:text-slate-400 prose-li:text-sm prose-li:marker:text-brand-500
+      prose-ul:my-3 prose-ol:my-3
+      prose-hr:border-slate-800/60;
+  }
+
+  /* H2 left-accent bar to match card aesthetic */
+  .prose-lesson h2 {
+    @apply pl-3 border-l-2 border-brand-600/70;
+  }
+
+  /* Light mode prose — undo prose-invert so body text is dark on light */
+  html.light .prose-lesson {
+    --tw-prose-body: #334155;
+    --tw-prose-headings: #0f172a;
+    --tw-prose-lead: #475569;
+    --tw-prose-links: #0e7490;
+    --tw-prose-bold: #0f172a;
+    --tw-prose-counters: #64748b;
+    --tw-prose-bullets: #94a3b8;
+    --tw-prose-hr: #cbd5e1;
+    --tw-prose-quotes: #334155;
+    --tw-prose-quote-borders: #2563eb;
+    --tw-prose-captions: #64748b;
+    --tw-prose-code: #0f172a;
+    --tw-prose-pre-code: #1e293b;
+    --tw-prose-pre-bg: #f1f5f9;
+    --tw-prose-th-borders: #cbd5e1;
+    --tw-prose-td-borders: #e2e8f0;
+  }
+  html.light .prose-lesson code {
+    background-color: #e0f2fe !important;
+    color: #0e7490 !important;
+  }
+  html.light .prose-lesson pre {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+  }
+  html.light .prose-lesson pre code {
+    background: transparent !important;
+    color: #1e293b !important;
+  }
+  html.light .prose-lesson blockquote {
+    background-color: #eff6ff !important;
+    color: #334155 !important;
+  }
+
+  /* ─── Attack callout (danger blockquote) ─── */
+  .callout-warning blockquote {
+    @apply border-l-4 border-warn-500 bg-warn-900/20 rounded-r-lg px-4 py-3;
+  }
+  html.light .callout-warning blockquote {
+    background-color: #fef3c7 !important;
+    color: #78350f !important;
+  }
+
+  /* ─── Glass card ─── */
+  .glass {
+    background-color: var(--t-surface);
+    border-color: var(--t-border);
+    @apply backdrop-blur-sm border;
+  }
+
+  /* ─── Glow button ─── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-500 text-white font-semibold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-lg shadow-brand-900/40 hover:shadow-brand-600/30;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 border border-slate-600 hover:border-cyan-500 text-slate-300 hover:text-cyan-400 font-semibold px-5 py-2.5 rounded-xl transition-all duration-200;
+  }
+  html.light .btn-outline {
+    border-color: #cbd5e1;
+    color: #334155;
+  }
+  html.light .btn-outline:hover {
+    border-color: #0891b2;
+    color: #0e7490;
+  }
+
+  /* ─── Badge ─── */
+  .badge-attack {
+    @apply font-mono text-xs px-2 py-0.5 rounded bg-danger-900/60 border border-danger-700/60 text-danger-300;
+  }
+  html.light .badge-attack {
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+    color: #9f1239;
+  }
+
+  .badge-model {
+    @apply text-xs px-2 py-0.5 rounded-full font-medium;
+  }
+
+  /* ─── Section constraint ─── */
+  .section-content {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .reading-content {
+    @apply max-w-3xl mx-auto px-4 sm:px-6;
+  }
+
+  /* ─── Scroll-reveal initial state ─── */
+  .reveal-init {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  /* ─── Scroll progress bar ─── */
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, #2563eb, #06b6d4);
+    z-index: 100;
+    transition: width 0.1s linear;
+  }
+
+  /* ─── Flow step animations ─── */
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes fadeSlideIn { from { opacity: 1; } to { opacity: 1; } }
+    @keyframes fadeIn      { from { opacity: 1; } to { opacity: 1; } }
+  }
+
+  /* ─── Marquee ─── */
+  .marquee-track {
+    animation: marquee-left 30s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+  .marquee-fade-left  { background: linear-gradient(to right, var(--t-bg), transparent); }
+  .marquee-fade-right { background: linear-gradient(to left,  var(--t-bg), transparent); }
+
+  /* ─── Primitive wheel segment hover ─── */
+  .prim-segment {
+    @apply cursor-pointer transition-opacity duration-200;
+  }
+  .prim-segment:hover { opacity: 1 !important; }
+}
+
+/* ─── Light-mode "restore white ink on colored surfaces" ────────────────────
+   Placed OUTSIDE @layer so Tailwind's selector processor doesn't rewrite
+   .bg-brand-600 references (it substitutes into things like .btn-primary
+   when those classes @apply the same utility). Using !important to beat the
+   global `.text-white { color: #0f172a }` override. */
+html.light .btn-primary,
+html.light .btn-primary > * {
+  color: #ffffff !important;
+}
+html.light .btn-primary { background-color: #2563eb !important; }
+html.light .btn-primary:hover { background-color: #1d4ed8 !important; }
+
+/* Inline-gradient CTA card (page.tsx "Ready to ship safer agents?") — scoped to
+   `background: linear-gradient(...)` so it does NOT touch gradient-text usage
+   which sets `background-image: linear-gradient(...)` instead. */
+html.light [style*="background: linear-gradient"],
+html.light [style*="background: linear-gradient"] h1,
+html.light [style*="background: linear-gradient"] h2,
+html.light [style*="background: linear-gradient"] h3,
+html.light [style*="background: linear-gradient"] h4,
+html.light [style*="background: linear-gradient"] p,
+html.light [style*="background: linear-gradient"] span,
+html.light [style*="background: linear-gradient"] a.text-white {
+  color: #ffffff !important;
+  border-color: rgba(255,255,255,0.4) !important;
+}
+html.light [style*="background: linear-gradient"] a.bg-white {
+  color: #1e3a8a !important;
+}
+
+/* Selection still white on blue */
+html.light ::selection { background-color: #2563eb; color: #ffffff; }
+
+/* ─── Saturated pill/badge restore — keep dark saturated bg + light ink in light mode ───
+   Compound selectors so we only override elements that carry BOTH the bg and text class,
+   leaving other uses of bg-XXX-800 (tinted surfaces) unaffected. */
+
+/* SideTOC active-module badge: blue circle with white number */
+html.light .bg-brand-600.text-white,
+html.light .bg-brand-600 .text-white {
+  color: #ffffff !important;
+}
+
+/* SideTOC active row wrapper: bg-brand-900/50 is LIGHT in light mode, so text must be DARK */
+html.light .bg-brand-900\/50.text-white {
+  color: #1e40af !important;
+}
+
+/* AttackDiagram ATTACKER chip: bg-danger-800 text-danger-100 → dark red + near-white */
+html.light .bg-danger-800.text-danger-100 {
+  background-color: #9f1239 !important;
+  color: #ffe4e6 !important;
+}
+
+/* AttackDiagram SOURCE chip: bg-warn-800/80 text-warn-100 → dark amber + near-white */
+html.light .bg-warn-800\/80.text-warn-100 {
+  background-color: rgba(120,53,15,0.92) !important;
+  color: #fef3c7 !important;
+}
+
+/* AttackDiagram AGENT chip: bg-cyan-800/80 text-cyan-100 → dark cyan + near-white */
+html.light .bg-cyan-800\/80.text-cyan-100 {
+  background-color: rgba(21,94,117,0.92) !important;
+  color: #cffafe !important;
+}
+
+/* AttackDiagram ARTIFACT chip: bg-slate-700 text-slate-200 → keep muted dark pill */
+html.light .bg-slate-700.text-slate-200 {
+  background-color: #475569 !important;
+  color: #f1f5f9 !important;
+}
+
+/* AttackDiagram TARGET/victim chip: bg-orange-800/80 text-orange-100 → dark orange + near-white */
+html.light .bg-orange-800\/80.text-orange-100 {
+  background-color: rgba(124,45,18,0.92) !important;
+  color: #ffedd5 !important;
+}
+
+/* DoDont — darken emerald header text and check icon on the now-light green bg */
+html.light .bg-emerald-950\/30 .text-emerald-400 {
+  color: #047857 !important;
+}
+html.light .bg-emerald-950\/30 .text-emerald-500 {
+  color: #059669 !important;
+}
+
+/* UseCase — darken colored labels on tinted quadrant backgrounds */
+html.light .bg-danger-950\/20 .text-danger-400 {
+  color: #be123c !important;
+}
+html.light .bg-emerald-950\/20 .text-emerald-400 {
+  color: #047857 !important;
+}
+
+/* Research & methodology section — softer tone in light mode */
+html.light .research-section {
+  background-color: #eef2f7 !important;
+  border-color: rgba(148,163,184,0.35) !important;
+}
+
+/* Research terminal — always dark regardless of theme */
+html.light .research-terminal { background-color: #0a0f1c !important; }
+html.light .research-terminal .text-slate-100 { color: #f1f5f9 !important; }
+html.light .research-terminal .text-slate-300 { color: #cbd5e1 !important; }
+html.light .research-terminal .text-slate-400 { color: #94a3b8 !important; }
+html.light .research-terminal .text-slate-500 { color: #64748b !important; }
+html.light .research-terminal .text-slate-600 { color: #475569 !important; }
+html.light .research-terminal .text-emerald-400 { color: #34d399 !important; }
+html.light .research-terminal .text-cyan-400 { color: #22d3ee !important; }
+html.light .research-terminal .text-danger-300 { color: #fca5a5 !important; }
+html.light .research-terminal .text-danger-400 { color: #f87171 !important; }
+html.light .research-terminal .text-warn-300 { color: #fcd34d !important; }
+html.light .research-terminal .text-brand-300 { color: #93c5fd !important; }
+
+/* Research heading gradient — brighter on dark, deeper on light */
+.research-title-gradient {
+  background-image: linear-gradient(90deg,#ef4444 0%,#f59e0b 45%,#06b6d4 100%);
+}
+html.light .research-title-gradient {
+  background-image: linear-gradient(90deg,#b91c1c 0%,#c2410c 45%,#0e7490 100%) !important;
+  color: transparent !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+/* Research section subhead — ensure readable in light mode */
+html.light .research-section .text-slate-400 { color: #334155 !important; }
+html.light .research-section .text-slate-500 { color: #475569 !important; }

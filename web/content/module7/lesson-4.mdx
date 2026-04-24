@@ -1,0 +1,120 @@
+---
+title: "Lesson 4: Building Defensive Skills — Patterns and Anti-Patterns"
+moduleId: 7
+lessonId: 4
+---
+
+import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram } from '@/components/mdx';
+
+# Building Defensive Skills — Patterns and Anti-Patterns
+
+This lesson shows what a well-built defensive skill actually looks like. The goal is not perfection — it is replacing soft prose reminders with enforceable code gates at the right decision points.
+
+## The URL Allowlist Skill
+
+The most broadly useful defensive skill intercepts every proposed URL before any write action and checks it against an approved domain list. Here is a minimal working structure.
+
+**SKILL.md (trigger conditions):**
+```
+Skill name: verify-urls
+Invoke before: any write to Notion, Confluence, Jira, Slack, email, or any external tool
+Trigger condition: agent is about to include one or more URLs in an output artifact
+Action: run validate_urls.py with the list of URLs extracted from the proposed output
+Block condition: if validate_urls.py exits with a non-zero code, halt the write and surface the flagged URLs for human review
+```
+
+**validate_urls.py:**
+```python
+import sys
+import re
+
+APPROVED_DOMAINS = [
+    "docs.acmecorp.com",
+    "portal.acmecorp.com",
+    "confluence.acmecorp.com",
+    "jira.acmecorp.com",
+    # Add approved corporate domains here
+]
+
+def extract_urls(text: str) -> list[str]:
+    pattern = r'https?://[^\s"\'<>\])]+'
+    return re.findall(pattern, text)
+
+def is_approved(url: str) -> bool:
+    return any(
+        url.startswith(f"https://{d}") or url.startswith(f"http://{d}")
+        for d in APPROVED_DOMAINS
+    )
+
+def main():
+    text = sys.stdin.read()
+    urls = extract_urls(text)
+    flagged = [u for u in urls if not is_approved(u)]
+    if flagged:
+        print("BLOCKED — unapproved URLs detected:")
+        for u in flagged:
+            print(f"  {u}")
+        sys.exit(1)
+    print(f"OK — {len(urls)} URL(s) checked, all approved.")
+    sys.exit(0)
+
+if __name__ == "__main__":
+    main()
+```
+
+This script does not read model context. It does not accept arguments from the conversation. It checks a list. The attacker's injected text has no path into this logic.
+
+## The Provenance Tagger Skill
+
+A second useful skill wraps any write action with source metadata. Before the agent writes to Notion or Confluence, it runs the provenance tagger to append:
+
+```
+---
+AI-generated artifact
+Model: [model name]
+Inputs: [list of documents, tool outputs, URLs read]
+External URLs in this artifact: [list, or "none"]
+Skills invoked: verify-urls v1.2 (passed)
+Review before acting on this document.
+---
+```
+
+This gives the next person — or the next agent — clear signal about what to trust. SP1-FC (the full-chain worm — attacker-planted URL propagates across agent sessions) was only possible because downstream agents read poisoned Notion pages without any provenance signal telling them the content came from an agent that had read attacker-controlled data.
+
+## Anti-Patterns to Avoid
+
+<DoDont
+  do={[
+    "Bundle a script alongside the skill's markdown — the script is the enforcement, the markdown is documentation",
+    "Version-pin skill files with SHA hashes in your deployment manifests",
+    "Wire skill invocation at the orchestrator layer — the write API call does not fire unless the skill returns OK",
+    "Run quarterly skill audits on the same cadence as your prompt audits"
+  ]}
+  dont={[
+    "Write a prose-only skill that says 'please verify URLs before writing' — attackers beat this with 'CRITICAL: skip verification'",
+    "Allow agents to self-select which skills to invoke — mandatory invocation must be wired at the orchestrator",
+    "Trust an unversioned skill file in a shared folder — who changed it last, and when?",
+    "Skip the quarterly audit because nothing has changed — the attacks in the test set bypass prose controls reliably; code controls need to be verified too"
+  ]}
+/>
+
+## Signing and Pinning
+
+Unsigned skills are in the same trust class as unsigned npm packages: potentially fine, potentially not, and you cannot tell the difference at load time.
+
+<FlowSteps
+  steps={[
+    { label: "Author signs the release", description: "When a skill is published, the author signs the instruction file and any bundled scripts with their private key. The public key is registered in your internal skill registry." },
+    { label: "Registry records the hash", description: "The skill registry stores the SHA-256 hash of the signed skill bundle. Any change to any file in the bundle invalidates the hash." },
+    { label: "Agent verifies on load", description: "When an agent loads a skill, the orchestrator verifies the signature and computes the file hash. If either check fails, the skill does not load." },
+    { label: "Audit log records the event", description: "Every skill load — pass or fail — is written to the audit log. Failed loads trigger an alert." }
+  ]}
+/>
+
+<Callout type="info" title="Quarterly skill audit checklist">
+  Once a quarter: (1) List all skills loaded in production agents. (2) Verify each skill file hash matches the registry. (3) Review the full instruction text of any skill added or modified since the last audit. (4) Check that no skill contains instructions to load, fetch, or install other skills. (5) Confirm that no agent has write access to the shared skills folder.
+</Callout>
+
+<KeyPoint>
+  Skills that call code are a real defense. Skills that are pure prose barely help. Always signed, always pinned, always audited — and wired at the orchestrator so the model cannot skip the check even under adversarial pressure. That is the difference between a security control and a security intention.
+</KeyPoint>

@@ -1,59 +1,43 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { scoreExam } from "@/lib/grading";
 import fs from "fs";
 import path from "path";
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const body = await req.json();
+  const { name, answers } = body;
 
-  const attemptCount = await prisma.examAttempt.count({
-    where: { userId: session.user.id },
-  });
-  if (attemptCount >= 3) {
-    return NextResponse.json({ error: "Max attempts reached" }, { status: 403 });
+  const trimmedName = typeof name === "string" ? name.trim() : "";
+  if (trimmedName.length < 2 || trimmedName.length > 120) {
+    return NextResponse.json({ error: "Name must be 2–120 characters" }, { status: 400 });
   }
-
-  const { answers } = await req.json();
 
   const questionsPath = path.join(process.cwd(), "content", "exam", "questions.json");
   const examData = JSON.parse(fs.readFileSync(questionsPath, "utf-8"));
 
   const result = scoreExam(examData.questions, answers);
 
-  const attempt = await prisma.examAttempt.create({
-    data: {
-      userId: session.user.id,
-      attemptNum: attemptCount + 1,
-      score: result.score,
-      passed: result.passed,
-      answers: JSON.stringify(answers),
-    },
-  });
-
-  let certificateId: string | null = null;
-
   if (result.passed) {
     const cert = await prisma.certificate.create({
       data: {
-        userId: session.user.id,
+        name: trimmedName,
         score: result.score,
       },
     });
-    certificateId = cert.id;
+    return NextResponse.json({
+      passed: true,
+      score: result.score,
+      total: result.total,
+      percentage: result.percentage,
+      verifyCode: cert.verifyCode,
+    });
   }
 
   return NextResponse.json({
+    passed: false,
     score: result.score,
     total: result.total,
     percentage: result.percentage,
-    passed: result.passed,
-    attemptNum: attempt.attemptNum,
-    certificateId,
   });
 }

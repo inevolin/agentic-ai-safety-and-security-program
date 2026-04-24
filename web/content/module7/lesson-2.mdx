@@ -1,0 +1,74 @@
+---
+title: "Lesson 2: Skills as Defensive Primitives (When They Work)"
+moduleId: 7
+lessonId: 2
+---
+
+import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, StatBar, Diagram } from '@/components/mdx';
+
+# Skills as Defensive Primitives (When They Work)
+
+When a skill bundles deterministic code, it stops being advice and starts being enforcement. This lesson covers four patterns where skill-based defenses genuinely reduce attack surface. None of them are silver bullets — the attacks in this course have bypassed every individual control at least once. But layered with other primitives, these patterns close real gaps.
+
+## Pattern 1 — Skill as Deterministic Code Wrapper
+
+The most robust defensive skill wraps a script that the agent calls before any write action. The script runs outside model inference — which means outside the attacker's persuasion surface.
+
+<FlowSteps
+  steps={[
+    { label: "Agent receives task", description: "Agent reads a vendor document, CI log, or Notion page that may contain injected content." },
+    { label: "Agent calls skill", description: "Before any write action, agent invokes the 'verify-urls' skill as a required step." },
+    { label: "Script runs", description: "Bundled Python script extracts all URLs from the proposed output and checks each against the approved domain list." },
+    { label: "Pass or block", description: "URLs on the list pass through. URLs not on the list are flagged for human review. The write does not proceed until the check is complete." }
+  ]}
+/>
+
+An attacker can inject text telling the agent to skip the check. The text sits in the model's context. But the skill's code runs independently — it does not read the agent's conversational context, only the proposed output. There is nothing for the attacker to talk it out of.
+
+## Pattern 2 — Skill as Policy Baseline for Smaller Models
+
+Lower-capability models (Haiku-tier) are more likely to eagerly propagate attacker content — confirmed repeatedly in MAA1 (multi-agent transitive registry poisoning, where a Haiku agent registered attacker URLs into an IT-approved catalog without hesitation). A skepticism-enforcing skill gives Haiku a consistent checklist of questions it must answer before writing:
+
+- Did this URL appear in a user instruction or in external data?
+- Does this URL match an approved domain?
+- Does the write scope of this task authorize writing to this destination?
+
+The skill does not make Haiku as cautious as Sonnet. But it raises the floor significantly for routine-task deployments.
+
+## Pattern 3 — Skill as Checklist Gate
+
+A checklist gate skill sits between the agent's decision and its write action. The agent must invoke the skill and receive a green result before the orchestrator allows the write to proceed.
+
+<Callout type="info" title="Checklist gate vs. prose reminder">
+  A gate enforced at the orchestrator level — "the write API call does not fire until the skill returns OK" — is infrastructure enforcement, not model reasoning. Even if the model is fully compromised, the orchestrator blocks the write. A prose reminder in the system prompt does not achieve this. The gate must be wired at the tool call layer, not the instruction layer.
+</Callout>
+
+## Pattern 4 — Skill as URL Allowlist Enforcer
+
+This is Pattern 1 applied specifically to URL propagation — the most common end-state in the attacks documented in this course.
+
+<UseCase
+  scenario="A legal AI agent reads vendor contracts and writes action checklists to Notion. SP1 (attacker fills a public vendor-registration form with their own portal URL) plants an attacker URL in the approved vendor registry."
+  attacker="The agent reads the registry, finds the URL flagged as IT-approved, and includes it in the action checklist. Without a code-enforced allowlist, the IT-approved label is enough to bypass any prose warning the agent might have."
+  impact="Attacker URL in a legal action checklist. Staff follow it as a required vendor portal step."
+  defense="A URL-allowlist skill runs before every Notion write. It checks each URL against a hardcoded domain list. 'portal.acmecorp.com' is on the list; 'attacker-controlled.example.com' is not — regardless of what label appears in the vendor registry. The write is blocked and flagged for human review."
+/>
+
+<DoDont
+  do={[
+    "Bundle a Python or shell script alongside the skill's markdown instructions — the script is what does the enforcing",
+    "Wire the skill invocation at the orchestrator or tool-call layer so the write cannot proceed without a green result",
+    "Use skills to standardize baseline skepticism across all agents that use the same infrastructure",
+    "Keep allowlists in a version-controlled file external to the model context — update them via normal code review, not prompt edits"
+  ]}
+  dont={[
+    "Publish a skill that contains only prose instructions and call it a security control — it is not",
+    "Assume a model will invoke the skill on its own initiative when under adversarial pressure — wire invocation as a mandatory step",
+    "Put the allowlist inside the skill's instruction text where an injected instruction could attempt to override it",
+    "Deploy a skill once and forget it — allowlists and policies need quarterly review like any other security control"
+  ]}
+/>
+
+<KeyPoint>
+  Skills that bundle code are one more layer — not a silver bullet. SP1 bypassed model-level defenses but would be stopped at the code layer if the allowlist was enforced by a script rather than by the model's judgment. Layer code-enforced skills with write-scope contracts and HITL gates for the strongest stack.
+</KeyPoint>

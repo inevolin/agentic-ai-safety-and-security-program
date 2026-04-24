@@ -6,45 +6,10 @@ datasource db {
   provider = "sqlite"
 }
 
-model User {
-  id           String           @id @default(cuid())
-  email        String           @unique
-  passwordHash String
-  name         String
-  createdAt    DateTime         @default(now())
-  progress     ModuleProgress[]
-  attempts     ExamAttempt[]
-  certificates Certificate[]
-}
-
-model ModuleProgress {
-  id          String    @id @default(cuid())
-  userId      String
-  moduleId    Int
-  completed   Boolean   @default(false)
-  quizPassed  Boolean   @default(false)
-  completedAt DateTime?
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, moduleId])
-}
-
-model ExamAttempt {
-  id         String   @id @default(cuid())
-  userId     String
-  attemptNum Int
-  score      Int
-  passed     Boolean
-  answers    String
-  takenAt    DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model Certificate {
   id         String   @id @default(cuid())
-  userId     String
   verifyCode String   @unique @default(cuid())
+  name       String
   score      Int
   issuedAt   DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
