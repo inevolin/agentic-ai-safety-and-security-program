@@ -4,7 +4,30 @@ import {
   Text,
   View,
   StyleSheet,
+  Svg,
+  Rect,
+  G,
 } from "@react-pdf/renderer";
+
+function BatLogo({ size = 18 }: { size?: number }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 64 64">
+      <G fill="#1e3a5f">
+        <Rect x={8}  y={0}  width={8}  height={8} />
+        <Rect x={48} y={0}  width={8}  height={8} />
+        <Rect x={0}  y={8}  width={64} height={24} />
+        <Rect x={0}  y={32} width={8}  height={16} />
+        <Rect x={56} y={32} width={8}  height={16} />
+        <Rect x={8}  y={32} width={48} height={8} />
+        <Rect x={16} y={40} width={32} height={8} />
+        <Rect x={16} y={48} width={8}  height={8} />
+        <Rect x={40} y={48} width={8}  height={8} />
+      </G>
+      <Rect x={16} y={16} width={8} height={8} fill="#06b6d4" />
+      <Rect x={40} y={16} width={8} height={8} fill="#06b6d4" />
+    </Svg>
+  );
+}
 
 const styles = StyleSheet.create({
   page: {
@@ -81,11 +104,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Courier",
   },
+  issuerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 24,
+  },
   issuer: {
     fontSize: 10,
     color: "#9ca3af",
     textAlign: "center",
-    marginTop: 24,
+    marginLeft: 6,
   },
 });
 
@@ -147,7 +176,10 @@ export function CertificatePDF({
             <Text style={styles.verifyLabel}>{verifyUrl}</Text>
           </View>
 
-          <Text style={styles.issuer}>Issued by {issuer}</Text>
+          <View style={styles.issuerRow}>
+            <BatLogo size={14} />
+            <Text style={styles.issuer}>Issued by {issuer}</Text>
+          </View>
         </View>
       </Page>
     </Document>

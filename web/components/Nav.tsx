@@ -107,18 +107,27 @@ export function Nav() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group" aria-label="Home">
             <span className="flex-shrink-0">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                <rect width="32" height="32" rx="8" className="fill-brand-700 group-hover:fill-brand-600 transition-colors" />
-                <path
-                  d="M16 6L8 9v7c0 4.418 3.358 8.55 8 9.8C21.642 24.55 25 20.418 25 16V9L16 6z"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinejoin="round"
-                  className="opacity-90"
-                />
-                <circle cx="16" cy="16" r="2.5" fill="white" className="opacity-90" />
-                <circle cx="16" cy="16" r="1" fill="#60a5fa" />
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 64 64"
+                fill="none"
+                shapeRendering="crispEdges"
+                aria-hidden="true"
+              >
+                <g className="fill-brand-600 group-hover:fill-brand-500 transition-colors">
+                  <rect x="8"  y="0"  width="8"  height="8" />
+                  <rect x="48" y="0"  width="8"  height="8" />
+                  <rect x="0"  y="8"  width="64" height="24" />
+                  <rect x="0"  y="32" width="8"  height="16" />
+                  <rect x="56" y="32" width="8"  height="16" />
+                  <rect x="8"  y="32" width="48" height="8" />
+                  <rect x="16" y="40" width="32" height="8" />
+                  <rect x="16" y="48" width="8"  height="8" />
+                  <rect x="40" y="48" width="8"  height="8" />
+                </g>
+                <rect x="16" y="16" width="8" height="8" className="fill-cyan-400" />
+                <rect x="40" y="16" width="8" height="8" className="fill-cyan-400" />
               </svg>
             </span>
             <span className="flex flex-col">
