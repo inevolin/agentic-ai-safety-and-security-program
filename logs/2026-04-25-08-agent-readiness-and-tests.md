@@ -40,6 +40,19 @@ Address isitagentready.com findings: publish `/robots.txt` (with AI crawler rule
 ## State at end of session
 Site now satisfies the six isitagentready.com checks: robots.txt (with explicit AI crawler rules + Content-Signal directives), sitemap.xml referenced from robots, Link headers on `/`, and Markdown-for-Agents content negotiation across the 6 main routes. New unit-test suite (54 tests, 8 suites) covers the new endpoints plus the core libs (`accept`, `attacks`, `content`, `exam-config`, `grading`). Both `pnpm build` and `pnpm test` succeed.
 
+## Addendum — CI gating (same session)
+
+User flagged that production deploy had no test gate. Existing
+`.github/workflows/deploy-web.yml` only ran SSH-deploy on push to main.
+Added `.github/workflows/ci.yml` (Jest + `pnpm build` on Ubuntu, Node 20,
+pnpm 9, `prisma generate` to satisfy client codegen). Triggers:
+`pull_request` on `web/**`, plus `workflow_call` so deploy-web reuses it.
+Modified `deploy-web.yml` to add a `ci` job that calls `ci.yml` and made
+the `deploy` job `needs: ci` — failed tests or build now block the
+SSH-deploy step. PRs against `web/**` get tested without deploying.
+
+Files: `.github/workflows/ci.yml` (new), `.github/workflows/deploy-web.yml` (modified).
+
 ## Next steps
 - Optionally add jsdom + @testing-library/react to enable component tests for `Nav`, `Footer`, `LessonRenderer`, `AttackRef` portal logic, and the exam-page form/timer flow.
 - Optionally publish `/.well-known/api-catalog` JSON if the public APIs (`/api/exam/submit`, `/api/certificate/{code}/download`, `/api/audio/...`) should be discoverable.
