@@ -11,6 +11,7 @@
 [![Attacks](https://img.shields.io/badge/attacks-26%20demos%20%7C%2024%20confirmed%20bypasses-e11d48?style=for-the-badge)]()
 [![Corpus](https://img.shields.io/badge/corpus-1%2C205%20sources-0ea5e9?style=for-the-badge)]()
 [![License](https://img.shields.io/badge/license-Research%20Artifact-6b7280?style=for-the-badge)]()
+[![Contributors welcome](https://img.shields.io/badge/contributors-welcome-22c55e?style=for-the-badge)](#contributing--we-want-collaborators)
 
 **[Findings](attacks/demos/FINDINGS.md)** ·
 **[Mitigations](docs/mitigations/ai-agent-security-mitigations.md)** ·
@@ -264,6 +265,31 @@ This is **defensive research.** The repository exists to (a) make the failure mo
 - Findings on Anthropic models are reported per model + version + date — model behavior changes over time.
 
 If you build on this, keep the framing defender-first. If you find a new bypass against a frontier model, disclose to the vendor before publishing.
+
+---
+
+## Contributing — we want collaborators
+
+**This project is actively looking for contributors.** The attack surface is expanding faster than any single researcher can keep up with, and the program's value compounds with every new bypass landed, mitigation primitive shipped, and lesson module written. If any of the following sounds like you, please open an issue or PR:
+
+- **Red-teamers / security researchers** — propose new attack vectors, port existing demos to other frontier models (GPT, Gemini, Llama), break assumptions in the existing harness, or replicate landed bypasses against newer Claude releases.
+- **Defenders / blue-teamers** — turn the playbook's primitives into shippable code (MCP wrappers, registry-write guards, egress allowlists, provenance-tagging middleware) and contribute them as reference implementations.
+- **ML / alignment researchers** — extend the corpus, propose new taxonomy buckets, write deeper synthesis pieces across the 1,205 sources, or design evals that catch the bypass classes documented here.
+- **Educators / technical writers** — author additional lesson modules, expand the exam question bank, translate the training platform, or write executive briefings on the findings.
+- **Frontend / product engineers** — improve the training app's accessibility, add learner analytics, ship a richer certificate verification experience, or build interactive attack-flow visualizations.
+- **DevOps / platform engineers** — harden the harness, port it off macOS-specific assumptions, build CI for the demos, or wire up automated regression runs against new model versions.
+
+**How to contribute:**
+
+1. Read [`CLAUDE.md`](CLAUDE.md) and [`METHODOLOGY.md`](METHODOLOGY.md) — the project conventions are load-bearing.
+2. Open a GitHub Issue describing what you want to work on, or jump straight into a draft PR for small changes.
+3. Keep the framing defender-first; verbatim-first; reproducibly logged.
+4. New attack demos must include a `run_demo.sh`, a seed payload, and a verdict-log artifact from a fresh run.
+5. New lesson content goes through the MDX primitives in [`web/components/mdx/`](web/components/mdx/) — don't re-roll inline.
+
+If you're unsure whether your idea fits, open an issue and ask. Speculative ideas welcome — most of what's in this repo started as one.
+
+Reach out: **ilja.nevolin@gmail.com** · or open an issue on the [tracker](https://github.com/inevolin/agentic-ai-safety-and-security-program/issues).
 
 ---
 
