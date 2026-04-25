@@ -63,7 +63,7 @@ export default function Lesson() {
         scenario="A legal AI agent reviews a vendor NDA, a procurement policy, and the IT vendor registry to produce an execution checklist. The registry is editable — vendors add their own entries through the public onboarding process."
         attacker="Fills out the public vendor-registration form and plants the attacker link in the registry table as a data row — not in any document text. Uses the vendor's real company domain. Sets the verification date to today. No individual source contains anything that looks wrong. No hacking needed."
         impact="The agent produces a checklist citing the attacker's portal as the only IT-approved step. No warning raised. The AI did exactly what it was told."
-        defense="The root cause is noob-level AI integration: no input validation on vendor form entries, no URL allow-listing, no human approval before links go into action checklists. Treat table entries as untrusted input, not verified facts. These are basic guardrails any enterprise should have before wiring an AI agent to an editable vendor table."
+        defense="The root cause is beginner-level AI integration: no input validation on vendor form entries, no URL allow-listing, no human approval before links go into action checklists. Treat table entries as untrusted input, not verified facts. These are basic guardrails any enterprise should have before wiring an AI agent to an editable vendor table."
       />
 
 

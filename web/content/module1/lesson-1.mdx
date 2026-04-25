@@ -49,7 +49,7 @@ Traditional software does exactly what its code says. An AI agent reasons, decid
   scenario="Legal AI agent processes NDA workflows. It is instructed to trust vendor portal URLs only from IT's Approved Vendor Registry. The registry is an editable table that vendors populate through the public onboarding process."
   attacker="SP1 (an attack where a vendor table is quietly altered via the normal registration process): Attacker fills out the public vendor-registration form and plants a malicious portal URL in the registry CSV as a clean subdomain entry (portal.acmecorp.com), last_verified = today. Agent reads registry, outputs attacker URL as authoritative. No suspicious indicators — it is in the 'trusted' registry. No hacking needed. Just a normal public form."
   impact="Agent writes attacker-controlled portal URL to legal workflow checklist. Paralegal follows it to initiate contract execution. Potential for credential harvest or payment redirect."
-  defense="This is a noob-level AI integration mistake: no input validation on vendor form entries, no URL allow-listing, no human approval gate. Treat registries as untrusted input — the 'trust the registry' instruction is exactly what SP1 weaponizes. These are basic guardrails any enterprise should have before wiring an AI agent to an editable vendor table."
+  defense="This is a beginner-level AI integration mistake: no input validation on vendor form entries, no URL allow-listing, no human approval gate. Treat registries as untrusted input — the 'trust the registry' instruction is exactly what SP1 weaponizes. These are basic guardrails any enterprise should have before wiring an AI agent to an editable vendor table."
 />
 
 <KeyPoint>
