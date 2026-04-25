@@ -13,13 +13,13 @@
 [![License](https://img.shields.io/badge/license-Research%20Artifact-6b7280?style=for-the-badge)]()
 [![Contributors welcome](https://img.shields.io/badge/contributors-welcome-22c55e?style=for-the-badge)](#contributing--we-want-collaborators)
 
+**[🌐 Live Training Platform → ai.nevolin.be](https://ai.nevolin.be/)** ·
 **[Findings](attacks/demos/FINDINGS.md)** ·
 **[Mitigations](docs/mitigations/ai-agent-security-mitigations.md)** ·
 **[Methodology](METHODOLOGY.md)** ·
-**[Training Platform](web/)** ·
 **[Attack Demos](attacks/demos/)**
 
----
+[![Training platform — ai.nevolin.be](docs/assets/training-platform-home.png)](https://ai.nevolin.be/)
 
 </div>
 
@@ -139,19 +139,27 @@ Grounded in attacks that landed. Not in threat models that didn't.
 
 ## The training platform
 
+**🌐 Live at [ai.nevolin.be](https://ai.nevolin.be/)** — open in a browser, sign up, take the course, sit the exam, get a verifiable PDF certificate. No install needed.
+
+[![ai.nevolin.be — About page: We fooled AI sixteen times](docs/assets/training-platform-about.png)](https://ai.nevolin.be/about)
+
 A production Next.js 14 app under [`web/`](web/) — built so the humans deploying agents can actually internalize what these attacks look like.
 
-<div align="center">
+### Features
 
-| Feature | Stack |
-|:---|:---|
-| Six MDX lesson modules with gated quizzes | `next-mdx-remote/rsc`, custom MDX primitives (`Callout`, `AttackCard`, `FlowSteps`, `Diagram`) |
-| 40-question proctored exam, shuffled order, 80% pass mark | Server-graded with `lib/grading.ts`, Jest-tested |
-| Signed PDF certificates with public verification | `@react-pdf/renderer`, public `/verify/[code]` page |
-| Auth · persistence · theme | NextAuth (JWT credentials), Prisma 7 on LibSQL, Tailwind + light/dark theme tokens |
-| Animations | `animejs` v4 — anime.js-driven landing, lesson transitions, attack-flow diagrams |
+- **Six MDX lesson modules** — prompt injection, jailbreaking, agentic attacks, multi-agent poisoning, multimodal vectors, defenses. Each module gated by a quiz; quizzes must pass to unlock the next module.
+- **40-question proctored exam** — randomized question order, 80% pass mark, fixed time budget, server-side grading via `lib/grading.ts` (Jest-covered).
+- **Signed PDF certificates** — generated with `@react-pdf/renderer` on pass; each cert carries a unique `verifyCode`.
+- **Public certificate verification** — share `/verify/[code]` to let anyone check authenticity without an account.
+- **Account + progress tracking** — NextAuth JWT credentials, Prisma 7 on LibSQL persistence, per-user lesson + quiz + exam state.
+- **Custom MDX primitives** — `Callout`, `AttackCard`, `FlowSteps`, `Diagram`, `KeyPoint`, `DoDont`, `Comparison`, `StatBar` — used across lessons for consistent visual language.
+- **Attack-vector tooltips** — hover any attack ID (`SP1`, `MAA1`, `WIKI1 v4`, …) for one-line summary + link to the reproducible demo folder on GitHub.
+- **Anime.js v4 motion** — landing-page attack-flow diagram, lesson transitions, history-spine commit timeline.
+- **Light + dark themes** — Tailwind tokens with CSS-variable overrides; persists per user.
+- **Audio narration** — pre-built TTS audio bundled per lesson (`pnpm prebuild-audio`), playback in the lesson reader.
+- **Deployed via GitHub Actions + pm2** — pushes to `main` build and ship to `ai.nevolin.be` automatically.
 
-</div>
+### Run locally
 
 ```bash
 cd web
