@@ -350,7 +350,7 @@ export function AttackFlowDiagram() {
         <g id="br-agent" data-anime style={{ transformOrigin: `${CX}px ${CY}px` }}>
           <circle cx={CX} cy={CY} r={AGENT_R} fill="url(#br-agent-grad)" stroke="#ef4444" strokeWidth="2" />
           <text x={CX} y={CY - 10} textAnchor="middle" fill="#fca5a5" fontSize="11" fontWeight="600" letterSpacing="0.8">AI AGENT</text>
-          <text x={CX} y={CY + 8}  textAnchor="middle" fill="#fff"    fontSize="15" fontWeight="700">Model</text>
+          <text x={CX} y={CY + 8}  textAnchor="middle" fill="#fff"    fontSize="15" fontWeight="700">Integration</text>
           <text x={CX} y={CY + 25} textAnchor="middle" fill="#fca5a5" fontSize="10">compromised</text>
         </g>
 
