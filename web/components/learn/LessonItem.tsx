@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { useLearn } from "./LearnContext";
+import { LessonAudioPlayer } from "@/components/LessonAudioPlayer";
 
 interface Props {
   moduleId: number;
@@ -9,6 +10,7 @@ interface Props {
   title: string;
   wordCount: number;
   bodyText: string; // stripped markdown for search
+  transcript: string; // spoken-text version for TTS
   children: ReactNode; // server-rendered MDX
 }
 
@@ -18,6 +20,7 @@ export function LessonItem({
   title,
   wordCount,
   bodyText,
+  transcript,
   children,
 }: Props) {
   const { openLessons, toggleLesson, expandModuleAndLesson, markViewed, searchQuery, registerLesson, unregisterLesson } =
@@ -113,6 +116,11 @@ export function LessonItem({
       >
         <div className="overflow-hidden select-text">
           <div className="px-5 pb-8 pt-4 border-t border-slate-800/50">
+            <LessonAudioPlayer
+              moduleId={moduleId}
+              lessonId={lessonId}
+              transcript={transcript}
+            />
             <article className="prose-lesson select-text">
               {children}
             </article>

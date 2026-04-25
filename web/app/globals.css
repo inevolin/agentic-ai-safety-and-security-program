@@ -60,6 +60,11 @@
   html.light .text-slate-300 { color: #475569; }
   html.light .text-slate-400 { color: #64748b; }
   html.light .text-slate-500 { color: #94a3b8; }
+  html.light .text-slate-600 { color: #cbd5e1; }
+
+  /* ─── Audio player light-mode overrides ─── */
+  html.light .bg-slate-700\/70  { background-color: rgba(203,213,225,0.6); }
+  html.light .bg-brand-500\/80  { background-color: rgba(37,99,235,0.7); }
 
   html.light .bg-slate-950 { background-color: #f1f5f9; }
   html.light .bg-slate-900 { background-color: #f8fafc; }

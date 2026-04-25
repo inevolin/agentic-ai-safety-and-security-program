@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 import { getAllModules } from "@/lib/content";
+import { mdxToTranscript } from "@/lib/transcript";
 import { lessonRegistry } from "@/components/lessons";
 import { LearnShell } from "@/components/learn/LearnShell";
 import { ModuleSection } from "@/components/learn/ModuleSection";
@@ -61,6 +62,7 @@ export default async function LearnPage() {
                 title={l.title}
                 wordCount={l.wordCount}
                 bodyText={stripMarkdown(l.content)}
+                transcript={mdxToTranscript(l.content)}
               >
                 {(() => {
                   const LessonContent = lessonRegistry[`${m.id}-${l.id}`];

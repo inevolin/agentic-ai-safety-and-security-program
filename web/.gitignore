@@ -38,3 +38,6 @@ next-env.d.ts
 # prisma sqlite database
 *.db
 *.db-journal
+
+# generated TTS audio cache
+/public/audio/
