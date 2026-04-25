@@ -45,7 +45,7 @@ function countWords(text: string): number {
 
 export function getAllModules(): ModuleMeta[] {
   const modules: ModuleMeta[] = [];
-  for (let moduleId = 1; moduleId <= 6; moduleId++) {
+  for (let moduleId = 1; moduleId <= 7; moduleId++) {
     const { frontmatter } = getModuleIndex(moduleId);
     const lessonCount = getLessonCount(moduleId);
     const lessons: LessonMeta[] = [];

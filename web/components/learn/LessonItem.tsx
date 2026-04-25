@@ -10,7 +10,7 @@ interface Props {
   title: string;
   wordCount: number;
   bodyText: string; // stripped markdown for search
-  transcript: string; // spoken-text version for TTS
+  audioSrc?: string; // static /audio/... URL if cached, else /api/audio/...
   children: ReactNode; // server-rendered MDX
 }
 
@@ -20,7 +20,7 @@ export function LessonItem({
   title,
   wordCount,
   bodyText,
-  transcript,
+  audioSrc,
   children,
 }: Props) {
   const { openLessons, toggleLesson, expandModuleAndLesson, markViewed, searchQuery, registerLesson, unregisterLesson } =
@@ -119,7 +119,7 @@ export function LessonItem({
             <LessonAudioPlayer
               moduleId={moduleId}
               lessonId={lessonId}
-              transcript={transcript}
+              audioSrc={audioSrc}
             />
             <article className="prose-lesson select-text">
               {children}

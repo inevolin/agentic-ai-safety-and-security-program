@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 interface Props {
   moduleId: number;
   lessonId: number;
-  transcript: string;
+  audioSrc?: string; // if provided, browser fetches this directly; falls back to /api/audio/...
 }
 
 type PlayerState = "idle" | "loading" | "ready" | "playing" | "paused" | "error";
@@ -57,7 +57,7 @@ function PauseIcon() {
   );
 }
 
-export function LessonAudioPlayer({ moduleId, lessonId, transcript }: Props) {
+export function LessonAudioPlayer({ moduleId, lessonId, audioSrc: audioSrcProp }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
@@ -67,7 +67,7 @@ export function LessonAudioPlayer({ moduleId, lessonId, transcript }: Props) {
   const [speed, setSpeed] = useState<Speed>(1);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const audioSrc = `/api/audio/${moduleId}/${lessonId}`;
+  const audioSrc = audioSrcProp ?? `/api/audio/${moduleId}/${lessonId}`;
 
   // Initialize audio element once
   useEffect(() => {
@@ -252,24 +252,6 @@ export function LessonAudioPlayer({ moduleId, lessonId, transcript }: Props) {
       {state === "error" && (
         <p className="mt-2 text-xs text-danger-300">{errorMsg}</p>
       )}
-
-      {/* Transcript toggle */}
-      <details className="mt-2 group">
-        <summary className="cursor-pointer text-xs text-slate-500 hover:text-slate-400 transition-colors list-none flex items-center gap-1 select-none">
-          <svg
-            className="w-3 h-3 transition-transform group-open:rotate-90"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path d="M8 5l8 7-8 7z" />
-          </svg>
-          Show transcript (read aloud)
-        </summary>
-        <p className="mt-2 text-sm text-slate-400 whitespace-pre-line leading-relaxed">
-          {transcript}
-        </p>
-      </details>
     </div>
   );
 }

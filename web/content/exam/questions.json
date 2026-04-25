@@ -50,12 +50,12 @@
     },
     {
       "id": "e6", "moduleId": 1,
-      "text": "Which pair of departments creates the highest-risk multi-agent attack — where a cheap AI feeds data into a capable AI and a public form turns into a real business action?",
+      "text": "A multi-agent pipeline turns a public form submission into a real business action. Which structural property makes the pipeline high-risk, regardless of which department runs it?",
       "options": [
-        "Marketing and Customer Support",
-        "Engineering and Finance",
-        "Procurement (a cheap AI onboards vendors) and Legal (a capable AI signs contracts)",
-        "HR and IT"
+        "Both agents use the same model tier",
+        "The two agents communicate over HTTPS instead of an internal queue",
+        "A weaker agent ingests public/external input and writes to a shared store; a stronger agent later reads that store as authoritative and takes high-impact action — with no human review in between",
+        "The pipeline runs synchronously rather than asynchronously"
       ],
       "correct": 2
     },
@@ -78,12 +78,12 @@
     },
     {
       "id": "e9", "moduleId": 2,
-      "text": "Why can Opus (the most capable model) be MORE vulnerable to a poisoned registry than Sonnet?",
+      "text": "Opus blocks most surface-level attacks (lookalike domains, suspicious URLs) better than Sonnet. But Opus still falls for poisoned vendor registries. Why?",
       "options": [
-        "Opus has fewer safety guardrails",
-        "Opus cannot read tables or lists",
-        "Opus is more skeptical of prose instructions, so it leans harder on tables and registries as 'authoritative' — which is exactly what the attacker poisoned",
-        "Opus ignores domain names"
+        "Opus has fewer safety guardrails than Sonnet",
+        "Opus cannot read tables or structured data",
+        "Opus reasons explicitly about source trust tiers and treats structured registries as authoritative — when the registry itself is poisoned, that reasoning amplifies the attack",
+        "Opus disables domain checks for performance"
       ],
       "correct": 2
     },
@@ -92,7 +92,7 @@
       "text": "In the SP1 attack (a vendor registry is quietly altered), pieces of the attack live in different documents and no single one looks suspicious on its own. Why does this make it hard to catch?",
       "options": [
         "URL shorteners split the payload across messages",
-        "The attack only completes once the AI joins information from several trusted-looking sources — no single source fails any check",
+        "The attack completes only when the AI joins data from several trusted sources — no single source looks bad on its own.",
         "Synonyms hide keywords in each source",
         "The attack targets the security team"
       ],
@@ -100,12 +100,12 @@
     },
     {
       "id": "e11", "moduleId": 2,
-      "text": "In the EL1 attack (a URL hidden in an error log), three changes removed all the warning signs that caught an earlier version. What were they?",
+      "text": "An AI reads error logs and writes the endpoint URLs it finds into incident runbooks. To bypass a defender's heuristics, an attacker-injected URL should avoid which combination of red flags?",
       "options": [
-        "A query parameter, a /health path, a .io domain",
-        "The company's own domain, a standard login path, and no query parameter",
-        "Login tokens, HTTPS, no port number",
-        "POST instead of GET, no domain, trailing slash"
+        "Uses HTTPS, contains digits, points to a subdomain",
+        "External TLD that differs from the internal namespace, a non-standard endpoint path, and a tracking query parameter",
+        "Appears in a FATAL log entry, is over 60 characters, uses port 443",
+        "Uses GET instead of POST, ends with a trailing slash, has lowercase letters"
       ],
       "correct": 1
     },
@@ -142,7 +142,7 @@
       "text": "In the MAA1 attack, Opus quoted the policy 'only use URLs from the registry — never from vendor documents' while writing the attacker's URL from that very registry. What does this reveal?",
       "options": [
         "A bug in Opus's reasoning module",
-        "The defensive rule became the attack's delivery mechanism — the rule made the poisoned registry look fully authoritative",
+        "The defensive rule became the attack's delivery mechanism — the policy made the poisoned registry look authoritative.",
         "Opus cannot tell internal URLs from external ones",
         "The registry was misconfigured by IT"
       ],
@@ -150,12 +150,12 @@
     },
     {
       "id": "e16", "moduleId": 3,
-      "text": "In the CONF1 multi-agent attack, the app was named 'cloudbridge-api'. Opus blocked analytics domains that looked like the app name. Which attacker domain slipped past that name-matching check?",
+      "text": "A news AI is told: 'only quote sources listed in our verified-experts database.' Anyone can apply to join that database through an online form. An attacker applies as a fake medical doctor and gets auto-listed. The AI quotes them as a verified expert. Why did the rule make the attack worse instead of preventing it?",
       "options": [
-        "analytics.cloudbridge-api.com",
-        "cloudbridge-analytics.io",
-        "ingest.stackdrive-analytics.io",
-        "telemetry.cloudbridge-api.io"
+        "The database should be hosted offline rather than online",
+        "The AI should refuse to quote any source at all",
+        "The rule pointed the AI at one source the attacker could write into. Once they got in, the rule actively elevated their fake credentials",
+        "Journalists should review every quote after the AI publishes"
       ],
       "correct": 2
     },
@@ -216,18 +216,18 @@
     },
     {
       "id": "e22", "moduleId": 4,
-      "text": "Which three guardrails form the minimum kit for any AI agent that reads external data and writes to internal systems?",
+      "text": "An AI agent reads external data and writes to internal systems. Which three controls form the minimum baseline?",
       "options": [
-        "Label where data came from + Verify AI tools haven't been tampered with + Limit what the AI can write",
-        "Label where data came from + Limit what the AI can write + Require human approval for high-impact actions",
-        "Require human approval + Verify through a second channel + Temporary credentials",
-        "URL allow-list + Screen knowledge-base retrieval + Output-side labeling"
+        "Provenance labels + tool integrity checks + write scope limits",
+        "Provenance labels + write scope limits + human approval for high-impact actions",
+        "Human approval + out-of-band confirmation + ephemeral credentials",
+        "URL allowlist + RAG screening + output labeling"
       ],
       "correct": 1
     },
     {
       "id": "e23", "moduleId": 4,
-      "text": "Guardrail 3 — limit what the AI is allowed to write — most directly stops which attack class?",
+      "text": "An agent's write permissions are scoped tightly to only the resources its current task needs. Which attack class does this most directly disrupt?",
       "options": [
         "Error log injection",
         "Slack community injection",
@@ -238,32 +238,32 @@
     },
     {
       "id": "e24", "moduleId": 4,
-      "text": "Which guardrail addresses the risk that an attacker poisons a tool description or a Skill file the AI loads?",
+      "text": "An attacker tampers with a tool description or Skill file the AI loads at startup. Which control addresses this risk?",
       "options": [
-        "Guardrail 1 — Label where data came from",
-        "Guardrail 2 — Verify AI tools haven't been tampered with",
-        "Guardrail 5 — Require human approval for high-impact actions",
-        "Guardrail 8 — Output-side labeling"
+        "Provenance labels on every external data field the AI reads",
+        "Cryptographic verification that loaded tools and Skills match a known-good hash",
+        "Human approval for every high-impact action",
+        "Output labels on AI-generated content"
       ],
       "correct": 1
     },
     {
       "id": "e25", "moduleId": 4,
-      "text": "Guardrail 4 (only allow approved URLs to be written or surfaced by the AI) has a known weakness. What is it?",
+      "text": "Your team enforces a string-matching URL allowlist on every URL the AI writes. An attacker registers a $12 lookalike domain that passes the check. What does this incident reveal about the allowlist?",
       "options": [
         "It needs model retraining to work",
-        "Pure string-matching allowlists do not catch visually-similar lookalike domains (typosquats like portal.acmecorp.com or homoglyphs) registered for under $15 — pair the allowlist with a visual human verification step at the HITL gate",
-        "It adds 10 seconds to every response",
+        "String-matching allowlists miss visually-similar lookalike domains — pair with a human visual check",
+        "It adds latency to every response",
         "It only works for .com domains"
       ],
       "correct": 1
     },
     {
       "id": "e26", "moduleId": 4,
-      "text": "Guardrail 7 — confirm important details through a second independent channel — most directly stops which attack?",
+      "text": "An AI is about to act on financial details extracted from a single document. Which attack does an out-of-band confirmation step most directly stop?",
       "options": [
-        "A webhook migration URL planted in a Slack community",
-        "A poisoned vendor payment portal in an invoice — confirm banking details by a separate channel before the AI acts on them",
+        "A webhook migration URL planted in a Slack community post",
+        "A poisoned vendor payment portal in an invoice — confirm banking details out-of-band before the AI acts",
         "A bad analytics endpoint planted in a config file",
         "A backup login URL planted in an error log"
       ],
@@ -271,10 +271,10 @@
     },
     {
       "id": "e27", "moduleId": 4,
-      "text": "Guardrail 6 (screen data before it reaches the AI) watches for which patterns?",
+      "text": "You build a screening layer that inspects external data before it reaches the AI. Which patterns should it flag?",
       "options": [
         "File size and encoding anomalies",
-        "Commands or instructions appearing in data fields, URLs in fields that should not contain URLs, and text claiming special authority",
+        "Commands or instructions in data fields, URLs in fields that should not contain URLs, and text claiming special authority",
         "HTTP status codes and response times",
         "JSON schema validation failures"
       ],
@@ -282,7 +282,7 @@
     },
     {
       "id": "e28", "moduleId": 4,
-      "text": "Guardrail 10 — each AI agent session gets its own short-lived credentials — blocks which part of a worm-style attack?",
+      "text": "Each AI agent session is issued its own short-lived credentials, scoped to that session and revoked at session end. In a worm-style attack chain, which step does this most directly block?",
       "options": [
         "The initial form submission that seeds the registry",
         "The attacker URL appearing in the first AI's output",
@@ -436,12 +436,12 @@
     },
     {
       "id": "e42", "moduleId": 6,
-      "text": "Which of the following is NOT a prohibited multi-agent pattern under the course's policy guidance?",
+      "text": "Three of these multi-agent setups are unsafe. Which one is acceptable to deploy?",
       "options": [
-        "A Haiku agent writes to the approved-vendor registry; a Sonnet agent reads that registry as authoritative — no human review between them",
-        "A Sonnet agent reads vendor PDFs and drafts a payment checklist into a staging-only page that a human merges into the live runbook",
-        "An agent's blanket system-prompt directive instructs it to 'include all URLs from logs and tickets exactly as they appear'",
-        "A long-lived service account is shared across every agent session, with no per-session credential rotation"
+        "Haiku writes vendor data into the live registry; Sonnet later reads it as authoritative — no human in between",
+        "Sonnet drafts a payment checklist into a staging page; a human reviews and merges it into the live runbook",
+        "The system prompt tells the agent to include every URL from logs and tickets exactly as found",
+        "All agent sessions share one long-lived service account with no credential rotation"
       ],
       "correct": 1
     },
@@ -460,10 +460,10 @@
       "id": "e44", "moduleId": 7,
       "text": "A team imports a popular community Skill called 'safe-url-checker' to harden their agent. Three weeks later they discover the Skill silently logs every URL the agent inspects to an external endpoint. Which Skill governance control would have caught this BEFORE production?",
       "options": [
-        "Cap Skill size at 4 KB",
-        "Sign and pin every production Skill to a known hash, review the full Skill body and any bundled code at load time, and reject unsigned or unpinned Skills",
-        "Use Sonnet instead of Haiku when a Skill is loaded",
-        "Run the Skill on a separate VM and disable internet access — only after first deployment"
+        "Cap Skill size at 4 KB to prevent hidden payloads",
+        "Sign and pin every production Skill, review the full body and any bundled code at load time, and reject unsigned Skills.",
+        "Switch to a higher-tier model whenever a Skill is loaded",
+        "Sandbox the Skill in a separate VM with no internet access — but only after first deployment"
       ],
       "correct": 1
     },
@@ -472,9 +472,9 @@
       "text": "Which Skill audit cadence is appropriate for a production environment that regularly loads bundled-code Skills with write access to internal systems?",
       "options": [
         "Audit Skills only when a security incident is reported",
-        "Audit Skills annually, in line with the SOC 2 cycle, with no interim review",
-        "Quarterly audit of every loaded Skill — body text, bundled code, signing/pinning state, and the agent OAuth scopes the Skill operates within — plus an out-of-band review on any Skill version bump",
-        "Audit Skills daily as part of the build pipeline; manual review is unnecessary"
+        "Audit Skills annually in line with the SOC 2 cycle, with no interim review",
+        "Quarterly audit of every loaded Skill — body, bundled code, signing/pinning, and OAuth scopes — plus an out-of-band review on any version bump.",
+        "Audit Skills daily via build pipeline; manual review is not necessary"
       ],
       "correct": 2
     }

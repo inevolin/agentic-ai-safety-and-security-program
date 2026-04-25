@@ -27,7 +27,7 @@ export function DoDont(props: DoDontProps) {
           </svg>
           DO
         </p>
-        <ul className="space-y-2">
+        <ul className="list-none p-0 m-0 space-y-2">
           {doItems.map((item, i) => (
             <li key={i} className="flex gap-2 text-sm text-slate-300">
               <svg
@@ -61,7 +61,7 @@ export function DoDont(props: DoDontProps) {
           </svg>
           DON&apos;T
         </p>
-        <ul className="space-y-2">
+        <ul className="list-none p-0 m-0 space-y-2">
           {dontItems.map((item, i) => (
             <li key={i} className="flex gap-2 text-sm text-slate-300">
               <svg

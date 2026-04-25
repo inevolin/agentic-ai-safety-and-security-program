@@ -18,7 +18,7 @@ function ProseField({ text, className }: { text: string; className?: string }) {
     return <p className={`text-sm ${className ?? "text-slate-200"}`}>{text}</p>;
   }
   return (
-    <ul className="space-y-1.5 pl-0">
+    <ul className="list-none p-0 m-0 space-y-1.5">
       {items.map((s, i) => (
         <li key={i} className={`flex gap-2 text-sm ${className ?? "text-slate-200"}`}>
           <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current opacity-40" aria-hidden="true" />

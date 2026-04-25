@@ -3,6 +3,8 @@ import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { ExamTimer } from "./ExamTimer";
 import Link from "next/link";
+import { ATTACKS } from "@/lib/attacks";
+import { AttackRef } from "./AttackRef";
 
 interface ExamQuestion {
   id: string;
@@ -23,6 +25,23 @@ interface SubmitResult {
   total: number;
   percentage: number;
   verifyCode?: string;
+}
+
+// Build a regex from all known attack IDs, sorted longest-first so e.g. MAA1 matches before M1
+const ATTACK_IDS_SORTED = Object.keys(ATTACKS).sort((a, b) => b.length - a.length);
+const ATTACK_REF_REGEX = new RegExp(`\\b(${ATTACK_IDS_SORTED.join("|")})\\b`, "g");
+
+function renderWithAttackRefs(text: string): React.ReactNode {
+  const parts = text.split(ATTACK_REF_REGEX);
+  return parts
+    .filter((part) => part !== "")
+    .map((part, idx) =>
+      ATTACKS[part] ? (
+        <AttackRef key={`${idx}-${part}`} id={part} />
+      ) : (
+        part
+      )
+    );
 }
 
 export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamClientProps) {
@@ -69,7 +88,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
           <div className="text-xl font-semibold text-danger-400">
             {result.percentage}% — below passing threshold
           </div>
-          <p className="text-slate-400 text-sm">You need 80% (32/40) to pass.</p>
+          <p className="text-slate-400 text-sm">You need 80% (36/45) to pass.</p>
           {attemptsRemaining > 0 ? (
             <div className="bg-brand-950/40 border border-brand-800/40 rounded-xl p-4 text-sm text-brand-300">
               You have <strong className="text-white">{attemptsRemaining} attempt{attemptsRemaining !== 1 ? "s" : ""}</strong> remaining. Review the modules and try again.
@@ -126,7 +145,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
           <div key={q.id} className="glass rounded-2xl p-6 space-y-4">
             <p className="font-medium text-white">
               <span className="font-mono text-cyan-500 mr-2 text-sm">{qi + 1}.</span>
-              {q.text}
+              {renderWithAttackRefs(q.text)}
             </p>
             <div className="space-y-2">
               {q.options.map((opt, oi) => (
@@ -152,7 +171,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
       </div>
 
       {/* Submit */}
-      <div className="sticky bottom-4">
+      <div className="pt-2">
         <button
           onClick={() => submitExam(answers)}
           disabled={submitting || expired || answeredCount < questions.length}

@@ -15,7 +15,7 @@ export function Comparison({ left, right }: ComparisonProps) {
       {/* Left card */}
       <div className="border-b border-white/5 bg-slate-900/60 p-5 sm:border-b-0 sm:border-r">
         <h4 className="mb-3 text-sm font-semibold text-slate-200">{left.title}</h4>
-        <ul className="space-y-2">
+        <ul className="list-none p-0 m-0 space-y-2">
           {(left.points ?? []).map((pt, i) => (
             <li key={i} className="flex gap-2 text-sm text-slate-400">
               <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-brand-500" aria-hidden="true" />
@@ -34,7 +34,7 @@ export function Comparison({ left, right }: ComparisonProps) {
       {/* Right card */}
       <div className="bg-slate-800/40 p-5">
         <h4 className="mb-3 text-sm font-semibold text-slate-200">{right.title}</h4>
-        <ul className="space-y-2">
+        <ul className="list-none p-0 m-0 space-y-2">
           {(right.points ?? []).map((pt, i) => (
             <li key={i} className="flex gap-2 text-sm text-slate-400">
               <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-cyan-500" aria-hidden="true" />

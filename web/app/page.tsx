@@ -463,7 +463,7 @@ const FAQS = [
   },
   {
     q: "How long does it take?",
-    a: "About 3–4 hours total, at your own pace. Each of the six modules takes 25–45 minutes. The final exam has 40 questions, a 90-minute limit, and three attempts. Most people finish in one focused sitting or over a weekend. The material is dense but jargon-free — you will not be sitting through definitions of transformer architectures.",
+    a: "About 3–4 hours total, at your own pace. Each of the seven modules takes 25–45 minutes. The final exam has 45 questions, a 90-minute limit, and three attempts. Most people finish in one focused sitting or over a weekend. The material is dense but jargon-free — you will not be sitting through definitions of transformer architectures.",
   },
   {
     q: "Is there a prerequisite?",
@@ -475,7 +475,7 @@ const FAQS = [
   },
   {
     q: "Can I retake the exam?",
-    a: "Yes, up to 3 attempts per browser. The question order is shuffled each time. You need 80% correct (32 of 40 questions) to pass. If you work through the modules rather than skipping to the exam, the pass rate is high — the exam tests understanding of how real attacks work, not memorization of terms.",
+    a: "Yes, up to 3 attempts per browser. The question order is shuffled each time. You need 80% correct (36 of 45 questions) to pass. If you work through the modules rather than skipping to the exam, the pass rate is high — the exam tests understanding of how real attacks work, not memorization of terms.",
   },
   {
     q: "What is this based on?",
@@ -531,6 +531,12 @@ export default function Home() {
                     View curriculum
                   </Link>
                 </div>
+                <p className="mt-3 text-sm text-slate-500">
+                  Not sure if this is for you?{" "}
+                  <Link href="/about#audience" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2 transition-colors">
+                    See who should take it →
+                  </Link>
+                </p>
               </Reveal>
 
               <Reveal delay={800}>
@@ -965,7 +971,7 @@ export default function Home() {
           </Reveal>
           <Reveal className="text-center mb-4">
             <h2 className="text-3xl sm:text-5xl font-bold text-white leading-tight">
-              7 modules · 40-question exam · shareable certificate
+              7 modules · 45-question exam · shareable certificate
             </h2>
           </Reveal>
           <Reveal className="text-center mb-14">
@@ -1059,7 +1065,7 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="font-bold text-white text-lg">Final Exam + Certificate</div>
-                  <div className="text-slate-400 text-sm">40 questions · 90 min · 80% to pass · 3 attempts</div>
+                  <div className="text-slate-400 text-sm">45 questions · 90 min · 80% to pass · 3 attempts</div>
                 </div>
               </div>
               <Link href="/exam" className="btn-primary text-base py-3 px-6 flex-shrink-0">

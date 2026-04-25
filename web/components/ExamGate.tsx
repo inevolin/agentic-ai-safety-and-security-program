@@ -59,14 +59,14 @@ export function ExamGate({ questions, timeLimit }: ExamGateProps) {
           </div>
           <h1 className="text-3xl font-bold text-white">Final Exam</h1>
           <p className="text-slate-400">
-            40 questions · 90 minute time limit · 80% to pass
+            45 questions · 90 minute time limit · 80% to pass
           </p>
         </div>
 
         {/* Info cards */}
         <div className="grid grid-cols-3 gap-3">
           {[
-            { label: "Questions", value: "40" },
+            { label: "Questions", value: "45" },
             { label: "Time limit", value: "90 min" },
             { label: "Attempt", value: `${attempts + 1}/3` },
           ].map(({ label, value }) => (

@@ -19,7 +19,7 @@ function ProseList({ text, className }: { text: string; className?: string }) {
     return <span className={className}>{text}</span>;
   }
   return (
-    <ul className="space-y-1 mt-0.5">
+    <ul className="list-none p-0 m-0 mt-0.5 space-y-1">
       {items.map((s, i) => (
         <li key={i} className={`flex gap-2 ${className ?? ""}`}>
           <span className="mt-1 h-1 w-1 flex-shrink-0 rounded-full bg-current opacity-40" aria-hidden="true" />

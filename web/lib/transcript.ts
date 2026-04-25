@@ -105,6 +105,82 @@ function ensurePeriod(s: string): string {
   return trimmed + ".";
 }
 
+// ---------------------------------------------------------------------------
+// Attack-ID → spoken-name map. Mirrors web/lib/attacks.ts but inlined so
+// transcript.ts has zero non-stdlib runtime deps (the standalone
+// scripts/prebuild-tts.mjs reuses the same logic shape).
+// ---------------------------------------------------------------------------
+
+const ATTACK_NAMES: Record<string, string> = {
+  SP1: "Vendor Registry Poisoning",
+  AI1: "Conversational Seeding",
+  MAA1: "Multi-Agent Chain",
+  CI1: "CI/CD Log Injection",
+  EL1: "Error Log IDP Injection",
+  GIT1: "Git Commit Body Injection",
+  SL1: "Slack Community Injection",
+  WIKI1: "Wiki and Registry Double Trust",
+  TP1: "Tool-Output Prose Injection",
+  ITS1: "Helpdesk Ticket Metadata Injection",
+  SURV1: "Customer Survey URL Injection",
+  CONF1: "Config File App-Domain Injection",
+  INV1: "Invoice Payment Portal Injection",
+  CAL1: "Calendar Invite Pre-Read Injection",
+  EMAIL1: "Email Thread Forwarding Injection",
+  SC1: "npm README Supply-Chain Injection",
+  SC2: "Malicious Skill Plugin",
+  SS1: "Skill Worm",
+  MT1: "Multi-Turn Context Priming",
+  CS1: "Context Saturation",
+  H1: "HR Benefits Phishing",
+  L1: "NDA Wiki Worm",
+  L4: "Vendor Questionnaire Injection",
+  M1: "RAG Corpus Poisoning",
+  DEF1: "Registry Integrity Audit Layer",
+};
+
+/** Replace attack IDs (with optional version suffixes) with their spoken names. */
+function expandAttackIds(s: string): string {
+  let out = s;
+  // Process longer IDs first so e.g. EMAIL1 wins before E1 would (no overlap today, but future-proof).
+  const ids = Object.keys(ATTACK_NAMES).sort((a, b) => b.length - a.length);
+  for (const id of ids) {
+    const name = ATTACK_NAMES[id];
+    // Match the ID with optional " v2" / " v3" / " hybrid" / "-FC" suffixes; consume them.
+    const re = new RegExp(
+      `\\b${id}(?:\\s+v\\d+(?:[\\.-]\\d+)?)?(?:\\s+hybrid)?(?:\\s*-?FC)?\\b`,
+      "g"
+    );
+    out = out.replace(re, `the ${name} attack`);
+  }
+  return out;
+}
+
+/** Strip URLs and bare hostnames so TTS doesn't spell out domains character-by-character. */
+function stripUrls(s: string): string {
+  let out = s;
+  // Full http(s) URLs
+  out = out.replace(/\bhttps?:\/\/\S+/gi, "an attacker URL");
+  // Bare hostnames with a recognizable TLD (and any path)
+  out = out.replace(
+    /\b(?:[a-z0-9-]+\.)+(?:com|net|org|io|dev|app|ai|co|cloud|internal|gov|edu|us|uk|info|tech)(?:\/[^\s,)]*)?/gi,
+    "an attacker URL"
+  );
+  // Collapse repeated "an attacker URL" runs
+  out = out.replace(/(?:an attacker URL[\s,.;:]+){2,}/gi, "an attacker URL. ");
+  return out;
+}
+
+/** Strip code-shaped `KEY=value` and `key:value` tokens that read horribly aloud. */
+function stripCodeTokens(s: string): string {
+  let out = s;
+  // ENV-style assignments: KEY=value (uppercase identifier on the left)
+  out = out.replace(/\b[A-Z][A-Z0-9_]{2,}\s*=\s*\S+/g, " ");
+  // Lower-snake-case assignments inside a sentence: foo_bar=value or foo_bar: value-with-equals
+  out = out.replace(/\b[a-z][a-z0-9_]+=\S+/g, " ");
+  return out;
+}
+
 /** Convert a list (bullet or numbered) to prose sentences. */
 function listToSentences(block: string): string {
   return block
@@ -127,29 +203,24 @@ const componentHandlers: Record<string, ComponentHandler> = {
   Comparison(jsx) {
     const leftVal = extractPropValue(jsx, "left");
     const rightVal = extractPropValue(jsx, "right");
-    // title is a plain string value; points is an array literal
     const leftTitle = extractPropValue(leftVal, "title");
     const rightTitle = extractPropValue(rightVal, "title");
-    const leftPoints = extractStringsFromLiteral(extractPropValue(leftVal, "points")).join(". ");
-    const rightPoints = extractStringsFromLiteral(extractPropValue(rightVal, "points")).join(". ");
-    const parts: string[] = [];
-    if (leftTitle || rightTitle) {
-      parts.push(`Comparing ${leftTitle || "left"} versus ${rightTitle || "right"}.`);
-    }
-    if (leftTitle && leftPoints) parts.push(`${leftTitle}: ${ensurePeriod(leftPoints)}`);
-    if (rightTitle && rightPoints) parts.push(`${rightTitle}: ${ensurePeriod(rightPoints)}`);
-    return parts.join(" ");
+    const leftPoints = extractStringsFromLiteral(extractPropValue(leftVal, "points"))
+      .map((p) => `- ${p}`)
+      .join("\n");
+    const rightPoints = extractStringsFromLiteral(extractPropValue(rightVal, "points"))
+      .map((p) => `- ${p}`)
+      .join("\n");
+    return `[Comparison]\n${leftTitle}:\n${leftPoints}\n${rightTitle}:\n${rightPoints}`;
   },
 
   Callout(jsx) {
-    // <Callout type="danger" title="...">children</Callout>
     const typeVal = extractPropValue(jsx, "type") || "note";
     const titleVal = extractPropValue(jsx, "title") || "";
     const children = extractChildren(jsx, "Callout");
     const label = typeVal === "danger" ? "Danger" : typeVal === "warn" ? "Warning" : "Note";
-    const headline = titleVal ? `${label}: ${titleVal}.` : `${label}:`;
     const body = children ? stripInlineMarkdown(stripJsx(children)) : "";
-    return [headline, body].filter(Boolean).join(" ");
+    return `[${label}${titleVal ? ` — ${titleVal}` : ""}] ${body}`;
   },
 
   UseCase(jsx) {
@@ -157,22 +228,21 @@ const componentHandlers: Record<string, ComponentHandler> = {
     const attacker = extractPropValue(jsx, "attacker");
     const impact = extractPropValue(jsx, "impact");
     const defense = extractPropValue(jsx, "defense");
-    const parts: string[] = [];
-    if (scenario) parts.push(`Use case: ${ensurePeriod(scenario)}`);
-    if (attacker) parts.push(`Attack: ${ensurePeriod(attacker)}`);
-    if (impact) parts.push(`Impact: ${ensurePeriod(impact)}`);
-    if (defense) parts.push(`Defense: ${ensurePeriod(defense)}`);
-    return parts.join(" ");
+    const parts: string[] = ["[Use case]"];
+    if (scenario) parts.push(`Scenario: ${scenario}`);
+    if (attacker) parts.push(`Attack: ${attacker}`);
+    if (impact) parts.push(`Impact: ${impact}`);
+    if (defense) parts.push(`Defense: ${defense}`);
+    return parts.join("\n");
   },
 
   KeyPoint(jsx) {
     const title = extractPropValue(jsx, "title");
     const body = extractPropValue(jsx, "body");
-    // KeyPoint may also have children
     const children = extractChildren(jsx, "KeyPoint");
-    const parts: string[] = [];
-    if (title) parts.push(`Key point: ${ensurePeriod(title)}`);
-    if (body) parts.push(ensurePeriod(body));
+    const parts: string[] = ["[Key takeaway]"];
+    if (title) parts.push(title);
+    if (body) parts.push(body);
     if (children) parts.push(stripInlineMarkdown(stripJsx(children)));
     return parts.join(" ");
   },
@@ -180,18 +250,58 @@ const componentHandlers: Record<string, ComponentHandler> = {
   AttackCard(jsx) {
     const title = extractPropValue(jsx, "title");
     const summary = extractPropValue(jsx, "summary");
-    const parts: string[] = [];
-    if (title) parts.push(`Attack: ${ensurePeriod(title)}`);
-    if (summary) parts.push(ensurePeriod(summary));
-    return parts.join(" ");
+    const mechanism = extractPropValue(jsx, "mechanism");
+    const impact = extractPropValue(jsx, "impact");
+    const parts: string[] = [`[Attack — ${title}]`];
+    if (summary) parts.push(`Summary: ${summary}`);
+    if (mechanism) parts.push(`Mechanism: ${mechanism}`);
+    if (impact) parts.push(`Impact: ${impact}`);
+    return parts.join("\n");
   },
 
   FlowSteps(jsx) {
     const stepsVal = extractPropValue(jsx, "steps");
     if (!stepsVal) return "";
-    // steps may be array of strings or array of {title, body} objects
-    const strings = extractStringsFromLiteral(stepsVal);
-    return `Steps: ${strings.map(ensurePeriod).join(" ")}`;
+
+    // extractPropValue may return the wrapping `{[...]}` from JSX expression
+    // braces. Peel outer `{` `}` and `[` `]` so we can iterate array elements.
+    let inner = stepsVal.trim();
+    if (inner.startsWith("{") && inner.endsWith("}")) inner = inner.slice(1, -1).trim();
+    if (inner.startsWith("[") && inner.endsWith("]")) inner = inner.slice(1, -1).trim();
+
+    // Try object form: each element is `{ label: "...", desc: "..." }`.
+    const objectChunks: string[] = [];
+    let depth = 0;
+    let chunkStart = -1;
+    for (let i = 0; i < inner.length; i++) {
+      const c = inner[i];
+      if (c === "{") {
+        if (depth === 0) chunkStart = i;
+        depth++;
+      } else if (c === "}") {
+        depth--;
+        if (depth === 0 && chunkStart !== -1) {
+          objectChunks.push(inner.slice(chunkStart, i + 1));
+          chunkStart = -1;
+        }
+      }
+    }
+
+    let stepTexts: string[] = [];
+    if (objectChunks.length) {
+      stepTexts = objectChunks
+        .map((chunk) => {
+          const label = extractPropValue(chunk, "label") || extractPropValue(chunk, "title");
+          const desc = extractPropValue(chunk, "desc") || extractPropValue(chunk, "body");
+          return [label, desc].filter(Boolean).join(", ");
+        })
+        .filter((s) => s.trim().length > 0);
+    } else {
+      stepTexts = extractStringsFromLiteral(stepsVal);
+    }
+
+    if (!stepTexts.length) return "";
+    return `[Steps]\n${stepTexts.map((s, i) => `${i + 1}. ${s}`).join("\n")}`;
   },
 
   DoDont(jsx) {
@@ -200,32 +310,45 @@ const componentHandlers: Record<string, ComponentHandler> = {
     const doItems = doVal ? extractStringsFromLiteral(doVal) : [];
     const dontItems = dontVal ? extractStringsFromLiteral(dontVal) : [];
     const parts: string[] = [];
-    if (doItems.length) parts.push(`Do: ${doItems.map(ensurePeriod).join(" ")}`);
-    if (dontItems.length) parts.push(`Do not: ${dontItems.map(ensurePeriod).join(" ")}`);
-    return parts.join(" ");
+    if (doItems.length) parts.push(`Do:\n${doItems.map((i) => `- ${i}`).join("\n")}`);
+    if (dontItems.length) parts.push(`Don't:\n${dontItems.map((i) => `- ${i}`).join("\n")}`);
+    return parts.join("\n");
   },
 
   StatBar(jsx) {
     const label = extractPropValue(jsx, "label");
     const value = extractPropValue(jsx, "value");
     if (!label && !value) return "";
-    return `Statistic: ${label || ""}${value ? ` — ${value}` : ""}.`;
+    return `[Stat] ${label || ""}${value ? `: ${value}` : ""}`;
   },
 
   Diagram(jsx) {
     const caption = extractPropValue(jsx, "caption");
-    return caption ? `Diagram: ${ensurePeriod(caption)}` : "";
+    return caption ? `[Diagram] ${caption}` : "";
   },
 
   AttackRef(jsx) {
-    // Emit the id value so TTS reads e.g. "SP1" or "CI1"
     const id = extractPropValue(jsx, "id");
-    return id ? id : "";
+    if (!id) return "";
+    // Strip version suffix to match base ID
+    const base = id.replace(/\s+v\d+(?:[\.-]\d+)?.*$/i, "").trim();
+    const name = ATTACK_NAMES[base];
+    return name ? `the ${name} attack` : "";
   },
 
   Defeats(jsx) {
     const ids = extractPropValue(jsx, "ids");
-    return ids ? ids.replace(/,\s*/g, ", ") : "";
+    if (!ids) return "";
+    const names = ids
+      .split(/\s*,\s*/)
+      .map((raw) => raw.replace(/\s+v\d+(?:[\.-]\d+)?.*$/i, "").trim())
+      .map((base) => ATTACK_NAMES[base])
+      .filter(Boolean);
+    if (!names.length) return "";
+    if (names.length === 1) return `the ${names[0]} attack`;
+    if (names.length === 2) return `the ${names[0]} and ${names[1]} attacks`;
+    const last = names.pop()!;
+    return `the ${names.join(", ")}, and ${last} attacks`;
   },
 };
 
@@ -300,13 +423,53 @@ function stripInlineMarkdown(s: string): string {
   return s
     .replace(/\*\*([^*]+)\*\*/g, "$1")
     .replace(/\*([^*]+)\*/g, "$1")
-    .replace(/__([^_]+)__/g, "$1")
-    .replace(/_([^_]+)_/g, "$1")
+    .replace(/(^|[^A-Za-z0-9_])__([^_\n]+)__(?![A-Za-z0-9_])/g, "$1$2")
+    .replace(/(^|[^A-Za-z0-9_])_([^_\n]+)_(?![A-Za-z0-9_])/g, "$1$2")
     .replace(/~~([^~]+)~~/g, "$1")
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // links → text
     .replace(/`([^`]+)`/g, "$1") // inline code → text
     .replace(/^>\s+/gm, "") // blockquote marker
     .trim();
+}
+
+// ---------------------------------------------------------------------------
+// Speakable-text sanitizer — strip emoji, decorative symbols, and special
+// punctuation that TTS engines tend to mispronounce.
+// ---------------------------------------------------------------------------
+
+// Built lazily via RegExp constructor so the `u` flag + Unicode property escapes
+// don't trip TS's older default lib target during typecheck.
+const SANITIZE_RULES: Array<[RegExp, string]> = [
+  [new RegExp("\\p{Extended_Pictographic}", "gu"), " "], // emoji + pictographs
+  [new RegExp("\\p{Emoji_Modifier}", "gu"), " "],
+  [new RegExp("\\u200D", "g"), " "], // zero-width joiner
+  [new RegExp("[\\uFE00-\\uFE0F]", "g"), " "], // variation selectors
+  [new RegExp("[\\u2190-\\u21FF]", "g"), " "], // arrows
+  [new RegExp("[\\u2200-\\u22FF]", "g"), " "], // math operators
+  [new RegExp("[\\u2300-\\u23FF]", "g"), " "], // misc technical
+  [new RegExp("[\\u2500-\\u257F]", "g"), " "], // box drawing
+  [new RegExp("[\\u2580-\\u259F]", "g"), " "], // block elements
+  [new RegExp("[\\u25A0-\\u25FF]", "g"), " "], // geometric shapes
+  [new RegExp("[\\u2600-\\u26FF]", "g"), " "], // misc symbols
+  [new RegExp("[\\u2700-\\u27BF]", "g"), " "], // dingbats
+  [new RegExp("[\\u2B00-\\u2BFF]", "g"), " "], // misc symbols and arrows
+  // Normalize fancy punctuation to plain ASCII so TTS reads them cleanly.
+  [new RegExp("[\\u2018\\u2019\\u201A\\u201B]", "g"), "'"],
+  [new RegExp("[\\u201C\\u201D\\u201E\\u201F]", "g"), '"'],
+  [new RegExp("[\\u2014\\u2015]", "g"), ", "], // em-dash, horizontal bar
+  [new RegExp("\\u2013", "g"), ", "], // en-dash
+  [new RegExp("\\u2026", "g"), "..."], // ellipsis
+  [new RegExp("[\\u00B7\\u2022\\u25E6]", "g"), "."], // bullets
+  // Catch-all for remaining decorative symbols (Unicode So + Sk classes).
+  [new RegExp("[\\p{So}\\p{Sk}]", "gu"), " "],
+];
+
+function sanitizeForSpeech(s: string): string {
+  let out = s;
+  for (const [re, replacement] of SANITIZE_RULES) {
+    out = out.replace(re, replacement);
+  }
+  return out;
 }
 
 // ---------------------------------------------------------------------------
@@ -332,8 +495,13 @@ export function mdxToTranscript(source: string): string {
   // 5. Process markdown tables before heading conversion
   s = processTables(s);
 
-  // 6. Convert headings → sentence breaks
-  s = s.replace(/^#{1,6}\s+(.+)$/gm, (_, text) => ensurePeriod(text.trim()) + " ");
+  // 6. Convert headings → bare section markers. The downstream dialogue
+  //    scripter will rewrite into natural conversation; we just need clean
+  //    structure here.
+  s = s.replace(/^(#{1,6})\s+(.+)$/gm, (_full, _hashes: string, text: string) => {
+    const title = text.trim().replace(/[.?!:]+$/, "");
+    return `\n\n# ${title}\n\n`;
+  });
 
   // 7. Process JSX components → spoken text
   s = processJsx(s);
@@ -347,10 +515,29 @@ export function mdxToTranscript(source: string): string {
   // 9. Strip remaining inline markdown
   s = stripInlineMarkdown(s);
 
-  // 10. Collapse whitespace — normalize multiple blank lines to single, multiple spaces to one
+  // 10. Strip URLs / bare hostnames so TTS doesn't spell them out
+  s = stripUrls(s);
+
+  // 11. Strip code-shaped KEY=value tokens that read horribly aloud
+  s = stripCodeTokens(s);
+
+  // 12. Replace attack IDs (SP1, CONF1 v3, MAA1+CONF1 hybrid v2, ...) with prose names
+  s = expandAttackIds(s);
+
+  // 13. Strip emoji + decorative symbols + normalize fancy punctuation
+  s = sanitizeForSpeech(s);
+
+  // 11. Collapse whitespace — normalize multiple blank lines to single, multiple spaces to one
   s = s.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
 
-  // 11. Ensure consecutive sentences are separated by space
+  // 12. Tidy stray comma punctuation from symbol stripping. Period sequences
+  //     are intentional pause cues — leave them alone.
+  s = s
+    .replace(/\s+,/g, ",")
+    .replace(/,(?=\S)/g, ", ")
+    .replace(/,\s*,+/g, ",");
+
+  // 13. Ensure consecutive sentences are separated by space
   s = s.replace(/\.\s*([A-Z])/g, ". $1");
 
   return s;

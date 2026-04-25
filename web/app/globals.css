@@ -71,6 +71,7 @@
   html.light .bg-slate-900\/60 { background-color: rgba(248,250,252,0.85); }
   html.light .bg-slate-900\/80 { background-color: rgba(248,250,252,0.92); }
   html.light .bg-slate-800 { background-color: #e2e8f0; }
+  html.light .bg-slate-800\/20 { background-color: rgba(226,232,240,0.3); }
   html.light .bg-slate-800\/60 { background-color: rgba(226,232,240,0.7); }
   html.light .bg-slate-800\/70 { background-color: rgba(226,232,240,0.8); }
 
@@ -136,7 +137,9 @@
   /* ─── Accent backgrounds (brand = blue) ─── */
   html.light .bg-brand-500        { background-color: #3b82f6; }
   html.light .bg-brand-600        { background-color: #2563eb; }
+  html.light .bg-brand-600\/60    { background-color: rgba(37,99,235,0.5); }
   html.light .bg-brand-700        { background-color: #1d4ed8; }
+  html.light .bg-brand-700\/60    { background-color: rgba(29,78,216,0.15); }
   html.light .bg-brand-800        { background-color: #dbeafe; }
   html.light .bg-brand-800\/60    { background-color: rgba(219,234,254,0.7); }
   html.light .bg-brand-900        { background-color: #eff6ff; }
@@ -169,6 +172,8 @@
   html.light .bg-cyan-700        { background-color: #155e75; }
   html.light .bg-cyan-950        { background-color: #ecfeff; }
   html.light .bg-cyan-950\/50    { background-color: rgba(236,254,255,0.7); }
+  html.light .bg-cyan-950\/60    { background-color: rgba(236,254,255,0.8); }
+  html.light .border-cyan-800\/50 { border-color: rgba(8,145,178,0.35); }
 
   html.light .border-cyan-500        { border-color: #0891b2; }
   html.light .border-cyan-700        { border-color: #67e8f9; }
@@ -184,6 +189,8 @@
 
   /* ─── Danger (red) accents ─── */
   html.light .bg-danger-500      { background-color: #f43f5e; }
+  html.light .bg-danger-950\/20  { background-color: rgba(255,241,242,0.4); }
+  html.light .border-danger-700\/40 { border-color: rgba(253,164,175,0.4); }
   html.light .bg-danger-900      { background-color: #fee2e2; }
   html.light .bg-danger-900\/60  { background-color: rgba(254,226,226,0.85); }
   html.light .bg-danger-900\/30  { background-color: rgba(254,226,226,0.5); }
@@ -211,12 +218,16 @@
   html.light .bg-warn-900\/60     { background-color: rgba(254,243,199,0.85); }
   html.light .bg-warn-900\/20     { background-color: rgba(254,243,199,0.5); }
   html.light .bg-warn-950         { background-color: #fffbeb; }
+  html.light .bg-warn-950\/20     { background-color: rgba(255,251,235,0.4); }
+  html.light .bg-warn-950\/50     { background-color: rgba(255,251,235,0.7); }
 
   html.light .border-warn-500         { border-color: #d97706; }
   html.light .border-warn-600         { border-color: #d97706; }
   html.light .border-warn-600\/60     { border-color: rgba(217,119,6,0.5); }
   html.light .border-warn-700         { border-color: #fcd34d; }
   html.light .border-warn-800         { border-color: #fde68a; }
+  html.light .border-warn-800\/40     { border-color: rgba(253,230,138,0.5); }
+  html.light .border-warn-800\/50     { border-color: rgba(253,230,138,0.6); }
   html.light .border-warn-900         { border-color: #fef3c7; }
 
   html.light .text-warn-100     { color: #78350f; }
@@ -228,11 +239,15 @@
   /* ─── Emerald / green ─── */
   html.light .bg-emerald-950       { background-color: #ecfdf5; }
   html.light .bg-emerald-950\/50   { background-color: rgba(236,253,245,0.7); }
+  html.light .bg-emerald-950\/60   { background-color: rgba(236,253,245,0.8); }
+  html.light .bg-emerald-950\/20   { background-color: rgba(236,253,245,0.4); }
   html.light .text-emerald-300     { color: #047857; }
   html.light .text-emerald-400     { color: #059669; }
   html.light .text-emerald-500     { color: #047857; }
   html.light .text-green-400       { color: #16a34a; }
   html.light .border-emerald-800   { border-color: #a7f3d0; }
+  html.light .border-emerald-800\/40 { border-color: rgba(110,231,183,0.4); }
+  html.light .border-emerald-800\/50 { border-color: rgba(110,231,183,0.5); }
 
   /* ─── Orange ─── */
   html.light .bg-orange-950       { background-color: #fff7ed; }
@@ -719,6 +734,14 @@ html.light .cta-gradient-card a.text-white {
 }
 html.light .cta-gradient-card .text-blue-200 { color: #dbeafe !important; }
 html.light .cta-gradient-card a.bg-white { color: #1e3a8a !important; }
+html.light .cta-gradient-card .btn-outline {
+  border-color: rgba(255,255,255,0.4) !important;
+  color: #ffffff !important;
+}
+html.light .cta-gradient-card .btn-outline:hover {
+  border-color: #67e8f9 !important;
+  color: #67e8f9 !important;
+}
 
 /* Selection still white on blue */
 html.light ::selection { background-color: #2563eb; color: #ffffff; }

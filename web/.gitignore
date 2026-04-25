@@ -41,3 +41,6 @@ next-env.d.ts
 
 # generated TTS audio cache
 /public/audio/
+
+# generated dialogue scripts (intermediate TTS pipeline cache)
+/.tts-cache/
