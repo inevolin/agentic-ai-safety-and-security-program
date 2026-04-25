@@ -1,0 +1,85 @@
+name: Deploy web app
+
+concurrency:
+  group: deploy-web
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy-web.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release on server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          set -e
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          TARGET_HOST="$SERVER_IP"
+          TARGET_IP="$(getent ahostsv4 "$TARGET_HOST" | awk 'NR==1 {print $1}')"
+          if [ -z "$TARGET_IP" ]; then
+            echo "Failed to resolve IPv4 for $TARGET_HOST"
+            exit 1
+          fi
+          echo "Resolved SSH target: $TARGET_IP"
+
+          if [ -n "$SSH_KNOWN_HOSTS" ]; then
+            echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            ssh-keyscan -4 -T 10 -t ed25519 -H "$TARGET_IP" >> ~/.ssh/known_hosts
+          fi
+          chmod 600 ~/.ssh/known_hosts
+
+          SSH_OPTS="-4 -i ~/.ssh/id_rsa -o BatchMode=yes -o IdentitiesOnly=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 -o LogLevel=ERROR -T"
+
+          ssh $SSH_OPTS "$SERVER_USER@$TARGET_IP" "bash -se" << 'EOF'
+            set -e
+            export NODE_OPTIONS="--max-old-space-size=4096"
+            export BUN_INSTALL="$HOME/.bun"
+            export PATH="$BUN_INSTALL/bin:$PATH"
+
+            if ! command -v bun >/dev/null 2>&1; then
+              echo "Installing Bun..."
+              curl -fsSL https://bun.sh/install | bash
+              export PATH="$BUN_INSTALL/bin:$PATH"
+            fi
+
+            REPO_DIR="$HOME/agentic-ai-safety-and-security-program"
+            if [ ! -d "$REPO_DIR/.git" ]; then
+              echo "Repo missing on server: $REPO_DIR"
+              exit 1
+            fi
+
+            cd "$REPO_DIR"
+            git fetch --prune origin main
+            git reset --hard origin/main
+
+            cd "$REPO_DIR/web"
+            bun install --frozen-lockfile 2>/dev/null || bun install
+            bunx prisma generate
+
+            if pgrep -f "[n]ext build" >/dev/null; then
+              echo "Another next build is running. Aborting."
+              exit 1
+            fi
+
+            rm -f .next/lock
+            bun run build
+
+            pm2 reload ecosystem.config.cjs --update-env
+            pm2 save
+          EOF
