@@ -1228,25 +1228,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Footer ────────────────────────────────────── */}
-      <footer className="py-8 border-t border-slate-800">
-        <div className="section-content flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex flex-col items-center sm:items-start gap-1.5">
-            <p className="text-slate-500 text-sm">
-              © 2026 AI Safety & Security Certification. Educational use only.
-            </p>
-            <ClaudeSponsorBadge />
-          </div>
-          <div className="flex items-center gap-6 text-sm">
-            <Link href="/verify" className="text-slate-500 hover:text-slate-300 transition-colors">
-              Verify certificate
-            </Link>
-            <Link href="/learn" className="text-slate-500 hover:text-slate-300 transition-colors">
-              Start learning
-            </Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
