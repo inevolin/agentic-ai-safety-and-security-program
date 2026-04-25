@@ -161,10 +161,10 @@
     },
     {
       "id": "e17", "moduleId": 3,
-      "text": "In the GIT1 attack (a URL planted in a public pull request), which combination slipped past Sonnet's checks?",
+      "text": "In the GIT1 attack — a URL planted in a public pull request to a bank's open-source code library — which combination slipped past Sonnet's checks?",
       "options": [
         "An outside email, a lookalike domain, a technical standard reference",
-        "An @acmecorp.com employee email, a clean docs.acmecorp.com subdomain, and a reference to a technical standard",
+        "A spoofed internal-looking employee email, a clean docs.northbridge-payments.com subdomain, and a reference to a technical standard",
         "No commit metadata and a raw IP instead of a domain",
         "A private repo with signed commits"
       ],
@@ -183,12 +183,12 @@
     },
     {
       "id": "e19", "moduleId": 3,
-      "text": "In the WIKI1 attack, the internal wiki said 'trust the vendor registry' and the registry held the attacker URL. Why does this combo defeat a single-source check?",
+      "text": "In the WIKI1 attack against a bank's wire-transfer team, the internal wiki said 'trust the Approved Payment Recipients list' and the list held the attacker URL. Why does this combo defeat a single-source check?",
       "options": [
         "Two attackers coordinated from different networks",
-        "Each source vouches for the other — the wiki tells the AI to trust the registry, and the registry supplies the attacker URL with full authority",
+        "Each source vouches for the other — the wiki tells the AI to trust the list, and the list supplies the attacker URL with full authority",
         "Two URL shorteners pointed at the same place",
-        "Many wiki pages linked to the same registry entry"
+        "Many wiki pages linked to the same list entry"
       ],
       "correct": 1
     },
@@ -370,11 +370,11 @@
     },
     {
       "id": "e36", "moduleId": 6,
-      "text": "Which policy rule would have directly prevented the MAA1 attack — where a cheap AI wrote a poisoned vendor URL into the registry with no human in the loop?",
+      "text": "Which policy rule would have directly prevented the MAA1 attack — where a cheap AI wrote a poisoned shop URL into the Approved Body Shops list with no human in the loop?",
       "options": [
         "Require labels on all AI-generated content",
         "Ban agent sessions with write access beyond what the task requires",
-        "Ban a lower-tier AI from writing to internal registries without a human review step",
+        "Ban a lower-tier AI from writing to internal approved-supplier or approved-service lists without a human review step",
         "Ban system prompts that include any URLs drawn from external data"
       ],
       "correct": 2
@@ -403,11 +403,11 @@
     },
     {
       "id": "e39", "moduleId": 6,
-      "text": "Your org uses Haiku to onboard vendors (writes to the vendor registry) and Sonnet to execute contracts (reads that same registry). Without extra controls, which prohibited pattern does this violate?",
+      "text": "Your insurance company uses Haiku to onboard new auto repair shops (writes to the Approved Body Shops list) and Sonnet to draft customer claim instructions (reads that same list). Without extra controls, which prohibited pattern does this violate?",
       "options": [
         "No violation — this model-tiering is explicitly allowed",
-        "Using any AI for contract review",
-        "A lower-tier AI with write access to an internal registry and no human review step between write and read",
+        "Using any AI for claims review",
+        "A lower-tier AI with write access to an internal approved-shops list and no human review step between write and read",
         "Using two different model tiers in one pipeline"
       ],
       "correct": 2
@@ -425,12 +425,12 @@
     },
     {
       "id": "e41", "moduleId": 6,
-      "text": "An incident is reported: a vendor-onboarding agent has just written an unfamiliar portal URL to the live vendor registry. After revoking the agent's session credentials and locking the affected page, what is the correct NEXT step before doing any further analysis?",
+      "text": "An incident is reported: a supplier-onboarding agent has just written an unfamiliar bid-intake URL to the live approved-supplier list. After revoking the agent's session credentials and locking the affected page, what is the correct NEXT step before doing any further analysis?",
       "options": [
         "Re-run the agent with Opus and have it self-review the entry",
-        "Email the vendor named in the entry and ask them to confirm the URL is theirs",
+        "Email the supplier named in the entry and ask them to confirm the URL is theirs",
         "Identify and rotate every secret, OAuth token, or API key the compromised agent session had access to — even if the URL was not yet clicked",
-        "Restore the registry from the most recent backup and notify finance the incident is closed"
+        "Restore the list from the most recent backup and notify procurement the incident is closed"
       ],
       "correct": 2
     },
@@ -472,7 +472,7 @@
       "text": "Which Skill audit cadence is appropriate for a production environment that regularly loads bundled-code Skills with write access to internal systems?",
       "options": [
         "Audit Skills only when a security incident is reported",
-        "Audit Skills annually in line with the SOC 2 cycle, with no interim review",
+        "Audit Skills once a year on a fixed schedule, with no interim review",
         "Quarterly audit of every loaded Skill — body, bundled code, signing/pinning, and OAuth scopes — plus an out-of-band review on any version bump.",
         "Audit Skills daily via build pipeline; manual review is not necessary"
       ],

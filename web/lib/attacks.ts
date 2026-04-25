@@ -14,9 +14,9 @@ export function demoUrl(slug: string): string {
 export const ATTACKS: Record<string, AttackMeta> = {
   SP1: {
     id: "SP1",
-    name: "Vendor Registry Poisoning",
+    name: "Approved-List Poisoning (Semantic Split)",
     summary:
-      "Attacker fills a public vendor-registration form with their own portal URL, which an AI agent picks up as IT-approved and writes into contracts or checklists.",
+      "Attacker fills a public registration form with their own URL; an AI agent reading the resulting internal approved list treats it as authoritative and writes it into checklists.",
     slug: "SP1-semantic-split",
   },
   AI1: {
@@ -30,7 +30,7 @@ export const ATTACKS: Record<string, AttackMeta> = {
     id: "MAA1",
     name: "Multi-Agent Chain",
     summary:
-      "A weaker sub-agent (Haiku) reads attacker-controlled data and writes a poisoned entry to a shared catalog; a stronger orchestrator (Opus) later inherits that entry as authoritative.",
+      "A weaker sub-agent (Haiku) reads attacker-controlled data and writes a poisoned entry to a shared list; a stronger orchestrator (Opus) later reads that entry as authoritative.",
     slug: "MAA1-multi-agent",
   },
   CI1: {
@@ -63,23 +63,23 @@ export const ATTACKS: Record<string, AttackMeta> = {
   },
   WIKI1: {
     id: "WIKI1",
-    name: "Wiki + Registry Double Trust",
+    name: "Wiki + Approved-List Double Trust",
     summary:
-      "A wiki page tells the AI to trust a vendor registry; the attacker poisons the registry through public signup, creating mutual cross-source reinforcement that bypasses scrutiny.",
+      "A wiki page tells the AI to trust an internal approved list; the attacker poisons the list through public signup, creating mutual cross-source reinforcement that bypasses scrutiny.",
     slug: "WIKI1-wiki-crossref",
   },
   TP1: {
     id: "TP1",
     name: "Tool-Output Prose Injection",
     summary:
-      "Attacker writes a malicious URL into a shared workspace page as a transcribed phone note; the AI fetches it via a connected tool and propagates the URL as a trusted checklist step.",
+      "Attacker writes a malicious URL into a shared workspace page as a transcribed phone note; an AI fetching the page via a connected tool propagates the URL as a trusted checklist step.",
     slug: "TP1-tool-output-poisoning",
   },
   ITS1: {
     id: "ITS1",
-    name: "Helpdesk Ticket Metadata Injection",
+    name: "Help-Desk Ticket Metadata Injection",
     summary:
-      "Attacker plants a malicious URL in a system-auto-populated helpdesk ticket field; an IT support AI treats the field as authoritative infrastructure data and writes it to the runbook.",
+      "Attacker plants a malicious URL in a system-auto-populated help-desk ticket field; a support AI treats the field as authoritative platform data and writes it to the runbook.",
     slug: "ITS1-helpdesk-ticket",
   },
   SURV1: {
@@ -168,23 +168,23 @@ export const ATTACKS: Record<string, AttackMeta> = {
   },
   L4: {
     id: "L4",
-    name: "Vendor DDQ Injection",
+    name: "Security Questionnaire Injection",
     summary:
-      "Attacker embeds a malicious portal URL in a vendor due-diligence questionnaire response; an AI processing the DDQ directs security policy follow-up through the attacker-controlled portal.",
+      "Attacker embeds a malicious portal URL in a security-due-diligence questionnaire response; an AI processing the questionnaire directs security follow-up through the attacker-controlled portal.",
     slug: "L4-vendor-ddq",
   },
   M1: {
     id: "M1",
-    name: "RAG Corpus Poisoning",
+    name: "Knowledge-Base Poisoning",
     summary:
-      "Attacker injects false claims into a RAG corpus; an AI querying the corpus produces outbound marketing with competitor defamation and fabricated SLA guarantees.",
+      "Attacker injects false claims into a knowledge base the AI retrieves from; an AI answering customer questions produces output that includes competitor defamation and fabricated guarantees.",
     slug: "M1-rag-poisoning",
   },
   DEF1: {
     id: "DEF1",
-    name: "Registry Integrity Audit Layer",
+    name: "Approved-List Integrity Audit Layer",
     summary:
-      "A defensive layer that audits vendor registry and approved-service catalog entries before any AI agent reads them, quarantining suspicious additions for human review.",
+      "A defensive layer that audits approved-supplier list and approved-service catalog entries before any AI agent reads them, quarantining suspicious additions for human review.",
     slug: "DEF1-defense-layer",
   },
 };

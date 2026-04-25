@@ -83,7 +83,9 @@ export async function runPrebuild(): Promise<void> {
       generated++;
     }
   } catch (e) {
-    console.error(`[tts-prebuild] error intro:`, e instanceof Error ? e.message : e);
+    const err0 = e as Error | undefined;
+    const msg = err0?.message ?? String(e);
+    console.error(`[tts-prebuild] error intro:`, msg);
     err++;
   }
 
@@ -104,7 +106,9 @@ export async function runPrebuild(): Promise<void> {
         generated++;
       }
     } catch (e) {
-      console.error(`[tts-prebuild] error m${moduleId}/l${lessonId}:`, e instanceof Error ? e.message : e);
+      const err0 = e as Error | undefined;
+      const msg = err0?.message ?? String(e);
+      console.error(`[tts-prebuild] error m${moduleId}/l${lessonId}:`, msg);
       err++;
     }
   }
