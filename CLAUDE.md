@@ -441,6 +441,48 @@ Opus's entire catalog-poisoning detection rests on APP_NAME cross-referencing. R
 
 ## Frontend conventions (`web/`)
 
+### Stack & commands
+
+Next.js 14 (app router) + TypeScript + Tailwind + MDX (`next-mdx-remote/rsc`) + Prisma on LibSQL (single `Certificate` model). Animations use `animejs`. PDFs via `react-pdf`. Auth via `next-auth` JWT credentials.
+
+- `pnpm dev` — dev server
+- `pnpm build` — production build (run before declaring frontend tasks complete)
+- `pnpm test` — Jest (TDD scaffolds exist for grading + quiz API)
+- `pnpm lint` — Next/ESLint
+
+### Where things live
+
+- Pages: `web/app/<route>/page.tsx` (`/`, `/learn`, `/exam`, `/about`, `/certificate/[verifyCode]`, `/verify/[verifyCode]`).
+- Components: `web/components/`. MDX-author-facing primitives in `web/components/mdx/` (`Callout`, `UseCase`, `DoDont`, `Comparison`, `KeyPoint`, `AttackCard`, `FlowSteps`, `StatBar`, `Diagram`). Use these in lessons — don't re-roll inline.
+- Content: `web/content/moduleN/index.mdx` + `lesson-K.mdx` (K = 1..lessonCount). Exam: `web/content/exam/questions.json`.
+- Utilities: `web/lib/` (`attacks.ts`, `content.ts`, `db.ts`, `cert.ts`, `grading.ts`).
+
+### Lesson + module authoring
+
+Lesson MDX frontmatter: `title`, `moduleId`, `lessonId`. Module `index.mdx` frontmatter: `title`, `description`, `lessons` (count), `duration` ("25 min"). Frontmatter is loose — typos silently fall back to `Module N` / `Lesson N`, no schema validation.
+
+Blockquotes auto-style on prefix (`web/components/LessonRenderer.tsx`): `**Danger**` → rose band, `**Warning**` → amber band, `**Note**` → cyan band, otherwise brand-blue. Author callouts using these prefixes instead of inline-styled JSX.
+
+**Module-count gotcha:** `getAllModules()` in `web/lib/content.ts` hardcodes `moduleId <= 6`. Module 7+ on disk won't appear on `/learn` until the loop bound is bumped. Adding a module = content dir AND code edit.
+
+**Exam questions:** flat JSON array. Each item: `id`, `moduleId`, `text`, `options[]`, `correct` (index). Bound to `moduleId` but unvalidated — orphan moduleIds silently break dashboard gating.
+
+### Client vs. server components
+
+Default to server components. Add `"use client"` only for interactivity: `useState`/`useRef`/`useEffect`, event handlers, `animejs` calls, theme toggle, forms, exam timer. Of ~66 components, ~27 are client. Don't promote a tree to client just to add one button — split the leaf.
+
+### Styling, theming, color tokens
+
+Tailwind palette extends with `brand` (blue), `cyan`, `danger` (rose), `warn` (amber). Use these scales — not raw hex, not `red-*`/`yellow-*` — so theme stays consistent with auto-styled callouts.
+
+**Light mode is not a separate theme — it's CSS variable overrides + per-Tailwind-class remaps in `web/app/globals.css` under `html.light`.** Defaults (`:root`) are dark. When introducing a new dark utility (e.g. `bg-slate-900`, `text-slate-300`) on a surface that needs to adapt, add a matching `html.light .bg-slate-900 { … }` override. Skipping this leaves a dark patch in light mode — the recurring polish cycle.
+
+Custom CSS classes worth knowing before re-rolling: `.glass`, `.btn-primary`, `.research-title-gradient`, `.module-tile`, `.commit-badge`, `.history-spine`, `.history-node--*`, `.history-tone--*`, `.grid-dot`, `.hero-gradient`. Custom keyframes: `pulse-glow`, `marquee-left`.
+
+### Portals for popover layers
+
+Any tooltip, popover, or modal that overlays cards/sidebars must render via `createPortal` to `document.body` with `position: fixed` (canonical example: `web/components/AttackRef.tsx`). Lesson cards and `glass` surfaces use `overflow: hidden` and create stacking contexts — absolutely-positioned overlays clip. Don't relearn this on every new popover.
+
 ### Always wrap attack-vector IDs in `<AttackRef>`
 
 Any rendered reference to an attack-vector ID — `SP1`, `AI1`, `MAA1`, `TP1`, `CI1`, `EL1`, `GIT1`, `SL1`, `WIKI1`, `CAL1`, `EMAIL1`, `INV1`, `SURV1`, `ITS1`, `CONF1`, `SC1`, `SC2`, `SS1`, `MT1`, `CS1`, `H1`, `L1`, `L4`, `M1`, `DEF1` (with optional version suffix like `v2`, `v3`, `v5`, `-FC`) — that appears in JSX prose on any page, lesson, or component **must** use the `AttackRef` tooltip component, never bare text.
