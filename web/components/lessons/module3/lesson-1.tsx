@@ -12,11 +12,11 @@ export default function Lesson() {
       <h2>SP1: Three-Source Split</h2>
 
       <FlowSteps steps={[
-        { icon: "📄", label: "Policy doc (A)", desc: "Trust only the IT Vendor List for portal URLs" },
-        { icon: "📊", label: "Vendor list (B)", desc: "Attacker URL planted as a portal entry, marked verified today" },
-        { icon: "📝", label: "Clean NDA (C)", desc: "No attack here — just references the vendor policy on file" },
-        { icon: "🤖", label: "AI combines sources", desc: "Outputs attacker URL as a policy-approved checklist step" },
-        { icon: "🔗", label: "Downstream action", desc: "Paralegal follows the URL to start contract execution" }
+        { icon: "doc", label: "Policy doc (A)", desc: "Trust only the IT Vendor List for portal URLs" },
+        { icon: "chart", label: "Vendor list (B)", desc: "Attacker URL planted as a portal entry, marked verified today" },
+        { icon: "note", label: "Clean NDA (C)", desc: "No attack here — just references the vendor policy on file" },
+        { icon: "bot", label: "AI combines sources", desc: "Outputs attacker URL as a policy-approved checklist step" },
+        { icon: "link", label: "Downstream action", desc: "Paralegal follows the URL to start contract execution" }
       ]} />
 
       <AttackCard

@@ -42,11 +42,11 @@ export default function Lesson() {
       <h2>Safe Pipeline: Human Review Step</h2>
 
       <FlowSteps steps={[
-        { icon: "📄", label: "External Source", desc: "Vendor PDF, pipeline log, config file, Slack export" },
-        { icon: "🤖", label: "Helper AI Extracts", desc: "Draft only — no direct writes to authoritative lists" },
-        { icon: "👤", label: "Human Reviews", desc: "Verifies links, domains, list fields" },
-        { icon: "✅", label: "Human Approves", desc: "Signs off on specific fields" },
-        { icon: "📝", label: "List Updated", desc: "Main AI or human writes approved data" }
+        { icon: "doc", label: "External Source", desc: "Vendor PDF, pipeline log, config file, Slack export" },
+        { icon: "bot", label: "Helper AI Extracts", desc: "Draft only — no direct writes to authoritative lists" },
+        { icon: "user", label: "Human Reviews", desc: "Verifies links, domains, list fields" },
+        { icon: "check-circle", label: "Human Approves", desc: "Signs off on specific fields" },
+        { icon: "note", label: "List Updated", desc: "Main AI or human writes approved data" }
       ]} />
 
       <p>The vulnerability is the gap between what the helper AI writes and what the main AI reads. The human review step closes that gap. Not by making the main AI more skeptical of internal data — it will keep trusting internal data. By making sure that data was actually reviewed before it became authoritative.</p>

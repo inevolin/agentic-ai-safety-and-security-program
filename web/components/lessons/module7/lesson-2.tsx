@@ -14,10 +14,10 @@ export default function Lesson() {
 
       <FlowSteps
         steps={[
-          { icon: "📥", label: "Agent receives task", desc: "Agent reads a vendor document, CI log, or Notion page that may contain injected content." },
-          { icon: "🔧", label: "Agent calls skill", desc: "Before any write action, agent invokes the 'verify-urls' skill as a required step." },
-          { icon: "🐍", label: "Script runs", desc: "Bundled Python script extracts all URLs from the proposed output and checks each against the approved domain list." },
-          { icon: "✅", label: "Pass or block", desc: "Approved URLs pass through. Unknown URLs are flagged for human review. Write does not proceed until the check completes." }
+          { icon: "inbox", label: "Agent receives task", desc: "Agent reads a vendor document, CI log, or Notion page that may contain injected content." },
+          { icon: "wrench", label: "Agent calls skill", desc: "Before any write action, agent invokes the 'verify-urls' skill as a required step." },
+          { icon: "code", label: "Script runs", desc: "Bundled Python script extracts all URLs from the proposed output and checks each against the approved domain list." },
+          { icon: "check-circle", label: "Pass or block", desc: "Approved URLs pass through. Unknown URLs are flagged for human review. Write does not proceed until the check completes." }
         ]}
       />
 

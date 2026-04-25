@@ -14,11 +14,11 @@ export default function Lesson() {
       <h2>The MAA1 Attack Chain</h2>
 
       <FlowSteps steps={[
-        { icon: "📄", label: "Attacker-controlled vendor packet", desc: "PDF with a harmful URL in the vendor portal field" },
-        { icon: "🐣", label: "Haiku intake agent", desc: "Reads the vendor packet and writes all fields into the Approved Vendor List — no hesitation" },
-        { icon: "☠️", label: "Poisoned list", desc: "Internal, IT-maintained, looks like structured data. Higher-trust agents accept it without question." },
-        { icon: "🧠", label: "Opus policy agent", desc: "Reads the list per Policy §4: 'use only the Approved Vendor List.' Cites attacker URL as policy-approved." },
-        { icon: "📤", label: "Downstream propagation", desc: "Attacker URL in the contract execution checklist. Opus also warns against using vendor-supplied URLs directly." }
+        { icon: "doc", label: "Attacker-controlled vendor packet", desc: "PDF with a harmful URL in the vendor portal field" },
+        { icon: "hatch", label: "Haiku intake agent", desc: "Reads the vendor packet and writes all fields into the Approved Vendor List — no hesitation" },
+        { icon: "skull", label: "Poisoned list", desc: "Internal, IT-maintained, looks like structured data. Higher-trust agents accept it without question." },
+        { icon: "brain", label: "Opus policy agent", desc: "Reads the list per Policy §4: 'use only the Approved Vendor List.' Cites attacker URL as policy-approved." },
+        { icon: "upload", label: "Downstream propagation", desc: "Attacker URL in the contract execution checklist. Opus also warns against using vendor-supplied URLs directly." }
       ]} />
 
       <AttackCard

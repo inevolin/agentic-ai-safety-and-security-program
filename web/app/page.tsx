@@ -15,6 +15,8 @@ import { MultiAgentDiagram } from "@/components/MultiAgentDiagram";
 import { ClaudeSponsorBadge } from "@/components/ClaudeSponsor";
 import { Defeats } from "@/components/Defeats";
 import { AttackRef } from "@/components/AttackRef";
+import { renderWithAttackRefs } from "@/lib/renderAttackRefs";
+import { ATTACKS } from "@/lib/attacks";
 
 /* ─── Static data ─────────────────────────────────────── */
 type ModuleIconKey = "globe" | "taxonomy" | "microscope" | "shield" | "cog" | "clipboard" | "puzzle";
@@ -609,7 +611,7 @@ export default function Home() {
                     <span className="badge-attack text-xs flex-shrink-0">{s.attackId}</span>
                   </div>
                   <p className="text-slate-500 text-xs font-mono">{s.caption}</p>
-                  <p className="text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+                  <p className="text-slate-400 text-sm leading-relaxed">{renderWithAttackRefs(s.desc)}</p>
                 </div>
               </Reveal>
             ))}
@@ -636,7 +638,7 @@ export default function Home() {
                       <span className="flex flex-wrap gap-1"><Defeats ids={t.ids} /></span>
                     </div>
                     <h4 className="text-white font-semibold text-sm leading-snug">{t.name}</h4>
-                    <p className="text-slate-400 text-sm leading-relaxed flex-1">{t.desc}</p>
+                    <p className="text-slate-400 text-sm leading-relaxed flex-1">{renderWithAttackRefs(t.desc)}</p>
                   </div>
                 </Reveal>
               ))}
@@ -711,7 +713,7 @@ export default function Home() {
                     {a.bullets.map((b, bi) => (
                       <li key={bi} className="flex gap-2 text-sm text-slate-400 leading-snug">
                         <span className="mt-1 w-1.5 h-1.5 rounded-full bg-cyan-600 flex-shrink-0" />
-                        {b}
+                        <span>{renderWithAttackRefs(b)}</span>
                       </li>
                     ))}
                   </ul>
@@ -1022,14 +1024,18 @@ export default function Home() {
                             <span className="text-slate-500 text-xs font-mono">{m.duration}</span>
                           </div>
                         </div>
-                        <div className="flex flex-wrap gap-1.5 mt-2">
+                        <div className="flex flex-wrap gap-1.5 mt-2 items-center">
                           {m.topics.map((t) => (
-                            <span
-                              key={t}
-                              className="text-xs px-2 py-0.5 rounded-full bg-slate-800/60 text-slate-400 border border-slate-700/50 group-hover:border-brand-700/40 group-hover:text-slate-300 transition-colors"
-                            >
-                              {t}
-                            </span>
+                            ATTACKS[t] ? (
+                              <AttackRef key={t} id={t} />
+                            ) : (
+                              <span
+                                key={t}
+                                className="text-xs px-2 py-0.5 rounded-full bg-slate-800/60 text-slate-400 border border-slate-700/50 group-hover:border-brand-700/40 group-hover:text-slate-300 transition-colors"
+                              >
+                                {t}
+                              </span>
+                            )
                           ))}
                         </div>
                       </div>

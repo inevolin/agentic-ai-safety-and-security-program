@@ -87,10 +87,10 @@ if __name__ == "__main__":
 
       <FlowSteps
         steps={[
-          { icon: "✍️", label: "Author signs the release", desc: "Author signs the instruction file and bundled scripts with their private key. Public key is registered in the internal skill registry." },
-          { icon: "📋", label: "Registry records the hash", desc: "Skill registry stores the SHA-256 hash of the signed skill bundle. Any file change invalidates the hash." },
-          { icon: "🔐", label: "Agent verifies on load", desc: "Orchestrator verifies signature and computes the file hash before loading. Either check failing prevents the skill from loading." },
-          { icon: "📓", label: "Audit log records the event", desc: "Every skill load — pass or fail — is written to the audit log. Failed loads trigger an alert." }
+          { icon: "pen", label: "Author signs the release", desc: "Author signs the instruction file and bundled scripts with their private key. Public key is registered in the internal skill registry." },
+          { icon: "clipboard", label: "Registry records the hash", desc: "Skill registry stores the SHA-256 hash of the signed skill bundle. Any file change invalidates the hash." },
+          { icon: "lock-key", label: "Agent verifies on load", desc: "Orchestrator verifies signature and computes the file hash before loading. Either check failing prevents the skill from loading." },
+          { icon: "audit-log", label: "Audit log records the event", desc: "Every skill load — pass or fail — is written to the audit log. Failed loads trigger an alert." }
         ]}
       />
 

@@ -3,8 +3,7 @@ import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { ExamTimer } from "./ExamTimer";
 import Link from "next/link";
-import { ATTACKS } from "@/lib/attacks";
-import { AttackRef } from "./AttackRef";
+import { renderWithAttackRefs } from "@/lib/renderAttackRefs";
 
 interface ExamQuestion {
   id: string;
@@ -25,23 +24,6 @@ interface SubmitResult {
   total: number;
   percentage: number;
   verifyCode?: string;
-}
-
-// Build a regex from all known attack IDs, sorted longest-first so e.g. MAA1 matches before M1
-const ATTACK_IDS_SORTED = Object.keys(ATTACKS).sort((a, b) => b.length - a.length);
-const ATTACK_REF_REGEX = new RegExp(`\\b(${ATTACK_IDS_SORTED.join("|")})\\b`, "g");
-
-function renderWithAttackRefs(text: string): React.ReactNode {
-  const parts = text.split(ATTACK_REF_REGEX);
-  return parts
-    .filter((part) => part !== "")
-    .map((part, idx) =>
-      ATTACKS[part] ? (
-        <AttackRef key={`${idx}-${part}`} id={part} />
-      ) : (
-        part
-      )
-    );
 }
 
 export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamClientProps) {

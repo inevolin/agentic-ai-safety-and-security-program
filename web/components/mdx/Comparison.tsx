@@ -1,3 +1,5 @@
+import { renderWithAttackRefs } from "@/lib/renderAttackRefs";
+
 interface ComparisonSide {
   title: string;
   points: string[];
@@ -19,7 +21,7 @@ export function Comparison({ left, right }: ComparisonProps) {
           {(left.points ?? []).map((pt, i) => (
             <li key={i} className="flex gap-2 text-sm text-slate-400">
               <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-brand-500" aria-hidden="true" />
-              {pt}
+              <span>{renderWithAttackRefs(pt)}</span>
             </li>
           ))}
         </ul>
@@ -38,7 +40,7 @@ export function Comparison({ left, right }: ComparisonProps) {
           {(right.points ?? []).map((pt, i) => (
             <li key={i} className="flex gap-2 text-sm text-slate-400">
               <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-cyan-500" aria-hidden="true" />
-              {pt}
+              <span>{renderWithAttackRefs(pt)}</span>
             </li>
           ))}
         </ul>

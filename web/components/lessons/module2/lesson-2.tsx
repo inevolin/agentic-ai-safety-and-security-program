@@ -10,11 +10,11 @@ export default function Lesson() {
 
       <FlowSteps
         steps={[
-          { icon: "💬", label: "Conversation", desc: "Facts planted in chat — any chat user can do this — AI1" },
-          { icon: "📄", label: "Document / Tool Output", desc: "Notion page content — editable by anyone with doc access — TP1 v3" },
-          { icon: "🗂️", label: "Tables or Lists", desc: "Vendor tables, config files — added via vendor registration form — SP1, CONF1" },
-          { icon: "📋", label: "Structured Fields", desc: "Ticket JSON, git commit notes — submitted through public ticketing and PR flows — ITS1, GIT1" },
-          { icon: "📢", label: "Community Channels", desc: "Slack exports, survey forms — anyone with an email can post — SL1, SURV1" }
+          { icon: "chat-bubble", label: "Conversation", desc: "Facts planted in chat — any chat user can do this — AI1" },
+          { icon: "doc", label: "Document / Tool Output", desc: "Notion page content — editable by anyone with doc access — TP1 v3" },
+          { icon: "folders", label: "Tables or Lists", desc: "Vendor tables, config files — added via vendor registration form — SP1, CONF1" },
+          { icon: "clipboard", label: "Structured Fields", desc: "Ticket JSON, git commit notes — submitted through public ticketing and PR flows — ITS1, GIT1" },
+          { icon: "megaphone", label: "Community Channels", desc: "Slack exports, survey forms — anyone with an email can post — SL1, SURV1" }
         ]}
       />
 

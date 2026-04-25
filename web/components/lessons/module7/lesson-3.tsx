@@ -47,7 +47,7 @@ export default function Lesson() {
 
       <h2>SS1 — Skill Worm</h2>
 
-      <p><AttackRef id="SS1" /> (a skill causes the agent to install a second attacker-controlled skill, propagating attacker behavior to new agent contexts) is the skill-layer equivalent of the <AttackRef id="SP1" />-FC worm. The attacker's skill reproduces itself.</p>
+      <p><AttackRef id="SS1" /> (a skill causes the agent to install a second attacker-controlled skill, propagating attacker behavior to new agent contexts) is the skill-layer equivalent of the <AttackRef id="SP1-FC" /> worm. The attacker's skill reproduces itself.</p>
 
       <AttackCard
         id="SS1"

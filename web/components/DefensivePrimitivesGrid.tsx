@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Reveal } from "./Reveal";
 import { Defeats } from "./Defeats";
+import { renderWithAttackRefs } from "@/lib/renderAttackRefs";
 
 export interface Primitive {
   name: string;
@@ -250,7 +251,7 @@ export function DefensivePrimitivesGrid({ primitives }: { primitives: Primitive[
             </div>
           </div>
 
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-5">{p.desc}</p>
+          <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-5">{renderWithAttackRefs(p.desc)}</p>
 
           <ul className="space-y-2 mb-5">
             {p.bullets.map((b, i) => (
@@ -260,7 +261,7 @@ export function DefensivePrimitivesGrid({ primitives }: { primitives: Primitive[
                   style={{ background: a.from, boxShadow: `0 0 8px ${a.ring}` }}
                   aria-hidden="true"
                 />
-                <span>{b}</span>
+                <span>{renderWithAttackRefs(b)}</span>
               </li>
             ))}
           </ul>

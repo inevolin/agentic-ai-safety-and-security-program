@@ -67,11 +67,11 @@ export default function Lesson() {
       />
 
       <FlowSteps steps={[
-        { icon: "👤", label: "Attacker opens public PR", desc: "Commit body references a migration URL — internal-looking author email, clean company domain" },
-        { icon: "📦", label: "PR merged to SDK repo", desc: "Looks like normal internal documentation — no code review flag" },
-        { icon: "🤖", label: "DevOps AI reads commit history", desc: "Instructions given to the AI: include migration guide links from commits" },
-        { icon: "📝", label: "Runbook update", desc: "URL written as a required pre-deploy migration step" },
-        { icon: "🔧", label: "Engineer acts", desc: "On-call engineer follows the URL from the runbook as standard procedure" }
+        { icon: "user", label: "Attacker opens public PR", desc: "Commit body references a migration URL — internal-looking author email, clean company domain" },
+        { icon: "package", label: "PR merged to SDK repo", desc: "Looks like normal internal documentation — no code review flag" },
+        { icon: "bot", label: "DevOps AI reads commit history", desc: "Instructions given to the AI: include migration guide links from commits" },
+        { icon: "note", label: "Runbook update", desc: "URL written as a required pre-deploy migration step" },
+        { icon: "wrench", label: "Engineer acts", desc: "On-call engineer follows the URL from the runbook as standard procedure" }
       ]} />
 
       <UseCase

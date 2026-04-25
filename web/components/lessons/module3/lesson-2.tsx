@@ -12,11 +12,11 @@ export default function Lesson() {
       <h2>The Authority-Delegation Pattern</h2>
 
       <FlowSteps steps={[
-        { icon: "📋", label: "Authority source", desc: "Wiki or policy says: 'get portal URLs from the IT vendor list'" },
-        { icon: "☠️", label: "Poisoned list", desc: "Attacker URL planted as a normal row — same format as every other entry" },
-        { icon: "🔍", label: "AI combines sources", desc: "The authority source says trust the list. The list has the attacker URL." },
-        { icon: "✅", label: "Each source backs the other", desc: "The wiki backs the list. The list backs the URL. Credibility compounds." },
-        { icon: "📤", label: "Propagation", desc: "Attacker URL written to a runbook as a policy-approved action" }
+        { icon: "clipboard", label: "Authority source", desc: "Wiki or policy says: 'get portal URLs from the IT vendor list'" },
+        { icon: "skull", label: "Poisoned list", desc: "Attacker URL planted as a normal row — same format as every other entry" },
+        { icon: "search", label: "AI combines sources", desc: "The authority source says trust the list. The list has the attacker URL." },
+        { icon: "check-circle", label: "Each source backs the other", desc: "The wiki backs the list. The list backs the URL. Credibility compounds." },
+        { icon: "upload", label: "Propagation", desc: "Attacker URL written to a runbook as a policy-approved action" }
       ]} />
 
       <h2>WIKI1 v4: Each Source Backs the Other</h2>

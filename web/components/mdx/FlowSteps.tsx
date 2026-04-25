@@ -1,11 +1,21 @@
+import { renderWithAttackRefs } from "@/lib/renderAttackRefs";
+import { LessonIcon, isLessonIconKey, type LessonIconKey } from "@/components/icons/LessonIcon";
+
 interface Step {
-  icon: string;
+  icon: LessonIconKey | string;
   label: string;
   desc: string;
 }
 
 interface FlowStepsProps {
   steps?: Step[];
+}
+
+function StepIcon({ icon, sizeClass }: { icon: string; sizeClass: string }) {
+  if (isLessonIconKey(icon)) {
+    return <LessonIcon name={icon} className={`${sizeClass} text-brand-300`} />;
+  }
+  return <span className={sizeClass.includes("w-6") ? "text-2xl" : "text-xl"}>{icon}</span>;
 }
 
 export function FlowSteps({ steps = [] }: FlowStepsProps) {
@@ -21,13 +31,13 @@ export function FlowSteps({ steps = [] }: FlowStepsProps) {
               className="flex flex-col items-center w-28 text-center"
               style={{ animation: `fadeSlideIn 0.4s ease both`, animationDelay: `${i * 120}ms` }}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-brand-700/60 bg-brand-950/60 text-2xl mb-3 shadow-lg shadow-brand-950/50">
-                {step.icon}
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-brand-700/60 bg-brand-950/60 mb-3 shadow-lg shadow-brand-950/50">
+                <StepIcon icon={step.icon} sizeClass="w-6 h-6" />
               </div>
               <p className="text-xs font-semibold text-slate-200 mb-1 leading-snug">
                 {step.label}
               </p>
-              <p className="text-[11px] text-slate-500 leading-snug">{step.desc}</p>
+              <p className="text-[11px] text-slate-500 leading-snug">{renderWithAttackRefs(step.desc)}</p>
             </div>
 
             {i < steps.length - 1 && (
@@ -59,12 +69,12 @@ export function FlowSteps({ steps = [] }: FlowStepsProps) {
               className="flex items-start gap-4 w-full"
               style={{ animation: `fadeSlideIn 0.4s ease both`, animationDelay: `${i * 100}ms` }}
             >
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-brand-700/60 bg-brand-950/60 text-xl shadow-md shadow-brand-950/40">
-                {step.icon}
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-brand-700/60 bg-brand-950/60 shadow-md shadow-brand-950/40">
+                <StepIcon icon={step.icon} sizeClass="w-5 h-5" />
               </div>
               <div className="pb-4">
                 <p className="text-sm font-semibold text-slate-200">{step.label}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{step.desc}</p>
+                <p className="text-xs text-slate-500 mt-0.5">{renderWithAttackRefs(step.desc)}</p>
               </div>
             </div>
 

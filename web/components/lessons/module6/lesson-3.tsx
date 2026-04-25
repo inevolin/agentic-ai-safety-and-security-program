@@ -12,27 +12,27 @@ export default function Lesson() {
       <FlowSteps
         steps={[
           {
-            icon: "🔍",
+            icon: "search",
             label: "Detect",
             desc: "Alert from logging and monitoring, or a human report: AI wrote an unexpected link, unknown domain, or unrecognized external address to an internal document."
           },
           {
-            icon: "🔒",
+            icon: "lock",
             label: "Contain",
             desc: "Lock the affected document before anything else — stop other AIs from reading it. Revoke the session access. Do not delete; preserve for investigation."
           },
           {
-            icon: "🔄",
+            icon: "cycle",
             label: "Rotate",
             desc: "Expire all access tokens the AI session held. Check every document target the session touched — not just the one that was flagged."
           },
           {
-            icon: "📋",
+            icon: "clipboard",
             label: "Root-cause",
             desc: "Export the full action log. Identify the injection point: which input carried the attacker content, and why it was not caught."
           },
           {
-            icon: "📢",
+            icon: "megaphone",
             label: "Disclose",
             desc: "Notify affected stakeholders. If the document was read by another AI or a person before containment, treat all downstream outputs as potentially affected."
           }

@@ -20,7 +20,7 @@ const config: Record<
       <svg
         viewBox="0 0 20 20"
         fill="currentColor"
-        className="w-5 h-5 text-brand-400 flex-shrink-0 mt-0.5"
+        className="w-5 h-5 text-brand-400 flex-shrink-0"
         aria-hidden="true"
       >
         <path
@@ -39,7 +39,7 @@ const config: Record<
       <svg
         viewBox="0 0 20 20"
         fill="currentColor"
-        className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5"
+        className="w-5 h-5 text-emerald-400 flex-shrink-0"
         aria-hidden="true"
       >
         <path d="M10 2a.75.75 0 01.75.75v.258a3.5 3.5 0 012.633 5.482l.745 3.726A.75.75 0 0113.4 13.25H6.6a.75.75 0 01-.728-.934l.745-3.726A3.5 3.5 0 019.25 3.008V2.75A.75.75 0 0110 2zM8.25 16.5a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" />
@@ -54,7 +54,7 @@ const config: Record<
       <svg
         viewBox="0 0 20 20"
         fill="currentColor"
-        className="w-5 h-5 text-warn-400 flex-shrink-0 mt-0.5"
+        className="w-5 h-5 text-warn-400 flex-shrink-0"
         aria-hidden="true"
       >
         <path
@@ -73,7 +73,7 @@ const config: Record<
       <svg
         viewBox="0 0 20 20"
         fill="currentColor"
-        className="w-5 h-5 text-danger-400 flex-shrink-0 mt-0.5"
+        className="w-5 h-5 text-danger-400 flex-shrink-0"
         aria-hidden="true"
       >
         <path
@@ -93,19 +93,26 @@ export function Callout({ type = "info", title, children }: CalloutProps) {
       className={`my-6 rounded-r-lg border-l-4 ${border} ${bg} px-4 py-4`}
       role="note"
     >
-      <div className="flex gap-3">
-        {icon}
-        <div className="min-w-0 flex-1">
-          {title && (
-            <p className={`mb-1 text-sm font-semibold uppercase tracking-wide ${titleColor}`}>
+      {title ? (
+        <>
+          <div className={`flex items-center gap-2 mb-1 ${titleColor}`}>
+            {icon}
+            <p className="text-sm font-semibold uppercase tracking-wide leading-none">
               {title}
             </p>
-          )}
+          </div>
           <div className="text-sm text-slate-300 [&>p]:my-0 [&>p+p]:mt-2">
             {children}
           </div>
+        </>
+      ) : (
+        <div className="flex gap-3 items-start">
+          {icon}
+          <div className="min-w-0 flex-1 text-sm text-slate-300 [&>p]:my-0 [&>p+p]:mt-2">
+            {children}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -13,27 +13,27 @@ export default function Lesson() {
       <FlowSteps
         steps={[
           {
-            icon: "🎯",
+            icon: "target",
             label: "Attacker uses a public surface",
             desc: "Fills out a vendor form, opens a GitHub PR, posts in a Slack community, submits a support ticket, or sends HTTP requests that get logged — no hacking needed"
           },
           {
-            icon: "📥",
+            icon: "inbox",
             label: "Agent reads it",
             desc: "The AI reads the tampered source as part of a normal task — logs, tickets, vendor tables, community exports"
           },
           {
-            icon: "🧠",
+            icon: "brain",
             label: "Agent trusts it",
             desc: "The AI treats the injected content as real information — it cannot tell the difference between legitimate data and an attacker's payload"
           },
           {
-            icon: "✍️",
+            icon: "pen",
             label: "Agent writes it out",
             desc: "The attacker's content ends up in Notion, a CRM, a runbook, or an email — because no write gate was in place"
           },
           {
-            icon: "👤",
+            icon: "user",
             label: "Human acts on it",
             desc: "A person follows the AI's output — not knowing the AI was fed bad data through a normal public channel"
           }

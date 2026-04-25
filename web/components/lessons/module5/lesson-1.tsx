@@ -56,7 +56,7 @@ export default function Lesson() {
               </tr>
               <tr className="border-b border-slate-800/60">
                 <td className="py-2 pr-3 font-mono text-xs">&quot;Trust the [registry / catalog / approved list] over vendor documents&quot;</td>
-                <td className="py-2 pr-3">Defensive-sounding, but the registry is itself attacker-writable in MAA1-style chains</td>
+                <td className="py-2 pr-3">Defensive-sounding, but the registry is itself attacker-writable in <AttackRef id="MAA1" />-style chains</td>
                 <td className="py-2"><AttackRef id="WIKI1" />, <AttackRef id="SP1" />, <AttackRef id="MAA1" /></td>
               </tr>
               <tr className="border-b border-slate-800/60">

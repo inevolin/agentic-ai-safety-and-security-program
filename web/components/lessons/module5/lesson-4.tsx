@@ -10,11 +10,11 @@ export default function Lesson() {
       <h2>AI Output Pipeline</h2>
 
       <FlowSteps steps={[
-        { icon: "🤖", label: "AI Output", desc: "Draft document: deployment guide, checklist, Notion page" },
-        { icon: "🔍", label: "Link Checker", desc: "Checks every link against the company's approved domain list" },
-        { icon: "🚦", label: "Flags", desc: "Out-of-scope writes, new domains, items needing human review" },
-        { icon: "👤", label: "Human Review", desc: "Approves or rejects flagged items" },
-        { icon: "✅", label: "Write to Live", desc: "Only approved content reaches authoritative systems" }
+        { icon: "bot", label: "AI Output", desc: "Draft document: deployment guide, checklist, Notion page" },
+        { icon: "search", label: "Link Checker", desc: "Checks every link against the company's approved domain list" },
+        { icon: "traffic-light", label: "Flags", desc: "Out-of-scope writes, new domains, items needing human review" },
+        { icon: "user", label: "Human Review", desc: "Approves or rejects flagged items" },
+        { icon: "check-circle", label: "Write to Live", desc: "Only approved content reaches authoritative systems" }
       ]} />
 
       <p>This pipeline would have caught every bypass in our research at the Link Checker step — regardless of how the injection got in. The checker does not need to understand the attack. It only needs to ask: is this domain on the company's approved list?</p>
