@@ -439,6 +439,42 @@ Opus's entire catalog-poisoning detection rests on APP_NAME cross-referencing. R
 
 **Log:** `attacks/demos/SL1-slack-community-injection/demo_run_20260423T154627.log`
 
+## Frontend conventions (`web/`)
+
+### Always wrap attack-vector IDs in `<AttackRef>`
+
+Any rendered reference to an attack-vector ID — `SP1`, `AI1`, `MAA1`, `TP1`, `CI1`, `EL1`, `GIT1`, `SL1`, `WIKI1`, `CAL1`, `EMAIL1`, `INV1`, `SURV1`, `ITS1`, `CONF1`, `SC1`, `SC2`, `SS1`, `MT1`, `CS1`, `H1`, `L1`, `L4`, `M1`, `DEF1` (with optional version suffix like `v2`, `v3`, `v5`, `-FC`) — that appears in JSX prose on any page, lesson, or component **must** use the `AttackRef` tooltip component, never bare text.
+
+```tsx
+import { AttackRef } from "@/components/AttackRef";
+import { Defeats } from "@/components/Defeats";
+
+// Single inline reference
+<p>The first <AttackRef id="AI1" /> attempt had a trailing ?ref= parameter.</p>
+
+// Versioned reference (display label preserved, base ID resolved for lookup)
+<p>The <AttackRef id="SL1 v5" /> bypass exploited a webhook documentation gap.</p>
+
+// Comma-separated list (e.g. "Defeats:" lines)
+<p><strong>Defeats:</strong> <Defeats ids="SP1, WIKI1, ITS1, SURV1" />.</p>
+```
+
+`AttackRef` renders an inline pill, shows a hover tooltip with the attack name + one-line summary, and links to the demo folder on GitHub. `Defeats` is a thin wrapper that splits a comma-separated string into per-ID `AttackRef` calls.
+
+**Do NOT wrap:**
+- Heading text — `<h2>SP1: Three-Source Split</h2>` stays plain.
+- React prop string values — `id="SP1"`, `scenario="WIKI1 v4: …"`, `caption="SP1: …"`, `attacker="SP1 (…)"`. These are passed to other components, not rendered as prose.
+- Code blocks (`<pre>` / `<code>` literal content), comments, file/repo slugs.
+- Markdown content inside attacker-payload demos under `attacks/demos/` — this is research data, not site UI.
+
+### Master attack dictionary
+
+`web/lib/attacks.ts` is the single source of truth for attack metadata used by the tooltip. When adding a new attack ID to the research corpus, add an entry there with `{ id, name, summary, slug }` so the tooltip and link work site-wide. The `lookupAttack(label)` helper normalizes version suffixes (`SL1 v5` → `SL1`, `CONF1-MAA1-v2` → `CONF1`) so callers can pass the verbatim display label.
+
+### Tooltip rendering
+
+`AttackRef` renders the tooltip via `createPortal` to `document.body` with `position: fixed` — required because lesson cards, sidebars, and modals frequently use `overflow: hidden` or create stacking contexts that would clip an absolutely-positioned tooltip. Do not refactor back to absolute positioning.
+
 ## Do not
 
 - Do not force-push or amend published commits.
