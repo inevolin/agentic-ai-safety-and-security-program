@@ -184,31 +184,23 @@ export function AttackFlowDiagram() {
       const agentGroup = svg.querySelector<SVGGElement>("#br-agent");
       tl.add(agentGroup ? [agentGroup] : [], { opacity: [0, 1], scale: [0.85, 1], duration: 250 });
 
-      // 2. Inbound icons stagger in
+      // 2. Inbound: node + its arrow paired, cascading
       INBOUND.forEach((_, i) => {
-        const el = svg.querySelector<SVGGElement>(`#br-in-${i}`);
-        if (el) tl.add([el], { opacity: [0, 1], duration: 160, delay: i * 40 }, i === 0 ? "+=50" : "-=100");
+        const nodeEl = svg.querySelector<SVGGElement>(`#br-in-${i}`);
+        const arrEl = svg.querySelector<SVGLineElement>(`#br-inarr-${i}`);
+        if (nodeEl) tl.add([nodeEl], { opacity: [0, 1], duration: 160 }, i === 0 ? "+=50" : "-=60");
+        if (arrEl) tl.add([arrEl], { opacity: [0, 1], duration: 140 }, "-=120");
       });
 
-      // 3. Inbound arrows draw in
-      INBOUND.forEach((_, i) => {
-        const el = svg.querySelector<SVGLineElement>(`#br-inarr-${i}`);
-        if (el) tl.add([el], { opacity: [0, 1], duration: 140, delay: i * 30 }, "-=100");
-      });
-
-      // 4. Outbound icons
+      // 3. Outbound: node + its arrow paired, cascading
       OUTBOUND.forEach((_, i) => {
-        const el = svg.querySelector<SVGGElement>(`#br-out-${i}`);
-        if (el) tl.add([el], { opacity: [0, 1], duration: 160, delay: i * 40 }, i === 0 ? "+=40" : "-=100");
+        const nodeEl = svg.querySelector<SVGGElement>(`#br-out-${i}`);
+        const arrEl = svg.querySelector<SVGLineElement>(`#br-outarr-${i}`);
+        if (nodeEl) tl.add([nodeEl], { opacity: [0, 1], duration: 160 }, i === 0 ? "+=40" : "-=60");
+        if (arrEl) tl.add([arrEl], { opacity: [0, 1], duration: 140 }, "-=120");
       });
 
-      // 5. Outbound arrows
-      OUTBOUND.forEach((_, i) => {
-        const el = svg.querySelector<SVGLineElement>(`#br-outarr-${i}`);
-        if (el) tl.add([el], { opacity: [0, 1], duration: 140, delay: i * 30 }, "-=100");
-      });
-
-      // 6. Pulse ring loops forever
+      // 4. Pulse ring loops forever
       const pulse = svg.querySelector<SVGCircleElement>("#br-pulse");
       if (pulse) {
         animate(pulse, {
@@ -221,7 +213,7 @@ export function AttackFlowDiagram() {
         });
       }
 
-      // 7. Inbound arrows: march dashes toward agent (negative offset = flow in)
+      // 5. Inbound arrows: march dashes toward agent (negative offset = flow in)
       INBOUND.forEach((_, i) => {
         const el = svg.querySelector<SVGLineElement>(`#br-inarr-${i}`);
         if (!el) return;
@@ -234,7 +226,7 @@ export function AttackFlowDiagram() {
         });
       });
 
-      // 8. Outbound arrows: pulse opacity + stroke width for a "shooting" feel
+      // 6. Outbound arrows: pulse opacity + stroke width for a "shooting" feel
       OUTBOUND.forEach((_, i) => {
         const el = svg.querySelector<SVGLineElement>(`#br-outarr-${i}`);
         if (!el) return;
@@ -249,7 +241,7 @@ export function AttackFlowDiagram() {
         });
       });
 
-      // 9. Source nodes gentle breathing
+      // 7. Source nodes gentle breathing
       INBOUND.forEach((_, i) => {
         const el = svg.querySelector<SVGGElement>(`#br-in-${i} circle`);
         if (!el) return;
