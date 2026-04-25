@@ -289,7 +289,7 @@ If you build on this, keep the framing defender-first. If you find a new bypass 
 
 If you're unsure whether your idea fits, open an issue and ask. Speculative ideas welcome — most of what's in this repo started as one.
 
-Reach out: **ilja.nevolin@gmail.com** · or open an issue on the [tracker](https://github.com/inevolin/agentic-ai-safety-and-security-program/issues).
+**Get in touch via GitHub** — open an [issue](https://github.com/inevolin/agentic-ai-safety-and-security-program/issues) or a [pull request](https://github.com/inevolin/agentic-ai-safety-and-security-program/pulls). All collaboration happens in the open on the tracker.
 
 ---
 
