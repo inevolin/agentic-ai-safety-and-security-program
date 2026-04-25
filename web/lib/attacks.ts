@@ -5,7 +5,7 @@ export type AttackMeta = {
   slug: string | null;
 };
 
-export const REPO_BASE = "https://github.com/inevolin/ai-agent-security-research";
+export const REPO_BASE = "https://github.com/inevolin/agentic-ai-safety-and-security-program";
 
 export function demoUrl(slug: string): string {
   return `${REPO_BASE}/tree/main/attacks/demos/${slug}`;

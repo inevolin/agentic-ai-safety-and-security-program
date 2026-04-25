@@ -97,7 +97,7 @@ const STATS = [
   { value: 7,  suffix: "", label: "Course modules",                       icon: STAT_ICONS.layers },
 ];
 
-const REPO_BASE = "https://github.com/inevolin/ai-agent-security-research";
+const REPO_BASE = "https://github.com/inevolin/agentic-ai-safety-and-security-program";
 const FINDINGS_URL = `${REPO_BASE}/blob/main/attacks/demos/FINDINGS.md`;
 const MITIGATIONS_URL = `${REPO_BASE}/blob/main/docs/mitigations/ai-agent-security-mitigations.md`;
 const demoUrl = (slug: string) => `${REPO_BASE}/tree/main/attacks/demos/${slug}`;
@@ -1134,7 +1134,7 @@ export default function Home() {
             <ClaudeSponsorBadge />
           </div>
           <div className="flex items-center gap-6 text-sm">
-            <Link href="/verify/demo" className="text-slate-500 hover:text-slate-300 transition-colors">
+            <Link href="/verify" className="text-slate-500 hover:text-slate-300 transition-colors">
               Verify certificate
             </Link>
             <Link href="/learn" className="text-slate-500 hover:text-slate-300 transition-colors">

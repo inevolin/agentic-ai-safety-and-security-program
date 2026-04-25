@@ -59,7 +59,7 @@ Keep logs terse and factual. They are a handover document for future Claude sess
 
 ## Git commits — **REQUIRED after every log write**
 
-After writing or updating a log file (end of a work unit, end of a session, or any meaningful batch completion), **commit all changed/new files** to the local git repo. The remote is `https://github.com/inevolin/ai-agent-security-research` (private).
+After writing or updating a log file (end of a work unit, end of a session, or any meaningful batch completion), **commit all changed/new files** to the local git repo. The remote is `https://github.com/inevolin/agentic-ai-safety-and-security-program` (private).
 
 **Commit workflow:**
 ```bash
