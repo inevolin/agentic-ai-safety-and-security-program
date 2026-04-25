@@ -9,12 +9,12 @@ import {
 const styles = StyleSheet.create({
   page: {
     backgroundColor: "#ffffff",
-    padding: 60,
+    padding: 36,
     fontFamily: "Helvetica",
   },
   border: {
     border: "4pt solid #1e3a5f",
-    padding: 40,
+    padding: 28,
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#6b7280",
     textAlign: "center",
-    marginBottom: 40,
+    marginBottom: 24,
   },
   label: {
     fontSize: 12,
@@ -44,9 +44,9 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     color: "#111827",
     textAlign: "center",
-    marginBottom: 32,
+    marginBottom: 20,
     borderBottom: "1pt solid #d1d5db",
-    paddingBottom: 16,
+    paddingBottom: 12,
   },
   body: {
     fontSize: 12,
@@ -60,10 +60,10 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     color: "#1e3a5f",
     textAlign: "center",
-    marginBottom: 32,
+    marginBottom: 20,
   },
   verifyBlock: {
-    marginTop: 32,
+    marginTop: 20,
     padding: 12,
     backgroundColor: "#f9fafb",
     borderRadius: 4,

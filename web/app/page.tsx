@@ -4,7 +4,8 @@ import { Reveal } from "@/components/Reveal";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { SplitHeading } from "@/components/SplitHeading";
 import { FAQPanel } from "@/components/FAQPanel";
-import { TipsMarquee } from "@/components/TipsMarquee";
+import { IntelGrid } from "@/components/IntelGrid";
+import { KeyInsights } from "@/components/KeyInsights";
 import { DefensivePrimitivesGrid } from "@/components/DefensivePrimitivesGrid";
 import { AttackFlowDiagram } from "@/components/AttackFlowDiagram";
 import { CurriculumLine } from "@/components/CurriculumLine";
@@ -1081,9 +1082,100 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Practitioner tips marquee ─────────────────── */}
-      <section className="py-16 overflow-hidden border-y border-slate-800">
-        <TipsMarquee tips={TIPS} />
+      {/* ── Key insights ──────────────────────────────── */}
+      <section className="py-24 border-y border-slate-800/60">
+        <div className="section-content">
+          <Reveal className="text-center mb-12">
+            <p className="font-mono text-xs text-slate-500 tracking-widest uppercase mb-3">{"// Practitioner briefing"}</p>
+            <h2 className="text-3xl font-bold text-white">Three findings that change how you build</h2>
+            <p className="text-slate-400 mt-3 max-w-xl mx-auto text-sm">
+              Derived from 21 controlled attacks against Claude Haiku, Sonnet, and Opus — 16+ confirmed bypasses, zero exploit code required.
+            </p>
+          </Reveal>
+          <KeyInsights />
+        </div>
+      </section>
+
+      {/* ── Economic Impact ───────────────────────────── */}
+      <section className="py-24 bg-slate-900/40">
+        <div className="section-content">
+          <Reveal className="text-center mb-12">
+            <p className="text-cyan-400 font-mono text-sm mb-3">Why this matters</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white">The cost of getting this wrong</h2>
+            <p className="mt-3 text-slate-400 max-w-2xl mx-auto text-sm">
+              AI agents act on real systems. When they&apos;re poisoned, the damage isn&apos;t theoretical — it lands in financial, regulatory, and reputational columns most security programs already track.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
+            <Reveal delay={0}>
+              <div className="glass rounded-2xl border border-slate-700/60 p-6 text-center h-full flex flex-col justify-between">
+                <div>
+                  <p className="text-4xl sm:text-5xl font-bold text-danger-400 mb-2">$4.88M</p>
+                  <p className="text-sm font-semibold text-white mb-1">Average cost of a data breach (2024)</p>
+                </div>
+                <p className="text-xs text-slate-500 mt-3">IBM Cost of a Data Breach Report 2024</p>
+              </div>
+            </Reveal>
+            <Reveal delay={80}>
+              <div className="glass rounded-2xl border border-slate-700/60 p-6 text-center h-full flex flex-col justify-between">
+                <div>
+                  <p className="text-4xl sm:text-5xl font-bold text-warn-400 mb-2">$2.9B</p>
+                  <p className="text-sm font-semibold text-white mb-1">BEC / impersonation losses in 2023 (US)</p>
+                </div>
+                <p className="text-xs text-slate-500 mt-3">FBI IC3 Annual Report 2023</p>
+              </div>
+            </Reveal>
+            <Reveal delay={160}>
+              <div className="glass rounded-2xl border border-slate-700/60 p-6 text-center h-full flex flex-col justify-between">
+                <div>
+                  <p className="text-4xl sm:text-5xl font-bold text-brand-400 mb-2">7%</p>
+                  <p className="text-sm font-semibold text-white mb-1">Max EU AI Act fine on global turnover (prohibited-AI violations)</p>
+                </div>
+                <p className="text-xs text-slate-500 mt-3">Regulation (EU) 2024/1689</p>
+              </div>
+            </Reveal>
+            <Reveal delay={240}>
+              <div className="glass rounded-2xl border border-slate-700/60 p-6 text-center h-full flex flex-col justify-between">
+                <div>
+                  <p className="text-4xl sm:text-5xl font-bold text-cyan-400 mb-2">4%</p>
+                  <p className="text-sm font-semibold text-white mb-1">Max GDPR fine on global turnover for severe violations involving personal data</p>
+                </div>
+                <p className="text-xs text-slate-500 mt-3">GDPR Art. 83(5)</p>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal delay={320}>
+            <p className="text-slate-400 text-sm max-w-3xl mx-auto mt-10 text-center leading-relaxed">
+              The cost vector specific to agentic AI is not a single record breach — it&apos;s a <em>poisoned write</em>. One attacker-planted URL in a runbook, one bad payment portal in a checklist, one deployment-gate phishing link — all stem from inputs anyone with an email address can submit. The controls that prevent it cost weeks; the incident costs years.
+            </p>
+            <div className="text-center mt-6">
+              <Link href="#curriculum" className="text-cyan-400 font-mono text-sm hover:text-cyan-300 transition-colors">
+                See the 10 guardrails →
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Field Intel grid ──────────────────────────── */}
+      <section className="relative py-24 border-y border-slate-800 overflow-hidden">
+        {/* Background blobs */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+          <div className="absolute -top-32 left-1/4 w-80 h-80 bg-danger-600/10 rounded-full blur-3xl animate-pulse-glow" />
+          <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-cyan-700/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
+        </div>
+        <div className="section-content relative z-10">
+          <Reveal className="text-center mb-12">
+            <p className="font-mono text-xs text-cyan-400 tracking-widest uppercase mb-3">Field Intel</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white">Ten signals from the front line</h2>
+            <p className="mt-3 text-slate-400 max-w-2xl mx-auto text-sm">
+              Patterns extracted from 21 confirmed attacks — four ATTACK SURFACE exposures, three DEFENSE primitives that held, three HEURISTIC indicators that reliably flag injection attempts.
+            </p>
+          </Reveal>
+          <IntelGrid tips={TIPS} />
+        </div>
       </section>
 
       {/* ── FAQ ───────────────────────────────────────── */}

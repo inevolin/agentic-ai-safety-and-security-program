@@ -13,6 +13,7 @@ export function AttackRef({ id }: AttackRefProps) {
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState<{ top: number; left: number } | null>(null);
   const [mounted, setMounted] = useState(false);
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => setMounted(true), []);
 
@@ -34,8 +35,14 @@ export function AttackRef({ id }: AttackRefProps) {
     };
   }, [open, updateCoords]);
 
-  const show = () => setOpen(true);
-  const hide = () => setOpen(false);
+  const show = useCallback(() => {
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    setOpen(true);
+  }, []);
+
+  const hide = useCallback(() => {
+    hideTimer.current = setTimeout(() => setOpen(false), 180);
+  }, []);
 
   const pillClasses =
     "relative inline-flex items-center font-mono text-xs rounded border " +
@@ -48,12 +55,13 @@ export function AttackRef({ id }: AttackRefProps) {
   const tooltip = mounted && open && coords ? createPortal(
     <div
       role="tooltip"
+      onMouseEnter={show}
+      onMouseLeave={hide}
       style={{
         position: "fixed",
         top: coords.top,
         left: coords.left,
         transform: "translate(-50%, calc(-100% - 8px))",
-        pointerEvents: "none",
         zIndex: 2147483647,
       }}
       className={
@@ -69,7 +77,14 @@ export function AttackRef({ id }: AttackRefProps) {
             <div className="font-bold text-sm mb-1 light:text-slate-900">{meta.name}</div>
             <div className="text-xs leading-relaxed text-slate-400 dark:text-slate-400 light:text-slate-600">{meta.summary}</div>
             {meta.slug && (
-              <div className="mt-2 pt-2 border-t border-slate-700/60 light:border-slate-200 text-xs text-cyan-400 dark:text-cyan-400 light:text-cyan-600">View demo ↗</div>
+              <a
+                href={demoUrl(meta.slug)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 pt-2 border-t border-slate-700/60 light:border-slate-200 text-xs text-cyan-400 dark:text-cyan-400 light:text-cyan-600 hover:text-cyan-200 flex items-center gap-1 transition-colors no-underline"
+              >
+                View demo ↗
+              </a>
             )}
           </>
         ) : (

@@ -103,6 +103,11 @@
 
   html.light .text-slate-400\/80   { color: rgba(100,116,139,0.8); }
 
+  /* ─── AttackRef pill — dark cyan text on light backgrounds ─── */
+  html.light .text-cyan-300        { color: #0e7490; }
+  html.light .hover\:text-cyan-200:hover { color: #0e7490; }
+  html.light .border-slate-600\/60 { border-color: rgba(71,85,105,0.45); }
+
   /* ─── Module badge — solid in light mode (prevent dot-grid bleed) ─── */
   html.light .module-badge.bg-brand-800,
   html.light .module-badge.bg-brand-800\/60    { background-color: #bfdbfe; }
@@ -534,6 +539,95 @@
     @apply text-xs px-2 py-0.5 rounded-full font-medium;
   }
 
+  /* ─── History timeline — spine ─── */
+  .history-spine {
+    background: linear-gradient(
+      to bottom,
+      rgba(99, 102, 241, 0.95) 0%,
+      rgba(34, 211, 238, 0.85) 45%,
+      rgba(244, 63, 94, 0.85) 80%,
+      rgba(244, 63, 94, 0.25) 100%
+    );
+    box-shadow: 0 0 14px rgba(34, 211, 238, 0.35);
+  }
+  html.light .history-spine {
+    background: linear-gradient(
+      to bottom,
+      #a5b4fc 0%,
+      #67e8f9 45%,
+      #fda4af 80%,
+      rgba(253, 164, 175, 0.18) 100%
+    );
+    box-shadow: 0 0 10px rgba(103, 232, 249, 0.45);
+  }
+
+  /* ─── History timeline — outcome color tokens (shared) ─── */
+  .history-tone--milestone        { @apply bg-brand-900/60 border-brand-700/60 text-brand-300; }
+  .history-tone--attack-success   { @apply bg-danger-900/60 border-danger-700/60 text-danger-300; }
+  .history-tone--defense-held     { @apply bg-emerald-950/50 border-emerald-800 text-emerald-400; }
+  .history-tone--partial          { @apply bg-warn-900/60 border-warn-700/60 text-warn-300; }
+
+  html.light .history-tone--milestone {
+    background-color: #eef2ff; border-color: #c7d2fe; color: #3730a3;
+  }
+  html.light .history-tone--attack-success {
+    background-color: #fff1f2; border-color: #fecdd3; color: #9f1239;
+  }
+  html.light .history-tone--defense-held {
+    background-color: #ecfdf5; border-color: #a7f3d0; color: #047857;
+  }
+  html.light .history-tone--partial {
+    background-color: #fffbeb; border-color: #fde68a; color: #92400e;
+  }
+
+  /* ─── History timeline — node rings (theme-aware) ─── */
+  .history-node--milestone        { box-shadow: 0 0 0 3px rgba(15,23,42,0.9); }
+  .history-node--attack-success   { box-shadow: 0 0 0 3px rgba(15,23,42,0.9), 0 0 18px rgba(244,63,94,0.55); }
+  .history-node--defense-held     { box-shadow: 0 0 0 3px rgba(15,23,42,0.9), 0 0 18px rgba(16,185,129,0.55); }
+  .history-node--partial          { box-shadow: 0 0 0 3px rgba(15,23,42,0.9); }
+
+  html.light .history-node--milestone {
+    box-shadow: 0 0 0 3px #ffffff, 0 0 0 5px rgba(99,102,241,0.28);
+  }
+  html.light .history-node--attack-success {
+    box-shadow: 0 0 0 3px #ffffff, 0 0 0 5px rgba(244,63,94,0.30), 0 0 16px rgba(244,63,94,0.45);
+  }
+  html.light .history-node--defense-held {
+    box-shadow: 0 0 0 3px #ffffff, 0 0 0 5px rgba(16,185,129,0.30), 0 0 16px rgba(16,185,129,0.45);
+  }
+  html.light .history-node--partial {
+    box-shadow: 0 0 0 3px #ffffff, 0 0 0 5px rgba(245,158,11,0.30);
+  }
+
+  /* ─── History timeline — node fill colors (light tweaks) ─── */
+  html.light .history-node-fill--milestone      { background-color: #6366f1 !important; }
+  html.light .history-node-fill--attack-success { background-color: #f43f5e !important; }
+  html.light .history-node-fill--defense-held   { background-color: #10b981 !important; }
+  html.light .history-node-fill--partial        { background-color: #f59e0b !important; }
+
+  /* ─── History timeline — commit hash badge ─── */
+  .commit-badge {
+    @apply inline-flex items-center font-mono text-xs px-1.5 py-0.5 rounded border transition-colors;
+    background-color: rgba(8, 51, 68, 0.55);
+    border-color: rgba(8, 145, 178, 0.45);
+    color: #67e8f9;
+  }
+  .commit-badge:hover {
+    background-color: rgba(14, 116, 144, 0.45);
+    border-color: rgba(34, 211, 238, 0.7);
+    color: #a5f3fc;
+  }
+  html.light .commit-badge {
+    background-color: #ecfeff;
+    border-color: #67e8f9;
+    color: #0e7490;
+  }
+  html.light .commit-badge:hover {
+    background-color: #cffafe;
+    border-color: #06b6d4;
+    color: #155e75;
+  }
+
   /* ─── Section constraint ─── */
   .section-content {
     @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
@@ -604,23 +698,22 @@ html.light .btn-primary > * {
 html.light .btn-primary { background-color: #2563eb !important; }
 html.light .btn-primary:hover { background-color: #1d4ed8 !important; }
 
-/* Inline-gradient CTA card (page.tsx "Ready to ship safer agents?") — scoped to
-   `background: linear-gradient(...)` so it does NOT touch gradient-text usage
-   which sets `background-image: linear-gradient(...)` instead. */
-html.light [style*="background: linear-gradient"],
-html.light [style*="background: linear-gradient"] h1,
-html.light [style*="background: linear-gradient"] h2,
-html.light [style*="background: linear-gradient"] h3,
-html.light [style*="background: linear-gradient"] h4,
-html.light [style*="background: linear-gradient"] p,
-html.light [style*="background: linear-gradient"] span,
-html.light [style*="background: linear-gradient"] a.text-white {
+/* CTA gradient card — keep all text white in light mode. Uses explicit class
+   rather than inline-style attribute match (React strips the space after
+   `background:` so style*="background: linear-gradient" misses). */
+html.light .cta-gradient-card,
+html.light .cta-gradient-card h1,
+html.light .cta-gradient-card h2,
+html.light .cta-gradient-card h3,
+html.light .cta-gradient-card h4,
+html.light .cta-gradient-card p,
+html.light .cta-gradient-card span,
+html.light .cta-gradient-card a.text-white {
   color: #ffffff !important;
   border-color: rgba(255,255,255,0.4) !important;
 }
-html.light [style*="background: linear-gradient"] a.bg-white {
-  color: #1e3a8a !important;
-}
+html.light .cta-gradient-card .text-blue-200 { color: #dbeafe !important; }
+html.light .cta-gradient-card a.bg-white { color: #1e3a8a !important; }
 
 /* Selection still white on blue */
 html.light ::selection { background-color: #2563eb; color: #ffffff; }
@@ -686,6 +779,17 @@ html.light .bg-emerald-950\/20 .text-emerald-400 {
   color: #047857 !important;
 }
 
+/* ─── Certificate card — always dark bg, restore white ink in light mode ─── */
+html.light .cert-card .text-white       { color: #ffffff !important; }
+html.light .cert-card .text-slate-300   { color: #cbd5e1 !important; }
+html.light .cert-card .text-slate-400   { color: #94a3b8 !important; }
+html.light .cert-card .text-slate-500   { color: #64748b !important; }
+html.light .cert-card .text-cyan-400    { color: #22d3ee !important; }
+html.light .cert-card .text-brand-400   { color: #60a5fa !important; }
+html.light .cert-card .bg-slate-800\/60 { background-color: rgba(15,23,42,0.6) !important; }
+html.light .cert-card .border-slate-700\/50 { border-color: rgba(51,65,85,0.5) !important; }
+html.light .cert-card .bg-slate-700     { background-color: #334155 !important; }
+
 /* Research & methodology section — softer tone in light mode */
 html.light .research-section {
   background-color: #eef2f7 !important;
@@ -720,3 +824,17 @@ html.light .research-title-gradient {
 /* Research section subhead — ensure readable in light mode */
 html.light .research-section .text-slate-400 { color: #334155 !important; }
 html.light .research-section .text-slate-500 { color: #475569 !important; }
+
+/* Defensive primitives grid — theme-aware surfaces */
+.primitive-detail { background-color: var(--t-surface-solid); }
+html.light .primitive-detail { background-color: #ffffff; border-color: rgba(203,213,225,0.6) !important; }
+html.light .primitive-tile { background-color: #ffffff !important; border-color: rgba(203,213,225,0.6) !important; }
+html.light .primitive-tile .text-slate-300 { color: #334155; }
+html.light .primitive-detail .text-slate-300 { color: #1e293b !important; }
+html.light .primitive-detail .text-slate-400 { color: #334155 !important; }
+html.light .primitive-detail .text-slate-500 { color: #475569 !important; }
+html.light .primitive-detail .border-slate-800\/60 { border-color: rgba(148,163,184,0.35) !important; }
+
+/* Module curriculum tiles — theme-aware surfaces */
+.module-tile { background-color: var(--t-surface-solid); }
+html.light .module-tile { background-color: #ffffff !important; border-color: rgba(203,213,225,0.6) !important; }

@@ -37,7 +37,7 @@ export default async function CertificatePage({
         </div>
 
         {/* Certificate card */}
-        <div className="relative overflow-hidden rounded-2xl border-2 border-brand-600/50 bg-gradient-to-br from-brand-950 via-slate-900 to-slate-900 shadow-2xl shadow-brand-900/30">
+        <div className="cert-card relative overflow-hidden rounded-2xl border-2 border-brand-600/50 bg-gradient-to-br from-brand-950 via-slate-900 to-slate-900 shadow-2xl shadow-brand-900/30">
           {/* Background decoration */}
           <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, #3b82f6 0%, transparent 50%), radial-gradient(circle at 80% 80%, #06b6d4 0%, transparent 50%)" }} />
 
@@ -88,10 +88,8 @@ export default async function CertificatePage({
             Download PDF
           </a>
           <Link
-            href={`/verify/${cert.verifyCode}`}
+            href="/verify"
             className="btn-outline flex-1 justify-center py-3 text-base"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             Verify certificate
           </Link>

@@ -107,6 +107,40 @@ export default function Lesson() {
         ]}
       />
 
+      <h2>Self-Audit Decision Tree</h2>
+
+      <p>Walk every AI deployment through these four gates before sign-off — if any gate is unowned or undecided, the deployment is not ready.</p>
+
+      <ol className="my-6 space-y-4 list-none p-0">
+        <li className="glass rounded-xl border border-slate-700/60 p-5">
+          <p className="text-sm font-semibold text-white mb-1">Gate 1 — &quot;Does this AI read any input it does not hand-author?&quot;</p>
+          <p className="text-xs text-slate-400 mb-1"><span className="text-cyan-400 font-mono">Owner: App Team</span></p>
+          <p className="text-sm text-slate-300">If YES → continue to Gate 2. If NO → no AI threat surface; document the scope and exit the audit.</p>
+        </li>
+        <li className="glass rounded-xl border border-slate-700/60 p-5">
+          <p className="text-sm font-semibold text-white mb-1">Gate 2 — &quot;Which public surfaces feed those inputs?&quot;</p>
+          <p className="text-xs text-slate-400 mb-1"><span className="text-cyan-400 font-mono">Owner: CISO</span></p>
+          <p className="text-sm text-slate-300">List them explicitly: forms, tickets, CI logs, Slack channels, registries, vendor documents. Each surface must appear in the org attack-surface registry before the deployment proceeds.</p>
+        </li>
+        <li className="glass rounded-xl border border-slate-700/60 p-5">
+          <p className="text-sm font-semibold text-white mb-1">Gate 3 — &quot;What is the AI allowed to write to, and which of those writes are read by another AI later?&quot;</p>
+          <p className="text-xs text-slate-400 mb-1"><span className="text-cyan-400 font-mono">Owner: IT Admin</span></p>
+          <p className="text-sm text-slate-300">Write scopes must be enumerated by exact page ID or record path — not by system name. Any write that a downstream AI later treats as authoritative requires a human review gate between them.</p>
+        </li>
+        <li className="glass rounded-xl border border-danger-800/40 p-5">
+          <p className="text-sm font-semibold text-white mb-1">Gate 4 — &quot;Which prohibited pattern, if any, does this deployment match?&quot;</p>
+          <p className="text-xs text-slate-400 mb-1"><span className="text-danger-400 font-mono">Owner: CISO + Legal</span></p>
+          <p className="text-sm text-slate-300 mb-2">The four prohibited patterns are:</p>
+          <ul className="text-sm text-slate-300 list-disc pl-5 space-y-1">
+            <li>Sub-tier write to a shared data store without a human review gate before downstream read</li>
+            <li>Blanket &quot;include all URLs from [data source]&quot; operator directives</li>
+            <li>Shared long-lived service-account tokens across AI sessions</li>
+            <li>OAuth or tool scope granted beyond what the stated task requires</li>
+          </ul>
+          <p className="text-sm text-slate-300 mt-2">Any match blocks deployment until the pattern is remediated.</p>
+        </li>
+      </ol>
+
       <KeyPoint>
         Security ownership without specifics is no ownership at all. Every control needs a named role, a launch gate, and a quarterly review date — or it will not exist when you need it. Start with one question: which public input surfaces does your AI read from? That list is your attack surface. Everything else follows from it.
       </KeyPoint>
