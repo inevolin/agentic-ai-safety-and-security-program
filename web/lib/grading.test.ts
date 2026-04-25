@@ -32,7 +32,7 @@ describe("scoreExam", () => {
     examQuestions.forEach((q, i) => {
       answers[q.id] = i < 32 ? 0 : 1;
     });
-    const result = scoreExam(examQuestions, answers);
+    const result = scoreExam(examQuestions, answers, 32);
     expect(result.score).toBe(32);
     expect(result.passed).toBe(true);
     expect(result.percentage).toBe(80);
@@ -47,7 +47,7 @@ describe("scoreExam", () => {
     examQuestions.forEach((q, i) => {
       answers[q.id] = i < 31 ? 0 : 1;
     });
-    const result = scoreExam(examQuestions, answers);
+    const result = scoreExam(examQuestions, answers, 32);
     expect(result.passed).toBe(false);
   });
 });

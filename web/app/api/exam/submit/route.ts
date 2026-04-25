@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { scoreExam } from "@/lib/grading";
+import { getExamConfig } from "@/lib/exam-config";
 import fs from "fs";
 import path from "path";
 
@@ -15,8 +16,9 @@ export async function POST(req: Request) {
 
   const questionsPath = path.join(process.cwd(), "content", "exam", "questions.json");
   const examData = JSON.parse(fs.readFileSync(questionsPath, "utf-8"));
+  const { passingScore } = getExamConfig();
 
-  const result = scoreExam(examData.questions, answers);
+  const result = scoreExam(examData.questions, answers, passingScore);
 
   if (result.passed) {
     const cert = await prisma.certificate.create({

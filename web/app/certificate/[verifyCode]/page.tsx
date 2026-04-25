@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { getExamConfig } from "@/lib/exam-config";
 import Link from "next/link";
 
 export default async function CertificatePage({
@@ -12,7 +13,8 @@ export default async function CertificatePage({
   });
   if (!cert) notFound();
 
-  const percentage = Math.round((cert.score / 40) * 100);
+  const { totalQuestions } = getExamConfig();
+  const percentage = Math.round((cert.score / totalQuestions) * 100);
   const dateStr = cert.issuedAt.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -57,7 +59,7 @@ export default async function CertificatePage({
 
             <div className="flex items-center justify-center gap-8">
               <div>
-                <div className="text-3xl font-bold text-white tabular-nums">{cert.score}/40</div>
+                <div className="text-3xl font-bold text-white tabular-nums">{cert.score}/{totalQuestions}</div>
                 <div className="text-xs text-slate-500 mt-1">Score</div>
               </div>
               <div className="h-10 w-px bg-slate-700" />

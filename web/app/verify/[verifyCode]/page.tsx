@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { getExamConfig } from "@/lib/exam-config";
 import Link from "next/link";
 
 export default async function VerifyPage({
@@ -40,7 +41,8 @@ export default async function VerifyPage({
     );
   }
 
-  const percentage = Math.round((cert.score / 40) * 100);
+  const { totalQuestions } = getExamConfig();
+  const percentage = Math.round((cert.score / totalQuestions) * 100);
   const dateStr = cert.issuedAt.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -64,7 +66,7 @@ export default async function VerifyPage({
           {[
             { label: "Recipient", value: cert.name },
             { label: "Program", value: "AI Safety & Security Certification" },
-            { label: "Score", value: `${cert.score}/40 (${percentage}%)` },
+            { label: "Score", value: `${cert.score}/${totalQuestions} (${percentage}%)` },
             { label: "Issue date", value: dateStr },
             { label: "Verification ID", value: cert.verifyCode, mono: true },
           ].map(({ label, value, mono }) => (

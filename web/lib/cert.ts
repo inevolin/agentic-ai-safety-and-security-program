@@ -3,6 +3,7 @@ import type { DocumentProps } from "@react-pdf/renderer";
 import { createElement } from "react";
 import type { ReactElement } from "react";
 import { CertificatePDF } from "@/components/CertificatePDF";
+import { getExamConfig } from "@/lib/exam-config";
 
 interface CertData {
   name: string;
@@ -17,11 +18,12 @@ export async function generateCertificatePDF(
 ): Promise<Buffer> {
   const issuer = process.env.CERT_ISSUER || "AI Security Research";
   const verifyUrl = `${baseUrl}/verify/${data.verifyCode}`;
+  const { totalQuestions } = getExamConfig();
 
   const element = createElement(CertificatePDF, {
     name: data.name,
     score: data.score,
-    total: 40,
+    total: totalQuestions,
     issuedAt: data.issuedAt,
     verifyCode: data.verifyCode,
     issuer,
