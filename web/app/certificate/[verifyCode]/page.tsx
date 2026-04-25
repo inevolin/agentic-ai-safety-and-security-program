@@ -90,7 +90,9 @@ export default async function CertificatePage({
             Download PDF
           </a>
           <Link
-            href="/verify"
+            href={`/verify?code=${cert.verifyCode}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-outline flex-1 justify-center py-3 text-base"
           >
             Verify certificate

@@ -1,10 +1,19 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function VerifyLandingPage() {
+  return (
+    <Suspense fallback={null}>
+      <VerifyForm />
+    </Suspense>
+  );
+}
+
+function VerifyForm() {
   const router = useRouter();
-  const [code, setCode] = useState("");
+  const searchParams = useSearchParams();
+  const [code, setCode] = useState(searchParams.get("code") ?? "");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
