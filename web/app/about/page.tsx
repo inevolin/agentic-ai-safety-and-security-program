@@ -148,7 +148,7 @@ export default function AboutPage() {
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-white">What&apos;s at stake — in numbers</h2>
             <p className="mt-2 text-slate-400 text-sm max-w-xl mx-auto">
-              The threat model is not abstract. Here is what AI safety failures cost organisations today.
+              Real dollars, real fines. The bill for getting AI security wrong is already on the books.
             </p>
           </div>
         </Reveal>
