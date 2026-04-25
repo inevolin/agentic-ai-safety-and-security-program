@@ -1026,16 +1026,16 @@ export default function Home() {
                         </div>
                         <div className="flex flex-wrap gap-1.5 mt-2 items-center">
                           {m.topics.map((t) => (
-                            ATTACKS[t] ? (
-                              <AttackRef key={t} id={t} />
-                            ) : (
-                              <span
-                                key={t}
-                                className="text-xs px-2 py-0.5 rounded-full bg-slate-800/60 text-slate-400 border border-slate-700/50 group-hover:border-brand-700/40 group-hover:text-slate-300 transition-colors"
-                              >
-                                {t}
-                              </span>
-                            )
+                            <span
+                              key={t}
+                              className={
+                                ATTACKS[t]
+                                  ? "text-xs px-2 py-0.5 rounded-full bg-brand-900/40 text-brand-300 border border-brand-700/50 font-mono group-hover:border-brand-500/60 group-hover:text-brand-200 transition-colors"
+                                  : "text-xs px-2 py-0.5 rounded-full bg-slate-800/60 text-slate-400 border border-slate-700/50 group-hover:border-brand-700/40 group-hover:text-slate-300 transition-colors"
+                              }
+                            >
+                              {t}
+                            </span>
                           ))}
                         </div>
                       </div>
