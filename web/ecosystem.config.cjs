@@ -1,3 +1,4 @@
+// pm2 process for ai.nevolin.be — deployed by .github/workflows/deploy-web.yml
 module.exports = {
   apps: [
     {
