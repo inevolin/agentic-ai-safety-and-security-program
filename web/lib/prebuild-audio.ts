@@ -48,10 +48,12 @@ function discoverLessons(): LessonRef[] {
 }
 
 export async function runPrebuild(): Promise<void> {
-  if (true) return; // skip prebuild for now, TTS is fast enough on demand and Gemini costs are non-trivial. Revisit if we add more audio or want to optimize cold start.
+  // if (true) return; // skip prebuild for now, TTS is fast enough on demand and Gemini costs are non-trivial. Revisit if we add more audio or want to optimize cold start.
 
+  // TTS_SKIP_EXISTING=1 → only generate missing files. Skips hash-mismatch regen and stale-prune sweep.
+  const SKIP_EXISTING = process.env.TTS_SKIP_EXISTING === "1";
   const lessons = discoverLessons();
-  console.log(`[tts-prebuild] start (${lessons.length} lessons)`);
+  console.log(`[tts-prebuild] start (${lessons.length} lessons)${SKIP_EXISTING ? " [skip-existing]" : ""}`);
 
   // Filenames the current transcripts hash to — anything else in /public/audio is stale.
   const expected = new Set<string>();
@@ -76,11 +78,19 @@ export async function runPrebuild(): Promise<void> {
 
   // Intro audio (hand-written dialogue, scripter skipped).
   try {
-    const r = await getOrCreateIntroAudio({ dialogue: INTRO_DIALOGUE });
-    if (r.cacheHit) hit++;
-    else {
-      console.log(`[tts-prebuild] gen intro`);
-      generated++;
+    if (
+      SKIP_EXISTING &&
+      fs.existsSync(AUDIO_DIR) &&
+      fs.readdirSync(AUDIO_DIR).some((f) => f.startsWith("intro-") && f.endsWith(".wav"))
+    ) {
+      hit++;
+    } else {
+      const r = await getOrCreateIntroAudio({ dialogue: INTRO_DIALOGUE });
+      if (r.cacheHit) hit++;
+      else {
+        console.log(`[tts-prebuild] gen intro`);
+        generated++;
+      }
     }
   } catch (e) {
     const err0 = e as Error | undefined;
@@ -91,6 +101,16 @@ export async function runPrebuild(): Promise<void> {
 
   for (const { moduleId, lessonId, filePath } of lessons) {
     try {
+      if (
+        SKIP_EXISTING &&
+        fs.existsSync(AUDIO_DIR) &&
+        fs.readdirSync(AUDIO_DIR).some(
+          (f) => f.startsWith(`m${moduleId}-l${lessonId}-`) && f.endsWith(".wav")
+        )
+      ) {
+        hit++;
+        continue;
+      }
       const source = fs.readFileSync(filePath, "utf-8");
       const transcript = mdxToTranscript(source);
       const result = await getOrCreateLessonAudio({
@@ -115,8 +135,9 @@ export async function runPrebuild(): Promise<void> {
 
   // Sweep stale audio whose hash no longer matches any current transcript.
   // Also drops legacy .mp3 files from the previous xAI provider.
+  // Skipped when TTS_SKIP_EXISTING=1 — preserves existing files even if hashes drifted.
   let pruned = 0;
-  if (fs.existsSync(AUDIO_DIR)) {
+  if (!SKIP_EXISTING && fs.existsSync(AUDIO_DIR)) {
     for (const f of fs.readdirSync(AUDIO_DIR)) {
       if (!f.endsWith(".wav") && !f.endsWith(".mp3")) continue;
       if (expected.has(f)) continue;
