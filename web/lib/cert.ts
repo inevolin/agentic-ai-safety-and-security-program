@@ -16,7 +16,6 @@ export async function generateCertificatePDF(
   data: CertData,
   baseUrl: string
 ): Promise<Buffer> {
-  const issuer = process.env.CERT_ISSUER || "AI Security Research";
   const verifyUrl = `${baseUrl}/verify/${data.verifyCode}`;
   const { totalQuestions } = getExamConfig();
 
@@ -26,7 +25,6 @@ export async function generateCertificatePDF(
     total: totalQuestions,
     issuedAt: data.issuedAt,
     verifyCode: data.verifyCode,
-    issuer,
     verifyUrl,
   });
 

@@ -103,18 +103,18 @@ const styles = StyleSheet.create({
     color: "#374151",
     textAlign: "center",
     fontFamily: "Courier",
+    marginBottom: 8,
   },
-  issuerRow: {
+  verifyUrl: {
+    fontSize: 9,
+    color: "#9ca3af",
+    textAlign: "center",
+  },
+  logoRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 24,
-  },
-  issuer: {
-    fontSize: 10,
-    color: "#9ca3af",
-    textAlign: "center",
-    marginLeft: 6,
   },
 });
 
@@ -124,7 +124,6 @@ interface CertificatePDFProps {
   total: number;
   issuedAt: Date;
   verifyCode: string;
-  issuer: string;
   verifyUrl: string;
 }
 
@@ -134,7 +133,6 @@ export function CertificatePDF({
   total,
   issuedAt,
   verifyCode,
-  issuer,
   verifyUrl,
 }: CertificatePDFProps) {
   const percentage = Math.round((score / total) * 100);
@@ -173,12 +171,11 @@ export function CertificatePDF({
           <View style={styles.verifyBlock}>
             <Text style={styles.verifyLabel}>Verification ID</Text>
             <Text style={styles.verifyCode}>{verifyCode}</Text>
-            <Text style={styles.verifyLabel}>{verifyUrl}</Text>
+            <Text style={styles.verifyUrl}>{verifyUrl}</Text>
           </View>
 
-          <View style={styles.issuerRow}>
-            <BatLogo size={14} />
-            <Text style={styles.issuer}>Issued by {issuer}</Text>
+          <View style={styles.logoRow}>
+            <BatLogo size={36} />
           </View>
         </View>
       </Page>
