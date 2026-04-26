@@ -13,3 +13,17 @@ model Certificate {
   score      Int
   issuedAt   DateTime @default(now())
 }
+
+model ExamSession {
+  id          String    @id @default(cuid())
+  cookieId    String
+  name        String
+  startedAt   DateTime  @default(now())
+  expiresAt   DateTime
+  submittedAt DateTime?
+  score       Int?
+  passed      Boolean?
+  verifyCode  String?
+
+  @@index([cookieId])
+}

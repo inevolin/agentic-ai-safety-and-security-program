@@ -2,21 +2,25 @@
 import { useState, useEffect } from "react";
 
 interface ExamTimerProps {
-  seconds: number;
+  expiresAt: string;
   onExpire: () => void;
 }
 
-export function ExamTimer({ seconds: initialSeconds, onExpire }: ExamTimerProps) {
-  const [seconds, setSeconds] = useState(initialSeconds);
+function secondsLeft(expiresAt: string): number {
+  return Math.max(0, Math.floor((new Date(expiresAt).getTime() - Date.now()) / 1000));
+}
+
+export function ExamTimer({ expiresAt, onExpire }: ExamTimerProps) {
+  const [seconds, setSeconds] = useState(() => secondsLeft(expiresAt));
 
   useEffect(() => {
     if (seconds <= 0) {
       onExpire();
       return;
     }
-    const t = setTimeout(() => setSeconds((s) => s - 1), 1000);
+    const t = setTimeout(() => setSeconds(secondsLeft(expiresAt)), 1000);
     return () => clearTimeout(t);
-  }, [seconds, onExpire]);
+  }, [seconds, expiresAt, onExpire]);
 
   const mins = Math.floor(seconds / 60);
   const secs = seconds % 60;

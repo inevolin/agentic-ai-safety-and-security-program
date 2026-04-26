@@ -14,7 +14,7 @@ interface ExamQuestion {
 interface ExamClientProps {
   questions: ExamQuestion[];
   attemptNumber: number;
-  timeLimit: number;
+  expiresAt: string;
   name: string;
 }
 
@@ -24,9 +24,10 @@ interface SubmitResult {
   total: number;
   percentage: number;
   verifyCode?: string;
+  error?: string;
 }
 
-export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamClientProps) {
+export function ExamClient({ questions, attemptNumber, expiresAt, name }: ExamClientProps) {
   const router = useRouter();
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -39,7 +40,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
     const res = await fetch("/api/exam/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, answers: finalAnswers }),
+      body: JSON.stringify({ answers: finalAnswers }),
     });
     const data: SubmitResult = await res.json();
     if (data.verifyCode) {
@@ -48,7 +49,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
       setResult(data);
       setSubmitting(false);
     }
-  }, [submitting, router, name]);
+  }, [submitting, router]);
 
   const handleExpire = useCallback(() => {
     setExpired(true);
@@ -95,7 +96,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
   const progress = Math.round((answeredCount / questions.length) * 100);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-exam-name={name}>
       {/* Sticky header */}
       <div className="sticky top-16 z-20 glass rounded-2xl p-4 flex items-center justify-between gap-4 shadow-xl">
         <div>
@@ -104,7 +105,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
             Attempt {attemptNumber}/3 · {answeredCount}/{questions.length} answered
           </div>
         </div>
-        <ExamTimer seconds={timeLimit} onExpire={handleExpire} />
+        <ExamTimer expiresAt={expiresAt} onExpire={handleExpire} />
       </div>
 
       {expired && (
@@ -124,7 +125,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
       {/* Questions */}
       <div className="space-y-6">
         {questions.map((q, qi) => (
-          <div key={q.id} className="glass rounded-2xl p-6 space-y-4">
+          <div key={q.id} data-qid={q.id} className="glass rounded-2xl p-6 space-y-4">
             <p className="font-medium text-white">
               <span className="font-mono text-cyan-500 mr-2 text-sm">{qi + 1}.</span>
               {renderWithAttackRefs(q.text)}
@@ -133,6 +134,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
               {q.options.map((opt, oi) => (
                 <button
                   key={oi}
+                  data-option-index={oi}
                   onClick={() => setAnswers((prev) => ({ ...prev, [q.id]: oi }))}
                   disabled={expired || submitting}
                   className={`w-full text-left px-4 py-3 rounded-xl border text-sm transition-all duration-150 min-h-[44px] ${
@@ -155,6 +157,7 @@ export function ExamClient({ questions, attemptNumber, timeLimit, name }: ExamCl
       {/* Submit */}
       <div className="pt-2">
         <button
+          data-exam-submit
           onClick={() => submitExam(answers)}
           disabled={submitting || expired || answeredCount < questions.length}
           className="w-full btn-primary justify-center py-4 text-base shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"

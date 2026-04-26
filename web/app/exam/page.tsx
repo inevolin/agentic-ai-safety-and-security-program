@@ -16,7 +16,7 @@ export default async function ExamPage() {
   return (
     <div className="pt-16 min-h-screen">
       <div className="reading-content py-12">
-        <ExamGate questions={clientQuestions} timeLimit={5400} />
+        <ExamGate questions={clientQuestions} />
       </div>
     </div>
   );
