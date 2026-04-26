@@ -108,6 +108,33 @@ If you're judging: **start there.** If you're a defender, a researcher, or just 
 
 ---
 
+## 🛡️ The defensive playbook — [open it →](docs/mitigations/ai-agent-security-mitigations.md)
+
+> *Most "AI security" docs are theoretical threat models. This one is grounded in attacks that **actually landed** against production Claude. Every primitive in here was earned the hard way.*
+
+**[`docs/mitigations/ai-agent-security-mitigations.md`](docs/mitigations/ai-agent-security-mitigations.md)** — 1,054 lines a CISO can hand to their AI platform team on Monday and have shipping by Friday.
+
+<div align="center">
+
+| Part | What's inside | Who reads it |
+|---|---|:---:|
+| **🧭 Executive Risk Register** | Every confirmed bypass mapped to business impact, likelihood, and ownership. Boardroom-grade language; no jargon. | CISOs · risk officers · execs |
+| **🔧 Technical Playbook** | **10 defensive primitives** with concrete enforcement points: egress allowlists, MCP tool wrappers, registry-write controls, cross-source corroboration thresholds, provenance metadata, system-prompt templates, policy clauses. | Platform · security · DevOps |
+| **🩻 Attack Anatomy Cards** | **17 per-attack cards** — mechanism, parameters, detection signals that fired *and* that didn't, hardening priority. The autopsy of every attack we landed. | Detection engineers · red-teamers |
+
+</div>
+
+**Why this is different:**
+
+- 🎯 **Every primitive maps to an attack we landed.** No fictional threat actors. Real bypasses, real model versions, real dates.
+- 📜 **Drop-in policy + system-prompt templates.** Copy-paste into your agent's prompt or your IT policy doc — they're already written.
+- 🧬 **Detection-signal honesty.** Each card lists what *did* fire and what *didn't* — so your blue team knows where the heuristics actually work.
+- 🔗 **Cross-linked to the demos.** Every recommendation traces back to a `./run_demo.sh` you can re-execute against your own model.
+
+> **Grounded in attacks that landed. Not in threat models that didn't.**
+
+---
+
 ## What's in the box
 
 ```
@@ -169,18 +196,6 @@ cd attacks/demos/SP1-semantic-split
 ```
 
 The harness lives at [`attacks/_harness/`](attacks/_harness/) — orchestrator, grader, and CTF system prompt. Sandbox runs *outside* the project tree so this `CLAUDE.md` can't auto-load into the target's context and contaminate the test.
-
----
-
-## The defensive playbook
-
-[`docs/mitigations/ai-agent-security-mitigations.md`](docs/mitigations/ai-agent-security-mitigations.md) — **1,054 lines, three parts:**
-
-- **Part 1 — Executive Risk Register.** Every confirmed bypass mapped to business impact, likelihood, and ownership.
-- **Part 2 — Technical Playbook.** Ten defensive primitives, each with concrete enforcement points (network egress, MCP tool wrappers, registry-write controls, cross-source corroboration thresholds, provenance metadata).
-- **Appendices — Attack Anatomy Cards.** Per-attack cards: mechanism, parameters, detection signals that fired and that didn't, ordered by hardening priority.
-
-Grounded in attacks that landed. Not in threat models that didn't.
 
 ---
 
