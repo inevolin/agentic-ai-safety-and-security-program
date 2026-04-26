@@ -87,6 +87,12 @@ Local setup instructions (`pnpm install`, env vars, dev/build/test): [`DETAILS.m
 
 ---
 
+## Hackathon writeup
+
+Submitting this project to a hackathon? The judging-criteria writeup — Impact, Opus 4.7 use, and Depth & Execution, with the wow-factor backstory — lives in [`HACKATHON.md`](HACKATHON.md). It's the narrative tour: how the 1,205-source corpus, 27 attack demos, 1,054-line playbook, and live training platform fit together, and what surfaced about Opus 4.7 along the way.
+
+---
+
 ## What's in the box
 
 ```
