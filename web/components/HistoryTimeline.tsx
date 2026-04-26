@@ -10,6 +10,7 @@ interface Milestone {
   body: string;
   outcome: Outcome;
   commit?: string;
+  youtubeId?: string;
 }
 
 const REPO_BASE = "https://github.com/inevolin/agentic-ai-safety-and-security-program";
@@ -120,6 +121,13 @@ const MILESTONES: Milestone[] = [
     body: "Final pass: clearer wording across the site, real example attacks linked from the homepage, an extra lesson on protective AI features, and a sharper title that says exactly who this course is for.",
     outcome: "milestone",
     commit: "1123e81",
+  },
+  {
+    date: "2026-04-26",
+    title: "Hackathon submission",
+    body: "Submitted to the Cerebral Valley × Anthropic hackathon. Walkthrough video covering the corpus, red-team harness, confirmed bypasses against Haiku/Sonnet/Opus, and the training platform built on top of all of it.",
+    outcome: "milestone",
+    youtubeId: "X1Zh8RTZdDY",
   },
 ];
 
@@ -336,6 +344,18 @@ function MilestoneCard({ m, mobile = false }: { m: Milestone; mobile?: boolean }
       <p className="text-sm text-slate-400 leading-relaxed">
         {m.body}
       </p>
+      {m.youtubeId && (
+        <div className="mt-4 relative rounded-xl overflow-hidden border border-slate-700/60 bg-black" style={{ paddingBottom: "56.25%" }}>
+          <iframe
+            className="absolute inset-0 w-full h-full"
+            src={`https://www.youtube-nocookie.com/embed/${m.youtubeId}`}
+            title={m.title}
+            loading="lazy"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+      )}
     </div>
   );
 }
