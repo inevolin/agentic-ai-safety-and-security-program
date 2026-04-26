@@ -74,6 +74,24 @@ function parseSampleRate(mime: string | undefined): number {
 
 const inflight = new Map<string, Promise<AudioResult>>();
 
+// When TTS_SKIP_EXISTING=1, serve any existing wav matching the lesson/voice prefix
+// even if the transcript hash drifted. Prevents on-demand regen after small content edits.
+function findExistingByPrefix(prefix: string): string | null {
+  if (process.env.TTS_SKIP_EXISTING !== "1") return null;
+  if (!fs.existsSync(AUDIO_DIR)) return null;
+  const match = fs
+    .readdirSync(AUDIO_DIR)
+    .filter((f) => f.startsWith(prefix) && f.endsWith(".wav"));
+  if (match.length === 0) return null;
+  // Most recently modified wins if multiple drifted hashes coexist.
+  match.sort(
+    (a, b) =>
+      fs.statSync(path.join(AUDIO_DIR, b)).mtimeMs -
+      fs.statSync(path.join(AUDIO_DIR, a)).mtimeMs
+  );
+  return match[0];
+}
+
 function requireApiKey(): string {
   const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
   if (!apiKey) {
@@ -217,6 +235,18 @@ export async function getOrCreateLessonAudio(opts: {
     return { filePath, publicPath, cacheHit: true, bytes: fs.statSync(filePath).size };
   }
 
+  const drifted = findExistingByPrefix(`m${moduleId}-l${lessonId}-${voice}-`);
+  if (drifted) {
+    const driftedPath = path.join(AUDIO_DIR, drifted);
+    console.log(`[tts] skip   m${moduleId}/l${lessonId}/${voice} → reuse ${drifted} (TTS_SKIP_EXISTING=1)`);
+    return {
+      filePath: driftedPath,
+      publicPath: `/audio/${drifted}`,
+      cacheHit: true,
+      bytes: fs.statSync(driftedPath).size,
+    };
+  }
+
   const existing = inflight.get(filePath);
   if (existing) return existing;
 
@@ -251,6 +281,18 @@ export async function getOrCreateIntroAudio(opts: {
 
   if (fs.existsSync(filePath)) {
     return { filePath, publicPath, cacheHit: true, bytes: fs.statSync(filePath).size };
+  }
+
+  const drifted = findExistingByPrefix("intro-");
+  if (drifted) {
+    const driftedPath = path.join(AUDIO_DIR, drifted);
+    console.log(`[tts] skip   intro → reuse ${drifted} (TTS_SKIP_EXISTING=1)`);
+    return {
+      filePath: driftedPath,
+      publicPath: `/audio/${drifted}`,
+      cacheHit: true,
+      bytes: fs.statSync(driftedPath).size,
+    };
   }
 
   const existing = inflight.get(filePath);
