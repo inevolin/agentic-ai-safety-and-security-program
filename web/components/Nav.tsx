@@ -179,7 +179,7 @@ export function Nav() {
             </button>
 
             <Link
-              href="/learn"
+              href="/intro"
               className="ml-2 btn-primary text-sm py-2 px-4"
             >
               Start learning
@@ -244,7 +244,7 @@ export function Nav() {
           ))}
         </nav>
         <div className="mt-auto">
-          <Link href="/learn" className="btn-primary w-full justify-center text-lg py-4">
+          <Link href="/intro" className="btn-primary w-full justify-center text-lg py-4">
             Start learning →
           </Link>
         </div>

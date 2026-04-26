@@ -338,7 +338,7 @@ export default function AboutPage() {
             ))}
           </ol>
 
-          <Link href="/learn" className="btn-primary">
+          <Link href="/intro" className="btn-primary">
             Start the course →
           </Link>
         </div>

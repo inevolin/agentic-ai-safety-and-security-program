@@ -526,7 +526,7 @@ export default function Home() {
 
               <Reveal delay={600}>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link href="/learn" className="btn-primary text-base py-3 px-6">
+                  <Link href="/intro" className="btn-primary text-base py-3 px-6">
                     Start learning free →
                   </Link>
                   <Link href="#curriculum" className="btn-outline text-base py-3 px-6">
@@ -1215,7 +1215,7 @@ export default function Home() {
                   No hacking required to compromise an AI agent. No special access. Just ordinary public surfaces and weak integrations. This certification teaches you how that works — and how to stop it.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
-                  <Link href="/learn" className="bg-white text-brand-800 hover:bg-blue-50 font-bold px-8 py-4 rounded-xl text-lg transition-colors shadow-xl">
+                  <Link href="/intro" className="bg-white text-brand-800 hover:bg-blue-50 font-bold px-8 py-4 rounded-xl text-lg transition-colors shadow-xl">
                     Start for free →
                   </Link>
                   <Link href="#curriculum" className="border border-white/40 text-white hover:bg-white/10 font-semibold px-8 py-4 rounded-xl text-lg transition-colors">

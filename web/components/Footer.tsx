@@ -17,7 +17,7 @@ export function Footer() {
           <Link href="/verify" className="text-slate-500 hover:text-slate-300 transition-colors">
             Verify certificate
           </Link>
-          <Link href="/learn" className="text-slate-500 hover:text-slate-300 transition-colors">
+          <Link href="/intro" className="text-slate-500 hover:text-slate-300 transition-colors">
             Start learning
           </Link>
           <Link href="/contact" className="text-slate-500 hover:text-slate-300 transition-colors">
