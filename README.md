@@ -87,9 +87,18 @@ Local setup instructions (`pnpm install`, env vars, dev/build/test): [`DETAILS.m
 
 ---
 
-## Hackathon writeup
+## 🏆 Hackathon submission — [read the writeup →](HACKATHON.md)
 
-Submitting this project to a hackathon? The judging-criteria writeup — Impact, Opus 4.7 use, and Depth & Execution, with the wow-factor backstory — lives in [`HACKATHON.md`](HACKATHON.md). It's the narrative tour: how the 1,205-source corpus, 27 attack demos, 1,054-line playbook, and live training platform fit together, and what surfaced about Opus 4.7 along the way.
+> *"In five days, one researcher and Claude Opus 4.7 broke the most capable AI on the planet — twenty-four different ways — then turned every failure into a lesson, a defense, and a public certification course."*
+
+**[`HACKATHON.md`](HACKATHON.md)** is the backstage tour judges (and curious humans) actually want:
+
+- **The MAA1 finding** — how a cheap Haiku agent gets weaponized to poison a vendor registry, and why that turns Opus's *strongest* defense into the delivery mechanism for the attacker's URL. (Yes, really.)
+- **Opus orchestrating Opus** at industrial scale — hundreds of bounded subagents, an `attacker ↔ defender` loop running model-on-model, and a persistent file-based memory that lets a fresh session resume yesterday's research cold.
+- **A behavior we did not expect to find** — Opus 4.7 actively reasoning about trust tiers across input sources, naming attack classes mid-output, quarantining suspicious data. Sonnet doesn't. Haiku doesn't. We measured it.
+- **The receipts** — 171 commits · 66 dated session logs · 253 verbatim local-LLM transcripts · 1,205 indexed sources · 27 reproducible attacks · a 1,054-line defensive playbook · a production training site shipping on `git push`.
+
+If you're judging: **start there.** If you're a defender, a researcher, or just AI-curious: **start there anyway.** Single page, narrative voice, no jargon walls.
 
 ---
 
