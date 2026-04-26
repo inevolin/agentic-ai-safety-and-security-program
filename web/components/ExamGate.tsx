@@ -37,7 +37,11 @@ export function ExamGate({ questions, timeLimit }: ExamGateProps) {
         </div>
         <h1 className="text-2xl font-bold text-white">Maximum attempts reached</h1>
         <p className="text-slate-400">
-          You have used all 3 exam attempts. Please contact us if you believe this is an error.
+          You have used all 3 exam attempts. Please{" "}
+          <Link href="/contact" className="text-brand-400 hover:text-brand-300 underline underline-offset-2">
+            contact us
+          </Link>{" "}
+          if you believe this is an error.
         </p>
         <Link href="/" className="btn-primary mx-auto">
           Back to home

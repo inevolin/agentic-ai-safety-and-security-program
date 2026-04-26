@@ -20,6 +20,9 @@ export function Footer() {
           <Link href="/learn" className="text-slate-500 hover:text-slate-300 transition-colors">
             Start learning
           </Link>
+          <Link href="/contact" className="text-slate-500 hover:text-slate-300 transition-colors">
+            Contact
+          </Link>
           <a
             href={REPO_URL}
             target="_blank"
