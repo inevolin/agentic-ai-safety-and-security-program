@@ -61,6 +61,32 @@ Full matrix of bypasses, payloads, parameters, and detection signals: [`attacks/
 
 ---
 
+## The training platform
+
+**🌐 Live at [ai.nevolin.be](https://ai.nevolin.be/)** — open in a browser, sign up, take the course, sit the exam, get a verifiable PDF certificate. No install needed.
+
+[![ai.nevolin.be — About page: We fooled AI sixteen times](docs/assets/training-platform-about.png)](https://ai.nevolin.be/about)
+
+A production Next.js 14 app under [`web/`](web/) — built so the humans deploying agents can actually internalize what these attacks look like.
+
+### Features
+
+- **Six MDX lesson modules** — prompt injection, jailbreaking, agentic attacks, multi-agent poisoning, multimodal vectors, defenses. Each module gated by a quiz; quizzes must pass to unlock the next module.
+- **40-question proctored exam** — randomized question order, 80% pass mark, fixed time budget, server-side grading via `lib/grading.ts` (Jest-covered).
+- **Signed PDF certificates** — generated with `@react-pdf/renderer` on pass; each cert carries a unique `verifyCode`.
+- **Public certificate verification** — share `/verify/[code]` to let anyone check authenticity without an account.
+- **Account + progress tracking** — NextAuth JWT credentials, Prisma 7 on LibSQL persistence, per-user lesson + quiz + exam state.
+- **Custom MDX primitives** — `Callout`, `AttackCard`, `FlowSteps`, `Diagram`, `KeyPoint`, `DoDont`, `Comparison`, `StatBar` — used across lessons for consistent visual language.
+- **Attack-vector tooltips** — hover any attack ID (`SP1`, `MAA1`, `WIKI1 v4`, …) for one-line summary + link to the reproducible demo folder on GitHub.
+- **Anime.js v4 motion** — landing-page attack-flow diagram, lesson transitions, history-spine commit timeline.
+- **Light + dark themes** — Tailwind tokens with CSS-variable overrides; persists per user.
+- **Audio narration** — pre-built TTS audio bundled per lesson (`pnpm prebuild-audio`), playback in the lesson reader.
+- **Deployed via GitHub Actions + pm2** — pushes to `main` build and ship to `ai.nevolin.be` automatically.
+
+Local setup instructions (`pnpm install`, env vars, dev/build/test): [`DETAILS.md`](DETAILS.md#run-the-training-platform-locally).
+
+---
+
 ## What's in the box
 
 ```
@@ -137,62 +163,6 @@ Grounded in attacks that landed. Not in threat models that didn't.
 
 ---
 
-## The training platform
-
-**🌐 Live at [ai.nevolin.be](https://ai.nevolin.be/)** — open in a browser, sign up, take the course, sit the exam, get a verifiable PDF certificate. No install needed.
-
-[![ai.nevolin.be — About page: We fooled AI sixteen times](docs/assets/training-platform-about.png)](https://ai.nevolin.be/about)
-
-A production Next.js 14 app under [`web/`](web/) — built so the humans deploying agents can actually internalize what these attacks look like.
-
-### Features
-
-- **Six MDX lesson modules** — prompt injection, jailbreaking, agentic attacks, multi-agent poisoning, multimodal vectors, defenses. Each module gated by a quiz; quizzes must pass to unlock the next module.
-- **40-question proctored exam** — randomized question order, 80% pass mark, fixed time budget, server-side grading via `lib/grading.ts` (Jest-covered).
-- **Signed PDF certificates** — generated with `@react-pdf/renderer` on pass; each cert carries a unique `verifyCode`.
-- **Public certificate verification** — share `/verify/[code]` to let anyone check authenticity without an account.
-- **Account + progress tracking** — NextAuth JWT credentials, Prisma 7 on LibSQL persistence, per-user lesson + quiz + exam state.
-- **Custom MDX primitives** — `Callout`, `AttackCard`, `FlowSteps`, `Diagram`, `KeyPoint`, `DoDont`, `Comparison`, `StatBar` — used across lessons for consistent visual language.
-- **Attack-vector tooltips** — hover any attack ID (`SP1`, `MAA1`, `WIKI1 v4`, …) for one-line summary + link to the reproducible demo folder on GitHub.
-- **Anime.js v4 motion** — landing-page attack-flow diagram, lesson transitions, history-spine commit timeline.
-- **Light + dark themes** — Tailwind tokens with CSS-variable overrides; persists per user.
-- **Audio narration** — pre-built TTS audio bundled per lesson (`pnpm prebuild-audio`), playback in the lesson reader.
-- **Deployed via GitHub Actions + pm2** — pushes to `main` build and ship to `ai.nevolin.be` automatically.
-
-### Run locally
-
-```bash
-cd web
-pnpm install
-pnpm exec prisma migrate dev      # creates dev.db
-pnpm dev                          # http://localhost:3000
-pnpm test                         # jest tests for grading + exam-submit
-pnpm build && pnpm start          # production
-```
-
-Required env: `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `CERT_ISSUER`. Replit Cloud Run config is checked in (`web/.replit`, `web/replit.nix`).
-
----
-
-## The corpus
-
-`sources/` is the substrate the attacks and the playbook are built on. Ten taxonomy buckets — one category per item, definitions in [`sources/INDEX.md`](sources/INDEX.md):
-
-```
-prompt-injection · jailbreaking · agent-attacks · multimodal-attacks
-training-poisoning-backdoors · human-manipulation · deception-alignment
-influence-ops · defenses-benchmarks · surveys
-```
-
-Each bucket holds two file types side-by-side:
-
-- **Papers / blogs / reports** (numeric ID prefix, e.g. `230-…md`) — each paired with a `{id}-summary.md` that pulls real prompts and payloads **verbatim** before any extrapolation.
-- **Promptfoo LM Security DB entries** (8-hex-hash prefix) — 931 exploit records scraped from [promptfoo.dev/lm-security-db](https://www.promptfoo.dev/lm-security-db) on 2026-04-22.
-
-Total: **1,205 items.** Built and indexed via massively parallel subagent fan-out — see [`METHODOLOGY.md`](METHODOLOGY.md) §1.1.
-
----
-
 ## Methodology in one screen
 
 Full version in [`METHODOLOGY.md`](METHODOLOGY.md). The principles that produced this output:
@@ -205,61 +175,15 @@ Full version in [`METHODOLOGY.md`](METHODOLOGY.md). The principles that produced
 
 ---
 
-## Quickstart by intent
+## More in [`DETAILS.md`](DETAILS.md)
 
-<table>
-<tr><td width="33%" valign="top">
+Supplementary reference moved out of the main README to keep it focused:
 
-### 🎯 Reproduce a bypass
-
-```bash
-cd attacks/demos/MAA1-multi-agent
-./run_demo.sh
-```
-
-Read the verdict log written into the demo directory.
-
-</td><td width="33%" valign="top">
-
-### 🛡️ Ship mitigations
-
-Open [`docs/mitigations/ai-agent-security-mitigations.md`](docs/mitigations/ai-agent-security-mitigations.md), start at the **Executive Risk Register**, then jump to **Part 2 — Technical Playbook** for enforcement points.
-
-</td><td width="33%" valign="top">
-
-### 🎓 Train your team
-
-```bash
-cd web && pnpm install
-pnpm exec prisma migrate dev
-pnpm dev
-```
-
-Six modules, gated quizzes, proctored exam, signed certificate.
-
-</td></tr>
-</table>
-
----
-
-## Reproducibility & provenance
-
-- **Every attack demo is a single-command repro** with a checked-in seed payload, system prompt, runner script, and prior verdict logs.
-- **Every session is logged** in `logs/YYYY-MM-DD-NN-slug.md` and committed before the session ends.
-- **Every Ollama interaction is transcribed verbatim** to `logs/ollama-transcripts/` — full prompt, full response, model metadata.
-- **CLAUDE.md is a living document** — gotchas, MCP confounds, harness quirks, and bypass parameters are all recorded as future-Claude handover.
-- **No fabricated citations.** Arxiv IDs and DOIs are verified by fetching the abstract page before any source is added to the corpus.
-
----
-
-## Project conventions (for contributors and future agents)
-
-- **Code changes go through subagents** at `model: "sonnet"`, medium effort. The parent agent surveys, plans, and reviews — Sonnet does the reads/edits/builds. Conserves context, separates orchestration from execution.
-- **Never force-push** or amend published commits.
-- **Never delete `sources/` files** without confirming with the user.
-- **Always wrap rendered attack-vector IDs** in the `<AttackRef>` component on the training site — bare text loses the tooltip + provenance link.
-- **Light mode is CSS-variable overrides**, not a separate theme. New dark utilities require a matching `html.light` override or you'll ship a dark patch.
-- **Portals for popovers.** Tooltips and modals over `glass` cards must `createPortal` to `document.body` — those surfaces use `overflow: hidden` and create stacking contexts.
+- **[Run the training platform locally](DETAILS.md#run-the-training-platform-locally)** — `pnpm install`, Prisma migrate, env vars, build/test commands.
+- **[The corpus](DETAILS.md#the-corpus)** — ten taxonomy buckets, paper-summary pairing, Promptfoo DB scrape provenance, 1,205-item total.
+- **[Quickstart by intent](DETAILS.md#quickstart-by-intent)** — three lanes: reproduce a bypass, ship mitigations, train your team.
+- **[Reproducibility & provenance](DETAILS.md#reproducibility--provenance)** — single-command repros, session logs, Ollama transcripts, citation verification.
+- **[Project conventions](DETAILS.md#project-conventions-for-contributors-and-future-agents)** — subagent code workflow, no force-push, `<AttackRef>` discipline, light-mode CSS variables, portal rules for popovers.
 
 ---
 
