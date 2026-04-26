@@ -12,6 +12,7 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         PORT: "3100",
+        TTS_SKIP_EXISTING: "1",
       },
     },
   ],
