@@ -89,6 +89,12 @@ Local setup instructions (`pnpm install`, env vars, dev/build/test): [`DETAILS.m
 
 ## 🏆 Hackathon submission — [read the writeup →](HACKATHON.md)
 
+<div align="center">
+
+[![Built with Opus 4.7 — Claude Code global virtual hackathon, April 21–28](docs/assets/built-with-opus-4-7-hackathon.gif)](HACKATHON.md)
+
+</div>
+
 > *"In five days, one researcher and Claude Opus 4.7 broke the most capable AI on the planet — twenty-four different ways — then turned every failure into a lesson, a defense, and a public certification course."*
 
 **[`HACKATHON.md`](HACKATHON.md)** is the backstage tour judges (and curious humans) actually want:
