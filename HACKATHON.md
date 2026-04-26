@@ -1,5 +1,6 @@
 # Hackathon Submission — Judging Criteria Writeup
 
+> **Hackathon:** [Built with Opus 4.7 — Claude Code global virtual hackathon (April 21–28)](https://cerebralvalley.ai/e/built-with-4-7-hackathon)
 > **Project:** Agentic AI Safety & Security Program
 > **Live training platform:** [ai.nevolin.be](https://ai.nevolin.be/)
 > **Repository:** [github.com/inevolin/agentic-ai-safety-and-security-program](https://github.com/inevolin/agentic-ai-safety-and-security-program)

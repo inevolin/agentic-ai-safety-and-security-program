@@ -91,7 +91,9 @@ Local setup instructions (`pnpm install`, env vars, dev/build/test): [`DETAILS.m
 
 <div align="center">
 
-[![Built with Opus 4.7 — Claude Code global virtual hackathon, April 21–28](docs/assets/built-with-opus-4-7-hackathon-450.gif)](HACKATHON.md)
+[![Built with Opus 4.7 — Claude Code global virtual hackathon, April 21–28](docs/assets/built-with-opus-4-7-hackathon-450.gif)](https://cerebralvalley.ai/e/built-with-4-7-hackathon)
+
+**Event page:** [cerebralvalley.ai/e/built-with-4-7-hackathon](https://cerebralvalley.ai/e/built-with-4-7-hackathon) · **Project writeup:** [`HACKATHON.md`](HACKATHON.md)
 
 </div>
 
