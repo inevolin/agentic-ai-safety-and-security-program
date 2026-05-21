@@ -491,7 +491,7 @@ export default function Home() {
     <div className="overflow-x-hidden">
 
       {/* ── Hero ──────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-center pt-20 pb-16">
+      <section className="relative min-h-screen flex flex-col justify-start pt-28 sm:pt-32 lg:pt-36 pb-16">
         {/* Background gradient blobs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
           <div className="absolute -top-40 -left-40 w-96 h-96 bg-brand-700/20 rounded-full blur-3xl animate-pulse-glow" />
