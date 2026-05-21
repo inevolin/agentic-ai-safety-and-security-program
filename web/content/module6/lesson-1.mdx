@@ -8,7 +8,7 @@ import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, 
 
 # Roles & Responsibilities
 
-AI agent security fails when everyone assumes someone else owns it. This lesson maps specific controls to the roles that must own them. The underlying problem is simple: your AI is reading public inputs and writing to internal systems, and nobody in your organization has formally audited that flow. Anyone with an email address can submit a vendor form, open a support ticket, or post in a community channel. If those inputs reach your AI without guardrails, the attacker does not need to hack anything — they just need to know where to submit.
+AI agent security fails when everyone assumes someone else owns it. This lesson maps specific controls to the roles that must own them. The underlying problem is simple: your AI is reading public inputs and writing to internal systems, and nobody in your organization has formally audited that flow. Anyone with an email address can submit a vendor form, open a support ticket, or post in a community channel. If those inputs reach your AI without guardrails, the attacker does not need to hack anything. They just need to know where to submit.
 
 ## Ownership Split
 
@@ -17,7 +17,7 @@ AI agent security fails when everyone assumes someone else owns it. This lesson 
     title: "Security & IT (CISO / IT Admin)",
     points: [
       "Define and enforce domain allowlists for agent output",
-      "Provision session-scoped OAuth tokens — never service accounts",
+      "Provision session-scoped OAuth tokens, never service accounts",
       "Own Write-Scope Contracts: what each agent is allowed to write to",
       "Gate sub-tier model writes (Haiku) with human review before Sonnet/Opus reads",
       "Run quarterly prompt audits against the four prohibited patterns"
@@ -26,7 +26,7 @@ AI agent security fails when everyone assumes someone else owns it. This lesson 
   right={{
     title: "App Teams & Legal",
     points: [
-      "Review system prompts before deployment — no blanket URL-inclusion directives",
+      "Review system prompts before deployment, with no blanket URL-inclusion directives",
       "Declare minimum write scope per agent task at integration design time",
       "Legal: flag any AI agent that reads vendor contracts or NDA workflows",
       "App teams: tag all AI-generated artifacts with model, inputs, and tool calls used",
@@ -37,17 +37,17 @@ AI agent security fails when everyone assumes someone else owns it. This lesson 
 
 ## CISO: Strategic Controls
 
-The CISO owns the risk register and the policy mandate. The strategic question is not "can our AI be hacked?" It is "which public input surfaces feed our AI, and do we have guardrails between those surfaces and our AI's write actions?" Practical responsibilities:
+The CISO owns the risk register and the policy mandate. The strategic question is not "can our AI be hacked?" It is "which public input surfaces feed our AI, and do we have guardrails between those surfaces and our AI's write actions?" The practical responsibilities:
 
 <DoDont
   do={[
     "Publish a domain allowlist and require all agent deployments to reference it",
     "Set the HITL gate threshold: require human diff-view for payment, IAM, and vendor-master changes",
-    "Make Write-Scope Contracts a deployment prerequisite — no agent goes live without one",
+    "Make Write-Scope Contracts a deployment prerequisite. No agent goes live without one",
     "Review the risk register quarterly and update priority scores as new bypasses are discovered"
   ]}
   dont={[
-    "Delegate prompt review entirely to app teams — operator-instruction weaponization is invisible to developers without security context",
+    "Delegate prompt review entirely to app teams. Operator-instruction weaponization is invisible to developers without security context",
     "Accept 'our model uses good judgment' as an answer to URL propagation questions",
     "Allow long-lived service-account tokens for agent sessions under any workflow"
   ]}
@@ -55,19 +55,19 @@ The CISO owns the risk register and the policy mandate. The strategic question i
 
 ## IT Admin: Infrastructure Controls
 
-IT owns the enforcement layer — the controls that don't depend on model judgment. Think of it like network segmentation: the control sits at the boundary between the public input and the internal system, not inside the AI itself.
+IT owns the enforcement layer, the controls that don't depend on model judgment. Think of it like network segmentation: the control sits at the boundary between the public input and the internal system, not inside the AI itself.
 
 <DoDont
   do={[
     "Implement write-scope contracts at the orchestrator level (rejected by infrastructure, not the model)",
     "Queue all Haiku-tier writes to shared data stores for async human approval before downstream read",
-    "Integrate agent write events into SIEM — alert on writes to vendor registries, runbooks, or IAM records",
+    "Integrate agent write events into SIEM, and alert on writes to vendor registries, runbooks, or IAM records",
     "Rotate session tokens on session end; never reuse across tasks"
   ]}
   dont={[
-    "Grant agents admin OAuth scopes 'for reliability' — over-privilege is the structural precondition for every write-chain attack",
-    "Treat vector store / RAG data as inherently trusted — ITS1 showed that helpdesk ticket metadata is attacker-editable",
-    "Skip the agent write audit log — without it, incident response cannot reconstruct what was written or when"
+    "Grant agents admin OAuth scopes 'for reliability'. Over-privilege is the structural precondition for every write-chain attack",
+    "Treat vector store / RAG data as inherently trusted. ITS1 showed that helpdesk ticket metadata is attacker-editable",
+    "Skip the agent write audit log. Without it, incident response cannot reconstruct what was written or when"
   ]}
 />
 
@@ -75,49 +75,49 @@ IT owns the enforcement layer — the controls that don't depend on model judgme
 
 <UseCase
   scenario="A DevOps team deploys an AI agent that reads CI/CD pipeline logs and writes deployment runbooks to Notion. The system prompt says: 'include pre-deployment checklist items and verification links exactly as they appear in the log.'"
-  attacker="CI1 v2: Attacker injects a URL into the Deployment Gates log step. The blanket inclusion directive in the system prompt gives the model no basis to skip it. The attacker URL is written to the Notion runbook twice — as a checklist bullet and a blockquote."
-  impact="On-call engineer follows the injected link during a live incident, believing it is a required security sign-off. Credential harvest or lateral movement."
-  defense="Replace blanket inclusion directives with allowlist-bounded ones: 'include URLs only from approved corporate domains.' The app team owns the system prompt; only they can fix this before deployment."
+  attacker="CI1 v2: The attacker injects a URL into the Deployment Gates log step. The blanket inclusion directive in the system prompt gives the model no basis to skip it. The attacker URL is written to the Notion runbook twice, as a checklist bullet and a blockquote."
+  impact="An on-call engineer follows the injected link during a live incident, believing it is a required security sign-off. The result is credential harvest or lateral movement."
+  defense="Replace blanket inclusion directives with allowlist-bounded ones: 'include URLs only from approved corporate domains.' The app team owns the system prompt, so only they can fix this before deployment."
 />
 
 ## Legal: Contract & Vendor Workflow Controls
 
-Legal teams operate AI agents on uniquely sensitive data — NDAs, vendor contracts, payment instructions. The risk is not that a sophisticated attacker breaks into your legal systems. The risk is that an attacker submits a vendor document through the normal onboarding process — anyone with an email can do this — and your AI carries their portal URL into a payment checklist. TP1 v3 (tool-output poisoning via prose paralegal notes) and SP1 (semantic split via poisoned vendor registry) both exploited this exact flow. Their specific controls:
+Legal teams operate AI agents on uniquely sensitive data: NDAs, vendor contracts, and payment instructions. The risk is not that a sophisticated attacker breaks into your legal systems. The risk is that an attacker submits a vendor document through the normal onboarding process (anyone with an email can do this) and your AI carries their portal URL into a payment checklist. TP1 v3 (tool-output poisoning via prose paralegal notes) and SP1 (semantic split via poisoned vendor registry) both exploited this exact flow. Their specific controls:
 
 <DoDont
   do={[
-    "Treat every vendor-supplied document as untrusted input — even if it arrives via a 'trusted' channel",
+    "Treat every vendor-supplied document as untrusted input, even if it arrives through a 'trusted' channel",
     "Require a HITL diff-view step before any AI-generated payment instruction or portal URL is acted on",
     "Flag any system prompt that instructs the agent to 'include all paralegal notes' or 'include all vendor requirements'"
   ]}
   dont={[
-    "Allow AI agents to write vendor portal URLs to checklists without human approval — TP1 v3 and SP1 both exploited this pattern",
+    "Allow AI agents to write vendor portal URLs to checklists without human approval. TP1 v3 and SP1 both exploited this pattern",
     "Treat conversational AI output as a primary source for contract action items without cross-referencing the original document"
   ]}
 />
 
 ## Self-Audit Decision Tree
 
-Walk every agent deployment through these four gates before sign-off — if any gate is unowned or undecided, the deployment is not ready.
+Walk every agent deployment through these four gates before sign-off. If any gate is unowned or undecided, the deployment is not ready.
 
 <ol className="my-6 space-y-4 list-none p-0">
   <li className="glass rounded-xl border border-slate-700/60 p-5">
-    <p className="text-sm font-semibold text-white mb-1">Gate 1 — "Does this agent read any input it does not hand-author?"</p>
+    <p className="text-sm font-semibold text-white mb-1">Gate 1: "Does this agent read any input it does not hand-author?"</p>
     <p className="text-xs text-slate-400 mb-1"><span className="text-cyan-400 font-mono">Owner: App Team</span></p>
-    <p className="text-sm text-slate-300">If YES → continue to Gate 2. If NO → no agent threat surface; document the scope and exit the audit.</p>
+    <p className="text-sm text-slate-300">If YES, continue to Gate 2. If NO, there is no agent threat surface. Document the scope and exit the audit.</p>
   </li>
   <li className="glass rounded-xl border border-slate-700/60 p-5">
-    <p className="text-sm font-semibold text-white mb-1">Gate 2 — "Which public surfaces feed those inputs?"</p>
+    <p className="text-sm font-semibold text-white mb-1">Gate 2: "Which public surfaces feed those inputs?"</p>
     <p className="text-xs text-slate-400 mb-1"><span className="text-cyan-400 font-mono">Owner: CISO</span></p>
     <p className="text-sm text-slate-300">List them explicitly: forms, tickets, CI logs, Slack channels, registries, vendor documents. Each surface must appear in the org attack-surface registry before the deployment proceeds.</p>
   </li>
   <li className="glass rounded-xl border border-slate-700/60 p-5">
-    <p className="text-sm font-semibold text-white mb-1">Gate 3 — "What is the agent allowed to write to, and which of those writes are read by another agent later?"</p>
+    <p className="text-sm font-semibold text-white mb-1">Gate 3: "What is the agent allowed to write to, and which of those writes are read by another agent later?"</p>
     <p className="text-xs text-slate-400 mb-1"><span className="text-cyan-400 font-mono">Owner: IT Admin</span></p>
-    <p className="text-sm text-slate-300">Write scopes must be enumerated by exact page ID or record path — not by system name. Any write that a downstream agent later treats as authoritative requires a HITL gate between them.</p>
+    <p className="text-sm text-slate-300">Write scopes must be listed by exact page ID or record path, not by system name. Any write that a downstream agent later treats as authoritative requires a HITL gate between them.</p>
   </li>
   <li className="glass rounded-xl border border-danger-800/40 p-5">
-    <p className="text-sm font-semibold text-white mb-1">Gate 4 — "Which prohibited pattern, if any, does this deployment match?"</p>
+    <p className="text-sm font-semibold text-white mb-1">Gate 4: "Which prohibited pattern, if any, does this deployment match?"</p>
     <p className="text-xs text-slate-400 mb-1"><span className="text-danger-400 font-mono">Owner: CISO + Legal</span></p>
     <p className="text-sm text-slate-300 mb-2">The four prohibited patterns are:</p>
     <ul className="text-sm text-slate-300 list-disc pl-5 space-y-1">
@@ -131,5 +131,5 @@ Walk every agent deployment through these four gates before sign-off — if any 
 </ol>
 
 <KeyPoint>
-  Security ownership without specificity is no ownership at all. Every control needs a named role, a deployment gate, and a quarterly review date — or it won't exist when you need it. Start by asking one question: which public input surfaces does your AI read from? That list is your attack surface. Everything else follows from it.
+  Security ownership without specificity is no ownership at all. Every control needs a named role, a deployment gate, and a quarterly review date, or it won't exist when you need it. Start by asking one question: which public input surfaces does your AI read from? That list is your attack surface. Everything else follows from it.
 </KeyPoint>

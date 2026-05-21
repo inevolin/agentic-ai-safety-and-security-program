@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
   const cookieId = getCookieId();
   if (!cookieId) {
-    return NextResponse.json({ error: "No exam session — call /api/exam/start first" }, { status: 401 });
+    return NextResponse.json({ error: "No exam session. Call /api/exam/start first" }, { status: 401 });
   }
 
   const session = await prisma.examSession.findFirst({

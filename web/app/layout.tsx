@@ -13,9 +13,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Safety & Security Certification",
+  title: "AI Safety Course",
   description:
-    "Enterprise AI agent security training and certification. Based on 21 real attacks tested against Claude Haiku, Sonnet, and Opus.",
+    "Learn how to keep AI agents safe from attacks. Built on 21 real attacks we tested against Claude Haiku, Sonnet, and Opus.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

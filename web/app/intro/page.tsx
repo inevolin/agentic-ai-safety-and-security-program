@@ -7,9 +7,9 @@ import { introAudioPublicPath } from "@/lib/audio-manifest";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "AI Safety Intro — 5-Minute Brief",
+  title: "AI Safety Intro: 5-Minute Brief",
   description:
-    "A plain-language 5-minute intro to AI agent security for executives, managers, and employees. No exam, no certificate — just what you need to know.",
+    "A plain-language 5-minute intro to AI agent security for executives, managers, and employees. No exam, no certificate. Just what you need to know.",
 };
 
 export default function IntroPage() {
@@ -48,7 +48,7 @@ export default function IntroPage() {
 
         <Reveal delay={280}>
           <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            This is the no-exam version of our full course. It covers what AI agent security means for your organisation, what to watch out for, and what questions to ask — in plain English, without the technical depth the certified course requires.
+            This is the no-exam version of our full course. It covers what AI agent security means for your organisation, what to watch out for, and what questions to ask. It is in plain English, without the technical depth the certified course requires.
           </p>
         </Reveal>
 
@@ -80,21 +80,21 @@ export default function IntroPage() {
             {
               n: "1",
               title: "AI agents now take real actions inside companies",
-              body: "Today's AI assistants don't just answer questions — they write to wikis, send messages, file tickets, push code, and call external services. A single bad instruction can trigger a chain of real actions your team didn't authorise.",
+              body: "Today's AI assistants don't just answer questions. They write to wikis, send messages, file tickets, push code, and call external services. A single bad instruction can trigger a chain of real actions your team didn't authorise.",
               color: "border-brand-700/40 bg-brand-900/40",
               accent: "text-brand-400",
             },
             {
               n: "2",
-              title: "Attackers don't need to hack — they just fill out forms",
-              body: "Attackers have learned that it's easier to put a malicious instruction inside ordinary business data — a Slack message, a CSV row, an error log, a calendar invite — than to break into systems directly. The AI reads that data and acts on it.",
+              title: "Attackers don't need to hack. They just fill out forms.",
+              body: "Attackers have learned an easier trick. Instead of breaking into systems, they hide a malicious instruction inside ordinary business data, like a Slack message, a CSV row, an error log, or a calendar invite. The AI reads that data and acts on it.",
               color: "border-danger-700/40 bg-danger-950/20",
               accent: "text-danger-400",
             },
             {
               n: "3",
               title: "We documented 16 attacks on Claude. None required hacking.",
-              body: "Our research team ran 21 attack scenarios against Claude Sonnet and Opus. 16 succeeded against Sonnet; 5 against Opus. Every single one used ordinary business inputs — no exploits, no zero-days, no technical skills beyond knowing how to write a convincing sentence.",
+              body: "Our research team ran 21 attack scenarios against Claude Sonnet and Opus. 16 succeeded against Sonnet, 5 against Opus. Every single one used ordinary business inputs. No exploits, no zero-days, no technical skills beyond knowing how to write a convincing sentence.",
               color: "border-warn-800/40 bg-warn-950/20",
               accent: "text-warn-400",
             },
@@ -140,7 +140,7 @@ export default function IntroPage() {
               <p className="text-sm text-slate-400 mb-3">Ask your CISO and engineering leads:</p>
               <ul className="space-y-2">
                 {[
-                  "Do we have a map of which AI agents can write to which systems — and is it reviewed quarterly?",
+                  "Do we have a map of which AI agents can write to which systems, and is it reviewed quarterly?",
                   "Which AI integrations have a human approval step before irreversible actions?",
                   "Have we tested our agents against prompt-injection attacks, or only against accuracy benchmarks?",
                   "Is there an incident-response playbook specifically for AI-assisted actions gone wrong?",
@@ -170,10 +170,10 @@ export default function IntroPage() {
               <p className="text-sm text-slate-400 mb-3">Before greenlighting an AI-assisted workflow, require:</p>
               <ul className="space-y-2">
                 {[
-                  "A write-permission map — document exactly which external systems the agent can modify.",
+                  "A write-permission map. Document exactly which external systems the agent can modify.",
                   "Second-channel verification for any action that moves money, sends communications, or deletes data.",
                   "An audit log that records what the agent read and what it wrote, with timestamps.",
-                  "A defined rollback procedure — what happens if the agent acts on a poisoned input?",
+                  "A defined rollback procedure. What happens if the agent acts on a poisoned input?",
                 ].map((q) => (
                   <li key={q} className="flex gap-2 text-sm text-slate-300">
                     <span className="flex-shrink-0 text-cyan-400">✓</span>
@@ -200,9 +200,9 @@ export default function IntroPage() {
               <p className="text-sm text-slate-400 mb-3">How to spot a suspicious AI output:</p>
               <ul className="space-y-2">
                 {[
-                  "A URL you didn't expect — especially in a summary, checklist, or recommendation that mentions an external link for the first time.",
-                  "Instructions framed as \"per IT's request\" or \"per the approved vendor registry\" — attackers use institutional language to add fake authority.",
-                  "Confident, specific text with a brand-new external link you haven't seen before — the AI sounds certain because the injected instruction told it to.",
+                  "A URL you didn't expect, especially in a summary, checklist, or recommendation that mentions an external link for the first time.",
+                  "Instructions framed as \"per IT's request\" or \"per the approved vendor registry.\" Attackers use official-sounding language to add fake authority.",
+                  "Confident, specific text with a brand-new external link you haven't seen before. The AI sounds certain because the injected instruction told it to.",
                   "Any output asking you to take an irreversible action (wire money, delete a record, send to a new email) based on something the AI read.",
                 ].map((q) => (
                   <li key={q} className="flex gap-2 text-sm text-slate-300">
@@ -231,7 +231,7 @@ export default function IntroPage() {
               <p className="text-sm text-slate-400 mb-3">Basic hygiene when working with AI tools:</p>
               <ul className="space-y-2">
                 {[
-                  "Don't paste secrets — passwords, API keys, or customer PII — into AI chat unless you know exactly where the data goes.",
+                  "Don't paste secrets like passwords, API keys, or customer PII into AI chat unless you know exactly where the data goes.",
                   "Treat AI outputs as drafts. If it's important, verify with a primary source before acting.",
                   "Verify links before clicking. AI agents can be fed false information about what a URL does.",
                   "If an AI tool asks you to approve an action that seems unusual, ask your manager before proceeding.",
@@ -269,7 +269,7 @@ export default function IntroPage() {
               <p className="text-3xl font-bold text-danger-400 mb-2">$4.88M</p>
               <p className="text-sm font-medium text-white mb-2">Average cost of a data breach</p>
               <p className="text-xs text-slate-400 leading-relaxed">
-                That&apos;s the global average in 2024 — including investigation, notification, remediation, and lost business. AI-assisted breaches are trending higher.
+                That&apos;s the global average in 2024. It includes investigation, notification, remediation, and lost business. AI-assisted breaches are trending higher.
               </p>
               <p className="text-[10px] text-slate-500 mt-3">IBM Cost of a Data Breach Report 2024</p>
             </div>
@@ -280,7 +280,7 @@ export default function IntroPage() {
               <p className="text-3xl font-bold text-warn-400 mb-2">$2.9B</p>
               <p className="text-sm font-medium text-white mb-2">Business email compromise losses in 2023 (US)</p>
               <p className="text-xs text-slate-400 leading-relaxed">
-                AI agents that summarise email and draft responses are a new, scalable version of this attack — automated impersonation at scale.
+                AI agents that summarise email and draft responses are a new, scalable version of this attack. It is automated impersonation at scale.
               </p>
               <p className="text-[10px] text-slate-500 mt-3">FBI IC3 Annual Report 2023</p>
             </div>
@@ -291,7 +291,7 @@ export default function IntroPage() {
               <p className="text-3xl font-bold text-brand-400 mb-2">7%</p>
               <p className="text-sm font-medium text-white mb-2">Max EU AI Act fine on global annual turnover</p>
               <p className="text-xs text-slate-400 leading-relaxed">
-                For the most serious AI violations. For a $1B revenue company, that&apos;s $70M — and the Act explicitly covers agentic and high-risk AI deployments.
+                For the most serious AI violations. For a $1B revenue company, that&apos;s $70M. The Act explicitly covers agentic and high-risk AI deployments.
               </p>
               <p className="text-[10px] text-slate-500 mt-3">Regulation (EU) 2024/1689</p>
             </div>
@@ -312,7 +312,7 @@ export default function IntroPage() {
               7 modules · approximately 3 hours · exam-graded certificate. Designed for engineers, security practitioners, and technical leaders who want to go beyond awareness into hands-on defence.
             </p>
             <p className="text-slate-400 text-xs mb-8">
-              This brief page does <span className="text-white font-medium">not</span> yield a certificate — only the full course and exam do.
+              This brief page does <span className="text-white font-medium">not</span> yield a certificate. Only the full course and exam do.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/learn" className="btn-primary">

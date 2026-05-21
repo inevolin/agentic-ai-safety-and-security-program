@@ -12,17 +12,17 @@ function origin(req: NextRequest): string {
 }
 
 function home(base: string): string {
-  return `# AI Safety & Security Certification
+  return `# AI Safety Course
 
-Enterprise AI agent security training and certification program. Based on 21 real attacks tested against Claude Haiku, Sonnet, and Opus.
+Learn how to keep AI agents safe from attacks. Based on 21 real attacks tested against Claude Haiku, Sonnet, and Opus.
 
 ## Sections
 
-- [Learn](${base}/learn) — 7 modules covering prompt injection, agent attacks, multimodal vectors, and defenses
-- [Intro](${base}/intro) — program overview
-- [Exam](${base}/exam) — certification assessment
-- [About](${base}/about) — program background and audience
-- [Verify](${base}/verify) — certificate verification
+- [Learn](${base}/learn): 7 modules covering prompt injection, agent attacks, multimodal vectors, and defenses
+- [Intro](${base}/intro): course overview
+- [Exam](${base}/exam): the certification exam
+- [About](${base}/about): course background and audience
+- [Verify](${base}/verify): check a certificate
 
 ## Resources
 
@@ -33,11 +33,11 @@ Enterprise AI agent security training and certification program. Based on 21 rea
 }
 
 function about(base: string): string {
-  return `# About — AI Safety & Security Certification
+  return `# About — AI Safety Course
 
-Enterprise AI agent security training based on first-hand red-team research against Claude Haiku, Sonnet, and Opus.
+AI agent security training based on our own red-team research against Claude Haiku, Sonnet, and Opus.
 
-The program documents 21 confirmed bypass vectors across prompt injection, agent attacks, multimodal inputs, training-data poisoning, deception/alignment failure, and influence operations.
+The course documents 21 confirmed bypass vectors across prompt injection, agent attacks, multimodal inputs, training-data poisoning, deception and alignment failure, and influence operations.
 
 - Curriculum: ${base}/learn
 - Certification exam: ${base}/exam
@@ -47,9 +47,9 @@ The program documents 21 confirmed bypass vectors across prompt injection, agent
 }
 
 function intro(base: string): string {
-  return `# Intro — AI Safety & Security Certification
+  return `# Intro — AI Safety Course
 
-Why this program: enterprise AI agents are deployed faster than security tooling can keep up. This certification covers the attack surface (system prompts, tool calls, MCP servers, multimodal inputs, training data) and the defenses that hold against current frontier models.
+Why this course: companies roll out AI agents faster than security tools can keep up. This course covers the attack surface (system prompts, tool calls, MCP servers, multimodal inputs, training data) and the defenses that hold against today's frontier models.
 
 - Begin learning: ${base}/learn
 - Take the exam: ${base}/exam
@@ -57,7 +57,7 @@ Why this program: enterprise AI agents are deployed faster than security tooling
 }
 
 function exam(base: string): string {
-  return `# Exam — AI Safety & Security Certification
+  return `# Exam — AI Safety Course
 
 Multiple-choice certification exam. Pass to receive a verifiable certificate with a unique verify code.
 
@@ -82,7 +82,7 @@ function learn(base: string): string {
   }
 
   const lines = [
-    "# Learn — AI Safety & Security Certification",
+    "# Learn — AI Safety Course",
     "",
     "Curriculum covering AI agent attack vectors and defenses, derived from documented red-team research.",
     "",

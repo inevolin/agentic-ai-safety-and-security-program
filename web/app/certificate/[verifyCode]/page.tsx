@@ -35,7 +35,7 @@ export default async function CertificatePage({
             </svg>
           </div>
           <h1 className="text-3xl font-bold text-white">Congratulations!</h1>
-          <p className="text-slate-400">You&apos;ve earned your AI Safety &amp; Security Certification.</p>
+          <p className="text-slate-400">You&apos;ve earned your AI Safety Course certificate.</p>
         </div>
 
         {/* Certificate card */}
@@ -46,14 +46,14 @@ export default async function CertificatePage({
           <div className="relative p-8 sm:p-10 text-center space-y-6">
             <div>
               <p className="text-brand-400 font-mono text-xs tracking-widest uppercase mb-2">Certificate of Completion</p>
-              <h2 className="text-xl font-bold text-white">AI Safety &amp; Security Certification</h2>
+              <h2 className="text-xl font-bold text-white">AI Safety Course</h2>
             </div>
 
             <div className="py-6 border-y border-slate-700/50">
               <p className="text-slate-500 text-sm mb-2">This certifies that</p>
               <p className="text-3xl font-bold text-white">{cert.name}</p>
               <p className="text-slate-400 mt-2 text-sm">
-                has successfully completed the AI Safety &amp; Security Certification program
+                has successfully completed the AI Safety Course
               </p>
             </div>
 

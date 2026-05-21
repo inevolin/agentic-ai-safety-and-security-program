@@ -26,7 +26,7 @@ describe("/api/md", () => {
     expect(res.status).toBe(200);
     expect(res.headers.get("content-type")).toMatch(/text\/markdown/);
     const body = await res.text();
-    expect(body).toMatch(/^# AI Safety & Security Certification/m);
+    expect(body).toMatch(/^# AI Safety Course/m);
     expect(body).toContain("https://example.com/learn");
   });
 

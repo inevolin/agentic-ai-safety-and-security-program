@@ -14,7 +14,7 @@ function origin(req: NextRequest): string {
 export function GET(req: NextRequest) {
   const base = origin(req);
 
-  const body = `# robots.txt — AI Safety & Security Certification
+  const body = `# robots.txt — AI Safety Course
 # Spec: RFC 9309 (https://www.rfc-editor.org/rfc/rfc9309)
 # Content Signals: https://contentsignals.org/
 

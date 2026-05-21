@@ -8,7 +8,7 @@ import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, 
 
 # How AI Agents Differ from Traditional Software
 
-Traditional software does exactly what its code says. An AI agent reasons, decides, and acts — across systems it has permission to write to. That changes everything about the attack model. And here is the key point: exploiting an AI agent does not require hacking. An attacker fills out a public vendor-registration form, opens a PR on a public GitHub repo, or posts in a customer Slack channel — and waits for the enterprise AI agent to read that data and act on it. No hacking needed. Just an ordinary public surface.
+Traditional software does exactly what its code says. An AI agent reasons, decides, and acts across systems it has permission to write to. That changes everything about the attack model. Here is the key point: exploiting an AI agent does not require hacking. An attacker fills out a public vendor-registration form, opens a PR on a public GitHub repo, or posts in a customer Slack channel, then waits for the enterprise AI agent to read that data and act on it. No hacking needed. Just an ordinary public surface.
 
 ## Traditional Software vs. AI Agent
 
@@ -16,7 +16,7 @@ Traditional software does exactly what its code says. An AI agent reasons, decid
   left={{
     title: "Traditional Software",
     points: [
-      "Fixed control flow — no runtime judgment",
+      "Fixed control flow, no runtime judgment",
       "Input comes only from the user or a trusted API",
       "Writes to one system within a single defined scope",
       "Attacker must control user input to influence output",
@@ -26,10 +26,10 @@ Traditional software does exactly what its code says. An AI agent reasons, decid
   right={{
     title: "AI Agent",
     points: [
-      "Reasoning across multiple steps — each step can be redirected",
+      "Reasoning across multiple steps, and each step can be redirected",
       "Input includes external documents, logs, registries, Slack, git, helpdesk tickets",
       "OAuth tokens span email, Notion, CRM, CI systems simultaneously",
-      "Attacker controls any data the agent reads — never touches user input",
+      "Attacker controls any data the agent reads, never touches user input",
       "Blast radius: every system the agent can write to"
     ]
   }}
@@ -37,21 +37,21 @@ Traditional software does exactly what its code says. An AI agent reasons, decid
 
 ## Three Properties That Create the New Surface
 
-**Tool access.** Agents don't just generate text — they call tools. A legal agent reads NDAs *and* writes to Notion. A DevOps agent reads CI logs *and* writes deployment runbooks. Compromise what an agent *reads* and you control what it *writes*. And what it reads almost always includes inputs that come from public surfaces — vendor forms, support tickets, community posts.
+**Tool access.** Agents don't just generate text. They call tools. A legal agent reads NDAs and writes to Notion. A DevOps agent reads CI logs and writes deployment runbooks. Compromise what an agent reads and you control what it writes. What it reads almost always includes inputs from public surfaces like vendor forms, support tickets, and community posts.
 
-**Multi-step autonomy.** An agent makes judgment calls at each step based on everything it has read so far. Slip bad data in early — through a normal public form — and you shape every downstream decision without ever touching the user's keyboard.
+**Multi-step autonomy.** An agent makes judgment calls at each step based on everything it has read so far. Slip bad data in early, through a normal public form, and you shape every later decision without ever touching the user's keyboard.
 
-**Cross-system write scope.** A single enterprise agent may read from email, Slack, and GitHub while writing to Notion, Jira, and a vendor registry. That blast radius exceeds any single traditional application. The entry point can be as simple as one Slack message or one HTTP request that gets logged.
+**Cross-system write scope.** A single enterprise agent may read from email, Slack, and GitHub while writing to Notion, Jira, and a vendor registry. That blast radius is larger than any single traditional application. The entry point can be as simple as one Slack message or one HTTP request that gets logged.
 
-## Real Attack: SP1 — Poisoned Vendor Registry
+## Real Attack: SP1, Poisoned Vendor Registry
 
 <UseCase
   scenario="Legal AI agent processes NDA workflows. It is instructed to trust vendor portal URLs only from IT's Approved Vendor Registry. The registry is an editable table that vendors populate through the public onboarding process."
-  attacker="SP1 (an attack where a vendor table is quietly altered via the normal registration process): Attacker fills out the public vendor-registration form and plants a malicious portal URL in the registry CSV as a clean subdomain entry (portal.acmecorp.com), last_verified = today. Agent reads registry, outputs attacker URL as authoritative. No suspicious indicators — it is in the 'trusted' registry. No hacking needed. Just a normal public form."
-  impact="Agent writes attacker-controlled portal URL to legal workflow checklist. Paralegal follows it to initiate contract execution. Potential for credential harvest or payment redirect."
-  defense="This is a beginner-level AI integration mistake: no input validation on vendor form entries, no URL allow-listing, no human approval gate. Treat registries as untrusted input — the 'trust the registry' instruction is exactly what SP1 weaponizes. These are basic guardrails any enterprise should have before wiring an AI agent to an editable vendor table."
+  attacker="SP1 (an attack where a vendor table is quietly altered through the normal registration process): The attacker fills out the public vendor-registration form and plants a malicious portal URL in the registry CSV as a clean subdomain entry (portal.acmecorp.com), last_verified = today. The agent reads the registry and outputs the attacker URL as authoritative. Nothing looks suspicious, since it is in the 'trusted' registry. No hacking needed. Just a normal public form."
+  impact="The agent writes the attacker-controlled portal URL to the legal workflow checklist. A paralegal follows it to start contract execution. This can lead to credential harvest or payment redirect."
+  defense="This is a beginner-level AI integration mistake: no input validation on vendor form entries, no URL allow-listing, no human approval gate. Treat registries as untrusted input. The 'trust the registry' instruction is exactly what SP1 weaponizes. These are basic guardrails any enterprise should have before wiring an AI agent to an editable vendor table."
 />
 
 <KeyPoint>
-  The question to ask about any AI agent is not "is the model safe?" It is: **what data does this agent read, and can an attacker submit something there through a public form, a PR, a support ticket, or a Slack message?** In most enterprises today, the answer is yes — because basic guardrails were skipped.
+  The question to ask about any AI agent is not "is the model safe?" It is: **what data does this agent read, and can an attacker submit something there through a public form, a PR, a support ticket, or a Slack message?** In most enterprises today, the answer is yes, because basic guardrails were skipped.
 </KeyPoint>

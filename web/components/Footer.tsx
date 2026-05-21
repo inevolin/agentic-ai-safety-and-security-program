@@ -9,7 +9,7 @@ export function Footer() {
       <div className="section-content flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex flex-col items-center sm:items-start gap-1.5">
           <p className="text-slate-500 text-sm">
-            © 2026 AI Safety & Security Certification. Educational use only.
+            © 2026 AI Safety Course. Educational use only.
           </p>
           <ClaudeSponsorBadge />
         </div>

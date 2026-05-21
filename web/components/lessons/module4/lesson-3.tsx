@@ -9,9 +9,9 @@ export default function Lesson() {
 
       <p>These three primitives build on the foundation of Primitives 1–5. Ship those first. Then add these as the integration matures.</p>
 
-      <h2>Primitive 8 — Output-Side Source Tracking</h2>
+      <h2>Primitive 8: Output-Side Source Tracking</h2>
 
-      <p>Every document your AI produces gets a footer: date created, model name, sources read, external URLs included. This is not for humans — humans skip footers. It is for the next AI in the chain. Without it, one AI's output that contains an attacker URL becomes the next AI's trusted source. This is basic hygiene for any multi-agent deployment.</p>
+      <p>Every document your AI produces gets a footer: date created, model name, sources read, external URLs included. This is not for humans, who skip footers. It is for the next AI in the chain. Without it, one AI's output that contains an attacker URL becomes the next AI's trusted source. This is basic hygiene for any multi-agent deployment.</p>
 
       <DoDont
         do={[
@@ -19,7 +19,7 @@ export default function Lesson() {
           "Train downstream AIs to treat content carrying an AI-generated marker as data, not instructions."
         ]}
         dont={[
-          "Rely on the footer as a control for human readers — humans skip footers.",
+          "Rely on the footer as a control for human readers. Humans skip footers.",
           "Allow any AI to remove or overwrite the source-tracking footer from a previous AI's output."
         ]}
       />
@@ -28,12 +28,12 @@ export default function Lesson() {
 
       <hr />
 
-      <h2>Primitive 9 — Cross-Modal Input Normalization</h2>
+      <h2>Primitive 9: Cross-Modal Input Normalization</h2>
 
-      <p>Text pulled out of non-text sources — PDFs, images, audio, metadata — gets cleaned and normalized before the AI reads it. Hidden Unicode characters are stripped. PDF visual content is compared against the text layer. Text found in images goes to the source-tracking footer, not into the AI's action context.</p>
+      <p>Text pulled out of non-text sources (PDFs, images, audio, metadata) gets cleaned and normalized before the AI reads it. Hidden Unicode characters are stripped. PDF visual content is compared against the text layer. Text found in images goes to the source-tracking footer, not into the AI's action context.</p>
 
       <Callout type="info" title="Lower priority than Primitives 1, 3, 5">
-        These attacks require more attacker effort. Ship Primitives 1, 3, and 5 first — they cover more scenarios with less complexity. Come back to this one after those three are stable.
+        These attacks require more attacker effort. Ship Primitives 1, 3, and 5 first. They cover more scenarios with less complexity. Come back to this one after those three are stable.
       </Callout>
 
       <DoDont
@@ -51,9 +51,9 @@ export default function Lesson() {
 
       <hr />
 
-      <h2>Primitive 10 — Session-Scoped Authentication</h2>
+      <h2>Primitive 10: Session-Scoped Authentication</h2>
 
-      <p>Each AI session runs under a short-lived access token tied to the logged-in user. Sub-agents get narrower tokens derived from that session. Tokens expire when the session ends. This stops attacks from spreading across sessions — a token used to write poisoned data in one session cannot be reused by a different session that reads it later. This is a basic security control that applies to any production system, AI or not.</p>
+      <p>Each AI session runs under a short-lived access token tied to the logged-in user. Sub-agents get narrower tokens derived from that session. Tokens expire when the session ends. This stops attacks from spreading across sessions. A token used to write poisoned data in one session cannot be reused by a different session that reads it later. This is a basic security control that applies to any production system, AI or not.</p>
 
       <AttackCard
         id="MAA1+CONF1 v2"
@@ -80,13 +80,13 @@ export default function Lesson() {
 
       <h2>Coverage Matrix</h2>
 
-      <StatBar label="Primitive 1 — Tracking where data came from" value={18} max={52} color="brand" />
-      <StatBar label="Primitive 3 — Write-scope contracts" value={14} max={52} color="emerald" />
-      <StatBar label="Primitive 5 — Human-in-the-loop gates" value={10} max={52} color="cyan" />
-      <StatBar label="Primitive 4 — Link allowlisting" value={8} max={52} color="brand" />
-      <StatBar label="Primitive 2 — Tool-description integrity" value={7} max={52} color="amber" />
-      <StatBar label="Primitives 6, 7, 8, 10 — Secondary layer" value={6} max={52} color="amber" />
-      <StatBar label="Primitive 9 — Cross-modal normalization" value={6} max={52} color="danger" />
+      <StatBar label="Primitive 1: Tracking where data came from" value={18} max={52} color="brand" />
+      <StatBar label="Primitive 3: Write-scope contracts" value={14} max={52} color="emerald" />
+      <StatBar label="Primitive 5: Human-in-the-loop gates" value={10} max={52} color="cyan" />
+      <StatBar label="Primitive 4: Link allowlisting" value={8} max={52} color="brand" />
+      <StatBar label="Primitive 2: Tool-description integrity" value={7} max={52} color="amber" />
+      <StatBar label="Primitives 6, 7, 8, 10: Secondary layer" value={6} max={52} color="amber" />
+      <StatBar label="Primitive 9: Cross-modal normalization" value={6} max={52} color="danger" />
 
       <hr />
 
@@ -126,7 +126,7 @@ export default function Lesson() {
       </table>
 
       <KeyPoint>
-        Build in this order: tracking where data came from, first — covers the most attack scenarios and is the foundation everything else rests on. Write-scope contracts second — limits how far an attack can spread. Human-in-the-loop gates third — fastest to ship. Every primitive after these three adds real coverage, but only once the foundation is stable. Do not skip ahead.
+        Build in this order. Tracking where data came from comes first. It covers the most attack scenarios and is the foundation everything else rests on. Write-scope contracts come second. They limit how far an attack can spread. Human-in-the-loop gates come third. They are the fastest to ship. Every primitive after these three adds real coverage, but only once the foundation is stable. Do not skip ahead.
       </KeyPoint>
     </>
   );

@@ -19,7 +19,7 @@ const INSIGHTS = [
     number: "01",
     category: "ATTACK VECTOR",
     headline: "No hacking required",
-    body: "Attackers submit through your public surfaces — a vendor registration form, a support ticket, a pull request. Your AI treats everything it reads as potentially authoritative and carries it into production without questioning the source.",
+    body: "Attackers submit through your public surfaces, like a vendor registration form, a support ticket, or a pull request. Your AI treats everything it reads as potentially authoritative and carries it into production without questioning the source.",
     accent: {
       bar: "#ef4444",
       iconBg: "rgba(127,29,29,0.35)",
@@ -86,7 +86,7 @@ const INSIGHTS = [
     number: "03",
     category: "INPUT VALIDATION",
     headline: "Every URL is user input",
-    body: "URLs in git commits, CI logs, config files, and vendor registries were written by someone outside your org. Source authority — internal repo, approved catalog, official log — does not make contents safe.",
+    body: "URLs in git commits, CI logs, config files, and vendor registries were written by someone outside your org. A trusted source, like an internal repo, an approved catalog, or an official log, does not make the contents safe.",
     accent: {
       bar: "#06b6d4",
       iconBg: "rgba(8,51,68,0.5)",

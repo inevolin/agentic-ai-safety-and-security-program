@@ -69,7 +69,7 @@ export function ExamClient({ questions, attemptNumber, expiresAt, name }: ExamCl
             {result.score}<span className="text-2xl text-slate-400">/{result.total}</span>
           </div>
           <div className="text-xl font-semibold text-danger-400">
-            {result.percentage}% — below passing threshold
+            {result.percentage}%, below passing threshold
           </div>
           <p className="text-slate-400 text-sm">You need 80% (36/45) to pass.</p>
           {attemptsRemaining > 0 ? (

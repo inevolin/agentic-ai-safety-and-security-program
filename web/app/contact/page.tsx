@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact — AI Safety Cert",
+  title: "Contact — AI Safety Course",
   description:
-    "Get in touch with the team behind the AI Safety & Security Certification — via GitHub or LinkedIn.",
+    "Get in touch with the team behind the AI Safety Course, on GitHub or LinkedIn.",
 };
 
 const REPO_URL = "https://github.com/inevolin/agentic-ai-safety-and-security-program";
@@ -17,8 +17,8 @@ export default function ContactPage() {
           Get in touch
         </h1>
         <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">
-          Questions, collaboration ideas, bug reports, or feedback on the course?
-          Two ways to reach us — pick whichever you prefer.
+          Have questions, ideas to work together, bug reports, or feedback on the course?
+          There are two ways to reach us. Pick whichever you prefer.
         </p>
       </section>
 
@@ -42,7 +42,7 @@ export default function ContactPage() {
             <h2 className="text-xl font-semibold text-slate-100 mb-2">GitHub</h2>
             <p className="text-sm text-slate-400 mb-4">
               Open an issue or pull request on the project repo. Best for bugs,
-              feature requests, and code-level collaboration.
+              feature requests, and working on the code together.
             </p>
             <span className="text-sm text-brand-400 font-medium inline-flex items-center gap-1.5">
               inevolin/agentic-ai-safety-and-security-program
@@ -70,9 +70,8 @@ export default function ContactPage() {
             </svg>
             <h2 className="text-xl font-semibold text-slate-100 mb-2">LinkedIn</h2>
             <p className="text-sm text-slate-400 mb-4">
-              Direct message Ilja Nevolin, the project author. Best for
-              partnerships, speaking, training engagements, and professional
-              outreach.
+              Message Ilja Nevolin, the project author. Best for
+              partnerships, speaking, training, and other work questions.
             </p>
             <span className="text-sm text-brand-400 font-medium inline-flex items-center gap-1.5">
               linkedin.com/in/iljanevolin

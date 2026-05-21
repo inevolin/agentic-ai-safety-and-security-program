@@ -59,13 +59,13 @@ export default async function VerifyPage({
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-white">Certificate Verified</h1>
-          <p className="text-slate-400 text-sm">This certificate is authentic and was issued by AI Safety &amp; Security Certification.</p>
+          <p className="text-slate-400 text-sm">This certificate is authentic and was issued by the AI Safety Course.</p>
         </div>
 
         <div className="glass rounded-2xl divide-y divide-slate-800">
           {[
             { label: "Recipient", value: cert.name },
-            { label: "Program", value: "AI Safety & Security Certification" },
+            { label: "Program", value: "AI Safety Course" },
             { label: "Score", value: `${cert.score}/${totalQuestions} (${percentage}%)` },
             { label: "Issue date", value: dateStr },
             { label: "Verification ID", value: cert.verifyCode, mono: true },

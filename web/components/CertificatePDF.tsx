@@ -147,13 +147,13 @@ export function CertificatePDF({
       <Page size="A4" orientation="landscape" style={styles.page}>
         <View style={styles.border}>
           <Text style={styles.title}>Certificate of Completion</Text>
-          <Text style={styles.subtitle}>AI Safety &amp; Security Certification</Text>
+          <Text style={styles.subtitle}>AI Safety Course</Text>
 
           <Text style={styles.label}>This certifies that</Text>
           <Text style={styles.name}>{name}</Text>
 
           <Text style={styles.body}>
-            has successfully completed the AI Safety &amp; Security Certification program,
+            has successfully completed the AI Safety Course,
           </Text>
           <Text style={styles.body}>
             demonstrating proficiency in AI agent threat models, attack taxonomy,

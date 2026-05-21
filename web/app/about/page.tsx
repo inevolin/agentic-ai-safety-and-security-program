@@ -4,16 +4,16 @@ import { Reveal } from "@/components/Reveal";
 import { HistoryTimeline } from "@/components/HistoryTimeline";
 
 export const metadata: Metadata = {
-  title: "About — AI Safety Cert",
+  title: "About — AI Safety Course",
   description:
-    "Why AI safety is paramount right now, and the full experiment log behind this course — 16 confirmed bypasses, every milestone, every failure.",
+    "Why AI safety matters right now, and the full experiment log behind this course. 16 confirmed bypasses, every milestone, every failure.",
 };
 
 const PILLARS: { title: string; body: string; icon: React.ReactNode }[] = [
   {
     title: "Agents act on the world",
     body:
-      "AI assistants now read inboxes, write to wikis, push to repos, and call APIs on your behalf. A single poisoned input no longer just produces a wrong answer — it executes.",
+      "AI assistants now read inboxes, write to wikis, push to repos, and call APIs for you. A single poisoned input no longer just gives a wrong answer. It runs.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7 text-cyan-400">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
@@ -35,7 +35,7 @@ const PILLARS: { title: string; body: string; icon: React.ReactNode }[] = [
   {
     title: "Even Opus gets tricked",
     body:
-      "5 Opus bypasses with no jailbreaking — no DAN, no prompt-injection prefixes, no obfuscation. Just ordinary-looking enterprise data shaped to land inside the model's trust boundary.",
+      "5 Opus bypasses with no jailbreaking. No DAN, no prompt-injection prefixes, no hiding. Just ordinary-looking business data shaped to land inside the model's trust boundary.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7 text-warn-400">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -47,7 +47,7 @@ const PILLARS: { title: string; body: string; icon: React.ReactNode }[] = [
   {
     title: "Defenders are 1–2 years behind",
     body:
-      "Most teams ship agentic features without explicit trust tiers, write-gates, or output review. The gap between deployed agents and deployed defenses is the single biggest near-term security risk.",
+      "Most teams ship agent features without clear trust tiers, write-gates, or output review. The gap between the agents in use and the defenses in place is the biggest near-term security risk.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7 text-emerald-400">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -87,13 +87,13 @@ export default function AboutPage() {
 
         <Reveal delay={240}>
           <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            <span className="text-white font-semibold">AI Safety and Security is paramount.</span> AI agents are taking actions inside organizations every day — summarizing emails, processing documents, opening tickets, reacting to error logs. We documented <span className="text-white font-medium">16 successful attacks on Claude Sonnet and 5 on Opus</span>, all using ordinary business inputs. Each one comes with a practical safeguard.
+            <span className="text-white font-semibold">AI safety and security matter.</span> AI agents take actions inside companies every day: summarizing emails, processing documents, opening tickets, reacting to error logs. We documented <span className="text-white font-medium">16 successful attacks on Claude Sonnet and 5 on Opus</span>, all using ordinary business inputs. Each one comes with a practical fix.
           </p>
         </Reveal>
 
         <Reveal delay={360}>
           <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto mt-4 leading-relaxed">
-            Every finding became a course lesson. This page tells the whole story — what we tried, what worked against the AI, and what to do about it.
+            Every finding became a course lesson. This page tells the whole story: what we tried, what worked against the AI, and what to do about it.
           </p>
         </Reveal>
       </section>
@@ -109,7 +109,7 @@ export default function AboutPage() {
               AI safety is no longer optional
             </h2>
             <p className="mt-3 text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              The frontier moved from chatbots to autonomous agents in less than two years. The threat model came with it.
+              AI moved from chatbots to agents that act on their own in less than two years. The threats came with it.
             </p>
           </div>
         </Reveal>
@@ -136,7 +136,7 @@ export default function AboutPage() {
           <div className="max-w-3xl mx-auto mt-12 p-6 rounded-2xl border border-danger-800/40 bg-danger-950/20">
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
               <span className="text-danger-300 font-mono text-xs uppercase tracking-wider mr-2">Bottom line</span>
-              If your team ships an agent that reads any input it didn&apos;t hand-write, it has a prompt-injection attack surface. The question is whether you&apos;ve mapped it before someone else does.
+              If your team ships an agent that reads any input it didn&apos;t write itself, it has a prompt-injection attack surface. The question is whether you&apos;ve mapped it before someone else does.
             </p>
           </div>
         </Reveal>
@@ -153,7 +153,7 @@ export default function AboutPage() {
               Who should take this course
             </h2>
             <p className="mt-3 text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              This is a certification-level course — 7 modules of audio-narrated lessons, 45-question exam, 80% pass mark, roughly a 3–4 hour commitment end-to-end. It rewards people who own or defend AI-adjacent systems.
+              This is a certification-level course. It has 7 modules of audio lessons, a 45-question exam, an 80% pass mark, and takes about 3 to 4 hours in total. It pays off for people who own or defend AI-adjacent systems.
             </p>
           </div>
         </Reveal>
@@ -171,14 +171,14 @@ export default function AboutPage() {
               <ul className="space-y-3 flex-1">
                 {[
                   { who: "AI app / integration engineers", why: "You ship the agentic systems this course defends." },
-                  { who: "AppSec, red teamers & pentesters", why: "AI is now in scope — this is the attack surface map." },
+                  { who: "AppSec, red teamers & pentesters", why: "AI is now in scope, so this is your attack surface map." },
                   { who: "Security architects & platform/SRE leads", why: "You approve agent rollouts and define trust boundaries." },
                   { who: "Tech-literate CISOs, GRC & IT admins", why: "You own the AI security policy and vendor vetting." },
                   { who: "MLOps/DevOps wiring agents to Slack, Jira, Notion or CI", why: "Every integration you build is an input channel." },
                 ].map((item) => (
                   <li key={item.who} className="text-sm">
                     <span className="text-white font-medium">{item.who}</span>
-                    <span className="text-slate-400"> — {item.why}</span>
+                    <span className="text-slate-400">: {item.why}</span>
                   </li>
                 ))}
               </ul>
@@ -196,12 +196,12 @@ export default function AboutPage() {
               </div>
               <ul className="space-y-3 flex-1">
                 {[
-                  { who: "ML researchers focused on training-time work", why: "Inference-time attacks are a different discipline — some overlap, most is deployment-side." },
-                  { who: "Junior devs new to security", why: "You will get value, but recommend baseline security fundamentals first to make the most of the exam." },
+                  { who: "ML researchers focused on training-time work", why: "Inference-time attacks are a different skill set, with some overlap but mostly deployment-side." },
+                  { who: "Junior devs new to security", why: "You will get value, but learn the security basics first to get the most out of the exam." },
                 ].map((item) => (
                   <li key={item.who} className="text-sm">
                     <span className="text-white font-medium">{item.who}</span>
-                    <span className="text-slate-400"> — {item.why}</span>
+                    <span className="text-slate-400">: {item.why}</span>
                   </li>
                 ))}
               </ul>
@@ -219,14 +219,14 @@ export default function AboutPage() {
               </div>
               <ul className="space-y-3 flex-1">
                 {[
-                  { who: "Non-technical execs, sales, marketing & ops", why: "There's a 5-minute brief written for you — see below." },
-                  { who: "End users needing AI-usage awareness", why: "The executive brief covers the practical hygiene you need." },
-                  { who: "Pure offensive red teams without defender duties", why: "Course is defender-framed; attack taxonomy is thorough but not offensive-tooling deep." },
-                  { who: "Compliance auditors with no engineering background", why: "The exam assumes ability to reason about system architecture and data flows." },
+                  { who: "Non-technical execs, sales, marketing & ops", why: "There's a 5-minute brief written for you. See below." },
+                  { who: "End users needing AI-usage awareness", why: "The executive brief covers the basic habits you need." },
+                  { who: "Pure offensive red teams without defender duties", why: "The course is built for defenders. The attack list is thorough, but it isn't a deep dive into offensive tooling." },
+                  { who: "Compliance auditors with no engineering background", why: "The exam assumes you can reason about system design and data flows." },
                 ].map((item) => (
                   <li key={item.who} className="text-sm">
                     <span className="text-white font-medium">{item.who}</span>
-                    <span className="text-slate-400"> — {item.why}</span>
+                    <span className="text-slate-400">: {item.why}</span>
                   </li>
                 ))}
               </ul>
@@ -239,7 +239,7 @@ export default function AboutPage() {
           <div className="max-w-3xl mx-auto mt-10 p-5 rounded-2xl border border-brand-700/40 bg-brand-900/40 flex flex-col sm:flex-row items-center gap-4">
             <div className="flex-1">
               <p className="text-sm sm:text-base text-white font-medium">Executive, manager, or end-user just exploring?</p>
-              <p className="text-sm text-slate-400 mt-0.5">Read the 5-minute brief — no exam, no certificate.</p>
+              <p className="text-sm text-slate-400 mt-0.5">Read the 5-minute brief. No exam, no certificate.</p>
             </div>
             <Link
               href="/intro"
@@ -255,7 +255,7 @@ export default function AboutPage() {
       <section className="section-content py-12">
         <Reveal>
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">What&apos;s at stake — in numbers</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">What&apos;s at stake, in numbers</h2>
             <p className="mt-2 text-slate-400 text-sm max-w-xl mx-auto">
               Real dollars, real fines. The bill for getting AI security wrong is already on the books.
             </p>
@@ -283,7 +283,7 @@ export default function AboutPage() {
 
         <Reveal delay={360}>
           <p className="text-center text-xs text-slate-500 italic mt-6 max-w-xl mx-auto">
-            These numbers are why AI safety is paramount.
+            These numbers are why AI safety matters.
           </p>
         </Reveal>
       </section>
@@ -299,7 +299,7 @@ export default function AboutPage() {
               How we got here
             </h2>
             <p className="mt-3 text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              Every milestone, every failure, every bypass — in order. Each entry links to the commit on GitHub.
+              Every milestone, every failure, every bypass, in order. Each entry links to the commit on GitHub.
             </p>
           </Reveal>
         </div>

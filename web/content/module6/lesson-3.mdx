@@ -8,7 +8,7 @@ import { Callout, UseCase, DoDont, Comparison, KeyPoint, AttackCard, FlowSteps, 
 
 # Incident Response Playbook
 
-When an AI agent writes suspicious content to an internal system, you have minutes — not hours — before that artifact is read by another agent or acted on by a human. This lesson gives you the sequence. Remember: the content that triggered this incident almost certainly entered through a normal public channel — a pipeline job, a support ticket, a community post, a vendor form. The attacker did not break in. Your playbook must account for the fact that the injection source is a legitimate business input surface, not a vulnerability in your perimeter.
+When an AI agent writes suspicious content to an internal system, you have minutes, not hours, before that artifact is read by another agent or acted on by a human. This lesson gives you the sequence. Remember: the content that triggered this incident almost certainly entered through a normal public channel, such as a pipeline job, a support ticket, a community post, or a vendor form. The attacker did not break in. Your playbook must account for the fact that the injection source is a legitimate business input surface, not a vulnerability in your perimeter.
 
 ## Detect → Contain → Rotate → Disclose
 
@@ -22,12 +22,12 @@ When an AI agent writes suspicious content to an internal system, you have minut
     {
       icon: "🔒",
       label: "Contain",
-      desc: "Lock the affected artifact immediately — prevent further agent reads. Revoke the agent session token. Do not delete; preserve for forensics."
+      desc: "Lock the affected artifact immediately to prevent further agent reads. Revoke the agent session token. Do not delete it; preserve it for forensics."
     },
     {
       icon: "🔄",
       label: "Rotate",
-      desc: "Rotate all OAuth tokens the agent session held. Audit all write targets the session had access to — not just the artifact flagged."
+      desc: "Rotate all OAuth tokens the agent session held. Audit all write targets the session had access to, not just the artifact flagged."
     },
     {
       icon: "📋",
@@ -46,7 +46,7 @@ When an AI agent writes suspicious content to an internal system, you have minut
 
 Not every anomaly is an incident. Use these thresholds to escalate:
 
-<Callout type="danger" title="Immediate escalation — treat as active incident">
+<Callout type="danger" title="Immediate escalation: treat as active incident">
   Agent writes a URL to a vendor registry, payment instruction, IAM record, or security runbook that is not on the corporate domain allowlist. Any of these qualifies as an active incident regardless of whether the URL looks suspicious.
 </Callout>
 
@@ -58,7 +58,7 @@ Not every anomaly is an incident. Use these thresholds to escalate:
 
 <UseCase
   scenario="A DevOps AI agent reads a CI/CD pipeline log during a deployment. The Deployment Gates step contains an injected URL framed as a required security sign-off with a 4-hour SLA. The agent writes it to the Notion engineering runbook."
-  attacker="CI1 v2: URL is on a clean subdomain of the legitimate vendor domain (deploy-verify.acmecorp.com). No query parameters, no typosquat. The institutional-authority framing accelerates human compliance before anyone checks."
+  attacker="CI1 v2: The URL is on a clean subdomain of the legitimate vendor domain (deploy-verify.acmecorp.com). No query parameters, no typosquat. The institutional-authority framing speeds up human compliance before anyone checks."
   impact="On-call engineer follows the URL during a live incident, believing it is mandatory. Runbook is now a persistent attack artifact that will be read again in future incidents."
   defense="Lock the runbook page immediately on detection. Export the full agent session log to identify the CI log file as the injection source. Rotate the Notion OAuth token. Audit all other runbooks written by the same agent session."
 />
@@ -67,29 +67,29 @@ Not every anomaly is an incident. Use these thresholds to escalate:
 
 <DoDont
   do={[
-    "Lock the artifact before any other action — stop the spread to other agents reading it",
-    "Revoke the session token, not just the session — long-lived tokens survive session end",
-    "Audit all write targets for the session, not just the flagged one — the agent may have written to multiple systems",
-    "Preserve the full tool-call log before any remediation — you will need it for root-cause analysis",
+    "Lock the artifact before any other action to stop the spread to other agents reading it",
+    "Revoke the session token, not just the session. Long-lived tokens survive session end",
+    "Audit all write targets for the session, not just the flagged one. The agent may have written to multiple systems",
+    "Preserve the full tool-call log before any remediation. You will need it for root-cause analysis",
     "Treat any downstream agent output that read the poisoned artifact as potentially compromised"
   ]}
   dont={[
-    "Delete the poisoned artifact before preserving a forensic copy — you will lose the evidence of what was written and when",
-    "Assume only the flagged write is affected — every write target in the session is suspect until audited",
-    "Notify stakeholders before containment is complete — premature disclosure can trigger human action on the attacker content",
-    "Close the incident without identifying the injection source — without root-cause, the same vector will succeed again"
+    "Delete the poisoned artifact before preserving a forensic copy. You will lose the evidence of what was written and when",
+    "Assume only the flagged write is affected. Every write target in the session is suspect until audited",
+    "Notify stakeholders before containment is complete. Premature disclosure can trigger human action on the attacker content",
+    "Close the incident without identifying the injection source. Without root-cause, the same vector will succeed again"
   ]}
 />
 
 ## Post-Incident: Root-Cause Without Blame
 
-The goal of root-cause analysis is not to assign fault — it is to close the control gap the attack used. In every tested attack, the gap was structural: a prohibited system prompt pattern, a missing write-scope contract, or an absent domain allowlist. A recurring question in root-cause should be: which public input surface carried the attacker content in? That surface is still open. Until you add a guardrail between it and your AI's write actions, the same attack will succeed again — with a different payload, from a different form submission.
+The goal of root-cause analysis is not to assign fault. It is to close the control gap the attack used. In every tested attack, the gap was structural: a prohibited system prompt pattern, a missing write-scope contract, or an absent domain allowlist. A recurring question in root-cause should be: which public input surface carried the attacker content in? That surface is still open. Until you add a guardrail between it and your AI's write actions, the same attack will succeed again, with a different payload, from a different form submission.
 
 <Comparison
   left={{
     title: "Productive root-cause questions",
     points: [
-      "Which input contained the attacker content — document, log, registry, or tool output?",
+      "Which input contained the attacker content: document, log, registry, or tool output?",
       "Which prohibited pattern was absent from the system prompt?",
       "Did the agent have write scope it didn't need for the user's stated task?",
       "Was there a domain allowlist in place, and if so, why didn't it catch this domain?",
@@ -102,7 +102,7 @@ The goal of root-cause analysis is not to assign fault — it is to close the co
       "Blaming the model for not being 'smart enough' to detect the attack",
       "Treating it as a one-off without updating the policy or allowlist",
       "Disabling the agent entirely without identifying the specific control gap",
-      "Accepting 'the model was confused' as a root-cause — models are confused by design in injection attacks; the control layer must not be",
+      "Accepting 'the model was confused' as a root-cause. Models are confused by design in injection attacks; the control layer must not be",
       "Skipping the tabletop exercise at next quarterly review"
     ]
   }}
@@ -112,11 +112,11 @@ The goal of root-cause analysis is not to assign fault — it is to close the co
 
 The playbook is only useful if it is practiced. The quarterly review must include:
 
-1. **Tabletop exercise** — run the top-3 priority attacks from the risk register against each active agent integration.
-2. **Prompt audit** — check all deployed system prompts against the four prohibited patterns.
-3. **Scope audit** — verify write-scope contracts are current and match actual task requirements.
-4. **Allowlist update** — add any new approved domains; remove any that no longer apply.
+1. **Tabletop exercise**: run the top-3 priority attacks from the risk register against each active agent integration.
+2. **Prompt audit**: check all deployed system prompts against the four prohibited patterns.
+3. **Scope audit**: verify write-scope contracts are current and match actual task requirements.
+4. **Allowlist update**: add any new approved domains; remove any that no longer apply.
 
 <KeyPoint>
-  No root-cause analysis should end with a person blamed. Every successful injection attack in the test suite exploited a structural control gap — a missing allowlist, a prohibited prompt pattern, or an over-privileged token. Fix the structure. Then identify every public input surface your AI reads from and add a guardrail between each one and your AI's write actions. That is the only way to prevent the next incident — not by blocking the attacker, but by requiring a human decision before any public input reaches a live internal artifact.
+  No root-cause analysis should end with a person blamed. Every successful injection attack in the test suite exploited a structural control gap: a missing allowlist, a prohibited prompt pattern, or an over-privileged token. Fix the structure. Then identify every public input surface your AI reads from and add a guardrail between each one and your AI's write actions. That is the only way to prevent the next incident. You do not block the attacker; you require a human decision before any public input reaches a live internal artifact.
 </KeyPoint>

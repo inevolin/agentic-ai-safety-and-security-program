@@ -133,7 +133,7 @@ export function Nav() {
             <span className="flex flex-col">
               <span className={`font-bold tracking-tight text-sm sm:text-base leading-tight ${isLight ? "text-slate-900" : "text-white"}`}>
                 <span className="text-cyan-500">AI</span>
-                <span> Safety Cert</span>
+                <span> Safety Course</span>
               </span>
               <ClaudeSponsorPill className="hidden sm:inline-flex mt-0.5" />
             </span>

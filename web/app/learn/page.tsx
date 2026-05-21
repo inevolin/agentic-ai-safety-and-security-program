@@ -11,7 +11,7 @@ import { LessonItem } from "@/components/learn/LessonItem";
 import type { ModuleMetaClient } from "@/components/learn/LearnContext";
 
 export const metadata: Metadata = {
-  title: "Learn — AI Safety & Security Certification",
+  title: "Learn — AI Safety Course",
   description:
     "7 modules covering AI agent security, attack patterns, and defensive best practices.",
 };
