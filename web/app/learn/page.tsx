@@ -1,6 +1,6 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
 import { getAllModules } from "@/lib/content";
 import { mdxToTranscript } from "@/lib/transcript";
 import { lessonAudioPublicPath } from "@/lib/audio-manifest";
@@ -49,9 +49,9 @@ export default async function LearnPage() {
       <div className="border-b border-slate-800/60 bg-slate-900/40 py-2.5 text-center">
         <p className="text-sm text-slate-400">
           About to start?{" "}
-          <a href="/about#audience" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2 transition-colors">
+          <Link href="/about#audience" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2 transition-colors">
             Check who this course is for →
-          </a>
+          </Link>
         </p>
       </div>
       <LearnShell modules={modulesForClient}>
@@ -67,8 +67,7 @@ export default async function LearnPage() {
             {m.lessons.map((l) => {
               const transcript = mdxToTranscript(l.content);
               const audioSrc =
-                lessonAudioPublicPath({ moduleId: m.id, lessonId: l.id, transcript }) ??
-                `/api/audio/${m.id}/${l.id}`;
+                lessonAudioPublicPath({ moduleId: m.id, lessonId: l.id, transcript }) ?? undefined;
               return (
               <LessonItem
                 key={l.id}

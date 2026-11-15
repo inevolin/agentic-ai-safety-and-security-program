@@ -1,10 +1,10 @@
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-static";
-export const revalidate = 86400;
 
 function origin(req: NextRequest): string {
   const env = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  // Static export: there is no request host at build time, so NEXT_PUBLIC_SITE_URL is set in CI.
   if (env) return env;
   const host = req.headers.get("host") ?? "localhost:3000";
   const proto = req.headers.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");

@@ -13,13 +13,13 @@
 [![License](https://img.shields.io/badge/license-Research%20Artifact-6b7280?style=for-the-badge)]()
 [![Contributors welcome](https://img.shields.io/badge/contributors-welcome-22c55e?style=for-the-badge)](#contributing--we-want-collaborators)
 
-**[🌐 Live Training Platform → ai.nevolin.be](https://ai.nevolin.be/)** ·
+**[🌐 Training Platform (GitHub Pages)](https://inevolin.github.io/agentic-ai-safety-and-security-program/)** ·
 **[Findings](attacks/demos/FINDINGS.md)** ·
 **[Mitigations](docs/mitigations/ai-agent-security-mitigations.md)** ·
 **[Methodology](METHODOLOGY.md)** ·
 **[Attack Demos](attacks/demos/)**
 
-[![Training platform — ai.nevolin.be](docs/assets/training-platform-home.png)](https://ai.nevolin.be/)
+[![Training platform](docs/assets/training-platform-home.png)](https://inevolin.github.io/agentic-ai-safety-and-security-program/)
 
 </div>
 
@@ -63,9 +63,9 @@ Full matrix of bypasses, payloads, parameters, and detection signals: [`attacks/
 
 ## The training platform
 
-**🌐 Live at [ai.nevolin.be](https://ai.nevolin.be/)** — open in a browser, sign up, take the course, sit the exam, get a verifiable PDF certificate. No install needed.
+**🌐 Live at [inevolin.github.io/agentic-ai-safety-and-security-program](https://inevolin.github.io/agentic-ai-safety-and-security-program/)**: open it in a browser and take the course, with all seven modules and the lesson audio. No install needed. The site is now a static export on GitHub Pages, so the timed exam and new certificates (which needed a server) are paused; certificates issued earlier can still be verified.
 
-[![ai.nevolin.be — About page: We fooled AI sixteen times](docs/assets/training-platform-about.png)](https://ai.nevolin.be/about)
+[![Training platform: About page: We fooled AI sixteen times](docs/assets/training-platform-about.png)](https://inevolin.github.io/agentic-ai-safety-and-security-program/about/)
 
 A production Next.js 14 app under [`web/`](web/) — built so the humans deploying agents can actually internalize what these attacks look like.
 
@@ -81,7 +81,7 @@ A production Next.js 14 app under [`web/`](web/) — built so the humans deployi
 - **Anime.js v4 motion** — landing-page attack-flow diagram, lesson transitions, history-spine commit timeline.
 - **Light + dark themes** — Tailwind tokens with CSS-variable overrides; persists per user.
 - **Audio narration** — pre-built TTS audio bundled per lesson (`pnpm prebuild-audio`), playback in the lesson reader.
-- **Deployed via GitHub Actions + pm2** — pushes to `main` build and ship to `ai.nevolin.be` automatically.
+- **Static export on GitHub Pages**: pushes to `main` that touch `web/` run CI, build a static export (`output: "export"`) and deploy it to GitHub Pages (`.github/workflows/pages.yml`). The exam, account and certificate-issuing features above needed a server and are paused in this edition; the two certificates issued earlier are pre-rendered and still verify.
 
 Local setup instructions (`pnpm install`, env vars, dev/build/test): [`DETAILS.md`](DETAILS.md#run-the-training-platform-locally).
 

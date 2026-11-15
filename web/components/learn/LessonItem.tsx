@@ -10,7 +10,7 @@ interface Props {
   title: string;
   wordCount: number;
   bodyText: string; // stripped markdown for search
-  audioSrc?: string; // static /audio/... URL if cached, else /api/audio/...
+  audioSrc?: string; // static /audio/... URL; no player when the file was not pre-generated
   children: ReactNode; // server-rendered MDX
 }
 
@@ -116,11 +116,13 @@ export function LessonItem({
       >
         <div className="overflow-hidden select-text">
           <div className="px-5 pb-8 pt-4 border-t border-slate-800/50">
-            <LessonAudioPlayer
-              moduleId={moduleId}
-              lessonId={lessonId}
-              audioSrc={audioSrc}
-            />
+            {audioSrc && (
+              <LessonAudioPlayer
+                moduleId={moduleId}
+                lessonId={lessonId}
+                audioSrc={audioSrc}
+              />
+            )}
             <article className="prose-lesson select-text">
               {children}
             </article>

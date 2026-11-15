@@ -1,20 +1,19 @@
-import { prisma } from "@/lib/db";
+import { CERTIFICATES, findCertificate } from "@/lib/certificates";
 import { getExamConfig } from "@/lib/exam-config";
 import Link from "next/link";
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return CERTIFICATES.map((c) => ({ verifyCode: c.verifyCode }));
+}
 
 export default async function VerifyPage({
   params,
 }: {
   params: { verifyCode: string };
 }) {
-  let cert = null;
-  try {
-    cert = await prisma.certificate.findUnique({
-      where: { verifyCode: params.verifyCode },
-    });
-  } catch {
-    // DB might not have any records in demo mode
-  }
+  const cert = findCertificate(params.verifyCode) ?? null;
 
   if (!cert) {
     return (
@@ -43,7 +42,7 @@ export default async function VerifyPage({
 
   const { totalQuestions } = getExamConfig();
   const percentage = Math.round((cert.score / totalQuestions) * 100);
-  const dateStr = cert.issuedAt.toLocaleDateString("en-US", {
+  const dateStr = new Date(cert.issuedAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
