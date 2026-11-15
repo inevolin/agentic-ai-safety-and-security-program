@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 interface Props {
   moduleId: number;
   lessonId: number;
-  audioSrc?: string; // if provided, browser fetches this directly; falls back to /api/audio/...
+  audioSrc?: string; // static file URL (callers render no player when there is no pre-generated audio)
 }
 
 type PlayerState = "idle" | "loading" | "ready" | "playing" | "paused" | "error";
@@ -67,7 +67,7 @@ export function LessonAudioPlayer({ moduleId, lessonId, audioSrc: audioSrcProp }
   const [speed, setSpeed] = useState<Speed>(1);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const audioSrc = audioSrcProp ?? `/api/audio/${moduleId}/${lessonId}`;
+  const audioSrc = audioSrcProp ?? "";
 
   // Initialize audio element once
   useEffect(() => {

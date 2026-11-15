@@ -1,6 +1,7 @@
 "use client";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { findCertificate } from "@/lib/certificates";
 
 export default function VerifyLandingPage() {
   return (
@@ -14,11 +15,17 @@ function VerifyForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [code, setCode] = useState(searchParams.get("code") ?? "");
+  const [notFound, setNotFound] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = code.trim();
-    if (trimmed) router.push(`/verify/${trimmed}`);
+    if (!trimmed) return;
+    if (!findCertificate(trimmed)) {
+      setNotFound(true);
+      return;
+    }
+    router.push(`/verify/${trimmed}/`);
   }
 
   return (
@@ -43,7 +50,10 @@ function VerifyForm() {
               id="verify-code"
               type="text"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onChange={(e) => {
+                setCode(e.target.value);
+                setNotFound(false);
+              }}
               placeholder="e.g. cmoe6qpbb0001xrlj60g07jkz"
               className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-4 py-3 font-mono text-sm placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
               autoComplete="off"
@@ -57,6 +67,11 @@ function VerifyForm() {
           >
             Verify →
           </button>
+          {notFound && (
+            <p role="alert" className="text-sm text-red-400 text-center">
+              No certificate was found for that verification ID. Check it matches the certificate exactly.
+            </p>
+          )}
         </form>
       </div>
     </div>

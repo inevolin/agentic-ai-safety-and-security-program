@@ -4,8 +4,6 @@ import { Reveal } from "@/components/Reveal";
 import { LessonAudioPlayer } from "@/components/LessonAudioPlayer";
 import { introAudioPublicPath } from "@/lib/audio-manifest";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "AI Safety Intro: 5-Minute Brief",
   description:
@@ -13,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default function IntroPage() {
-  const introAudioSrc = introAudioPublicPath() ?? "/api/audio/intro";
+  const introAudioSrc = introAudioPublicPath();
   return (
     <main className="min-h-screen pt-24 pb-32 overflow-x-hidden">
 
@@ -57,7 +55,7 @@ export default function IntroPage() {
             <p className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-2 text-center">
               Prefer to listen?
             </p>
-            <LessonAudioPlayer moduleId={0} lessonId={0} audioSrc={introAudioSrc} />
+            {introAudioSrc && <LessonAudioPlayer moduleId={0} lessonId={0} audioSrc={introAudioSrc} />}
           </div>
         </Reveal>
       </section>

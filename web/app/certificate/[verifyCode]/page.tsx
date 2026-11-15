@@ -1,21 +1,26 @@
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { CERTIFICATES, findCertificate } from "@/lib/certificates";
 import { getExamConfig } from "@/lib/exam-config";
 import Link from "next/link";
+import { withBase } from "@/lib/site";
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return CERTIFICATES.map((c) => ({ verifyCode: c.verifyCode }));
+}
 
 export default async function CertificatePage({
   params,
 }: {
   params: { verifyCode: string };
 }) {
-  const cert = await prisma.certificate.findUnique({
-    where: { verifyCode: params.verifyCode },
-  });
+  const cert = findCertificate(params.verifyCode);
   if (!cert) notFound();
 
   const { totalQuestions } = getExamConfig();
   const percentage = Math.round((cert.score / totalQuestions) * 100);
-  const dateStr = cert.issuedAt.toLocaleDateString("en-US", {
+  const dateStr = new Date(cert.issuedAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -84,7 +89,8 @@ export default async function CertificatePage({
         {/* Action buttons */}
         <div className="flex flex-col sm:flex-row gap-3">
           <a
-            href={`/api/certificate/${cert.verifyCode}/download`}
+            href={withBase(`/certificates/${cert.verifyCode}.pdf`)}
+            download={`ai-security-cert-${cert.verifyCode.slice(0, 8)}.pdf`}
             className="btn-primary flex-1 justify-center py-3 text-base"
           >
             Download PDF

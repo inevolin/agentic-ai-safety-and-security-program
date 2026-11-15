@@ -2,7 +2,7 @@
 
 > **Hackathon:** [Built with Opus 4.7 — Claude Code global virtual hackathon (April 21–28)](https://cerebralvalley.ai/e/built-with-4-7-hackathon)
 > **Project:** Agentic AI Safety & Security Program
-> **Live training platform:** [ai.nevolin.be](https://ai.nevolin.be/)
+> **Training platform:** [inevolin.github.io/agentic-ai-safety-and-security-program](https://inevolin.github.io/agentic-ai-safety-and-security-program/) (formerly ai.nevolin.be; now a static GitHub Pages site, so the exam described below is paused)
 > **Repository:** [github.com/inevolin/agentic-ai-safety-and-security-program](https://github.com/inevolin/agentic-ai-safety-and-security-program)
 > **One-line pitch:** We made the most capable AI on the planet (Claude Opus 4.7) compromise itself — twenty-four different ways — then turned every failure into a lesson, a defense, and a public certification course.
 
@@ -14,7 +14,7 @@ In five days, a single researcher (with Claude Opus 4.7 as the co-pilot) built t
 
 1. A **research library** of 1,205 indexed sources on AI agent attacks — every major paper, blog, and exploit database entry on the topic.
 2. A **red-team lab** containing 27 reproducible attacks against live Claude (Haiku, Sonnet, Opus) — 24 of which successfully break the model's safety reasoning. Each attack ships as a one-command shell script.
-3. A **public training platform** at [ai.nevolin.be](https://ai.nevolin.be/) — six courses, a 40-question proctored exam, and a verifiable PDF certificate — so the people deploying these AI agents (CIOs, IT admins, developers) can actually learn what they're up against.
+3. A **public training platform** at [the training platform](https://inevolin.github.io/agentic-ai-safety-and-security-program/) — six courses, a 40-question proctored exam, and a verifiable PDF certificate — so the people deploying these AI agents (CIOs, IT admins, developers) can actually learn what they're up against.
 
 The whole thing is reproducible from a clean checkout. Every attack runs in a sandbox. Every session is logged. Every claim links back to a primary source. There are 171 git commits and 553 markdown research artifacts behind the curtain.
 
@@ -30,7 +30,7 @@ This project closes that gap from three angles at once.
 
 **For security leaders and defenders.** The deliverable is a 1,054-line mitigation playbook ([`docs/mitigations/ai-agent-security-mitigations.md`](docs/mitigations/ai-agent-security-mitigations.md)) split into an executive risk register, ten technical defensive primitives, and seventeen attack-anatomy cards. Every recommendation is grounded in an attack we actually landed against a frontier model — not a theoretical threat model. A CISO can hand this to their AI platform team on Monday morning and have concrete enforcement points (egress allowlists, MCP wrappers, registry-write controls, cross-source corroboration thresholds) by Friday. There is no other open document this practical for this surface.
 
-**For the humans deploying agents.** Most AI safety material is academic papers most people will never read. We took the same content and turned it into a six-module course at [ai.nevolin.be](https://ai.nevolin.be/), with a 40-question proctored exam (80% to pass), a signed PDF certificate, and a public verification page so an employer can confirm the credential. The lessons are deliberately written for a wide audience — non-engineers can follow them. They use real-world scenarios spanning hospital pharmacies, university registrars, retail banking, online retail, body shops, and government procurement, so a learner reads about attacks in *their* world, not someone else's whitepaper. Anyone, anywhere, can sign up and take the course right now. No install. No signup wall on the lessons. No paywall.
+**For the humans deploying agents.** Most AI safety material is academic papers most people will never read. We took the same content and turned it into a six-module course at [the training platform](https://inevolin.github.io/agentic-ai-safety-and-security-program/), with a 40-question proctored exam (80% to pass), a signed PDF certificate, and a public verification page so an employer can confirm the credential. The lessons are deliberately written for a wide audience — non-engineers can follow them. They use real-world scenarios spanning hospital pharmacies, university registrars, retail banking, online retail, body shops, and government procurement, so a learner reads about attacks in *their* world, not someone else's whitepaper. Anyone, anywhere, can sign up and take the course right now. No install. No signup wall on the lessons. No paywall.
 
 **For frontier-model researchers.** The 27 attack demos are a reusable evaluation harness. Anyone studying agent robustness can fork it, point it at GPT, Gemini, Llama, or a future model, and have a baseline result in an afternoon. The attacks are pre-classified by surface (Slack, calendar, helpdesk, CI logs, git, env files, error logs, vendor catalogs, multi-agent chains) and version (`v1`, `v2`, `v3` — each version showing exactly which detection signal had to be neutralized to land the bypass). The history of what *almost* worked is preserved alongside what worked, which is the part most red-team writeups throw away.
 
