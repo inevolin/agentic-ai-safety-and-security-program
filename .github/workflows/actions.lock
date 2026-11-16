@@ -6,13 +6,13 @@ workflows:
     '.github/workflows/ci.yml':
         - 'actions/checkout@v4.4.0'
         - 'actions/setup-node@v4.4.0'
-        - 'pnpm/action-setup@v5.0.0'
+        - 'pnpm/action-setup@v6.1.1'
     '.github/workflows/pages.yml':
         - 'actions/checkout@v4.4.0'
         - 'actions/deploy-pages@v4.0.5'
         - 'actions/setup-node@v4.4.0'
         - 'actions/upload-pages-artifact@v3.0.1'
-        - 'pnpm/action-setup@v5.0.0'
+        - 'pnpm/action-setup@v6.1.1'
     '.github/workflows/verify-lockfile.yml':
         - 'actions/checkout@v7.0.1'
 dependencies:
@@ -48,8 +48,8 @@ dependencies:
         repo_id: 496012378
         uses:
             - 'actions/upload-artifact@v4'
-    'pnpm/action-setup@v5.0.0':
-        ref: 'v5.0.0'
-        commit: 'sha1-fc06bc1257f339d1d5d8b3a19a8cae5388b55320'
+    'pnpm/action-setup@v6.1.1':
+        ref: 'v6.1.1'
+        commit: 'sha1-73e46992e05b19abd31f2f3c20e0e7370d762115'
         owner_id: 21320719
         repo_id: 262289747
