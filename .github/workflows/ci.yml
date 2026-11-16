@@ -16,7 +16,7 @@ jobs:
       run:
         working-directory: web
     steps:
-      - uses: actions/checkout@v4.4.0
+      - uses: actions/checkout@v7.0.1
 
       - uses: pnpm/action-setup@v5.0.0
         with:
@@ -45,7 +45,7 @@ jobs:
       run:
         working-directory: web
     steps:
-      - uses: actions/checkout@v4.4.0
+      - uses: actions/checkout@v7.0.1
 
       - uses: pnpm/action-setup@v5.0.0
         with:

@@ -37,7 +37,7 @@ jobs:
       NEXT_PUBLIC_SITE_URL: https://inevolin.github.io/agentic-ai-safety-and-security-program
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
-      - uses: actions/checkout@v4.4.0
+      - uses: actions/checkout@v7.0.1
 
       - uses: pnpm/action-setup@v5.0.0
         with:
